@@ -1,0 +1,7 @@
+# Exclude Directory
+___*
+__*
+
+
+# Exclude File
+*.sublime-workspace

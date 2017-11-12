@@ -1,0 +1,13 @@
+{
+  "name" : "SAMPLE",
+  "case" : [
+    {
+      "url"  : "http://example.org/",
+      "name" : "example"
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name" : "SAMPLE",
+  "case" : [
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_1",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge",
+        "PHOTO",
+        "enter---xpath---//*[@id='lst-ib']",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_2",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge",
+        "PHOTO",
+        "enter---id---lst-ib",
+        "WAIT"
+      ]
+    },
+    {
+      "url": "https://www.yahoo.co.jp/",
+      "name" : "yahoo",
+      "action" : [
+        "click---xpath---//*[@id='masthead']/h1/a",
+        "PHOTO",
+        "WAIT"
+      ]
+    },
+    {
+      "url" : "http://www.skygate.co.jp/",
+      "name" : "skygate",
+      "action" : [
+        "click---xpath---//*[@id='content']/div[2]/div[2]/div/div/div/div[1]/div[1]/p/a",
+        "click---class---depTimes",
+        "PHOTO",
+        "WAIT"
+      ]
+    }
+  ]
+}
