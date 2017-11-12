@@ -69,7 +69,7 @@ u'''[CONST] Empty String'''
 constant.EMPTY = ''
 
 u'''[CONST] String [br]'''
-constant.BR = '\n'
+constant.BR = ''
 
 u'''[CONST] String [---]'''
 constant.ACTION_SPLIT_ID = '---'

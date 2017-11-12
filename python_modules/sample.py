@@ -26,11 +26,25 @@ from tqdm import tqdm
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+def outputAsciiArt():
+    print('===================================================================')
+    print('=       ===========================================================')
+    print('=  ====  ==========================================================')
+    print('=  ====  ==========================================================')
+    print('=  ====  ===   ===    ====   ===  =   ====   ===      ==      ==  =')
+    print('=       ===  =  ==  =  ==  =  ==    =  ==  =  ======  ======  =====')
+    print('=  ===========  ==  =  =====  ==  ==========  =====  ======  ===  =')
+    print('=  =========    ==    ====    ==  ========    ====  ======  ====  =')
+    print('=  ========  =  ==  =====  =  ==  =======  =  ===  ======  =====  =')
+    print('=  =========    ==  ======    ==  ========    ==      ==      ==  =')
+    print('===================================================================')
+
+
 def listUpTestCases(testCaseDir):
     testCaseIdx = 1
     testCaseStack = []
     print(constant.BR)
-    print(constant.SPLITTER)
+    print('> Selecable Test Case [X]')
     for root, dirs, files in os.walk(testCaseDir):
         for file in files:
             print('  [{0}] - {1}'.format(
@@ -42,15 +56,13 @@ def listUpTestCases(testCaseDir):
             ))
             testCaseIdx = testCaseIdx + 1
             testCaseStack.append(file)
-    print(constant.SPLITTER)
-    print(constant.BR)
     return testCaseStack
 
 
 def selectTestCase(testCaseDir, testCaseStack):
     testInfoJsonFlg = False
     while not testInfoJsonFlg:
-        testCaseIdx = input('> Test Case Index ::: ')
+        testCaseIdx = input('> Input Test Case Index ::: ')
         try:
             testRowInfo = json.load(
                 open(
@@ -65,6 +77,7 @@ def selectTestCase(testCaseDir, testCaseStack):
             testInfoJsonFlg = True
         except Exception as e:
             testInfoJsonFlg = False
+            print('  Warning - Input Test Case Index !')
     return testRowInfo
 
 
@@ -142,6 +155,7 @@ def endAutoTest(testName, startTime):
 # Main
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if __name__ == '__main__':
+    outputAsciiArt()
     TEST_CASE_DIR = config['test']['dir']
     TEST_CASE_STACK = listUpTestCases(TEST_CASE_DIR)
     TEST_ROW_INFO = selectTestCase(TEST_CASE_DIR, TEST_CASE_STACK)
