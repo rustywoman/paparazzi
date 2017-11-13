@@ -99,11 +99,16 @@ def executeAutoTest(testName, testCaseInfo):
         for testCase in testCaseInfo:
             testWebDriver.access(testCase['url'])
             for action in testCase['action']:
-                if action == constant.PHOTO_ACTION_NAME:
+                if not action.find(constant.PHOTO_ACTION_NAME) == -1:
+                    actionInfo = action.split(constant.ACTION_SPLIT_ID)
+                    if len(actionInfo) == 2:
+                        imgName = actionInfo[1]
+                    else:
+                        imgName = testCase['name']
                     testWebDriver.scrollToTop()
                     testWebDriver.takeFullScreenshot(
                         testDir=testName,
-                        imgName=testCase['name']
+                        imgName=imgName
                     )
                 elif action == constant.WAIT_ACTION_NAME:
                     testWebDriver.wait()
@@ -124,7 +129,11 @@ def executeAutoTest(testName, testCaseInfo):
                     if tmpSelectorType == 'class':
                         targetDom = testWebDriver.getElementsByClassName(tmpSelector)
                         loopFlg = True
-
+                    if tmpSelectorType == 'name':
+                        targetDom = testWebDriver.getElementByName(tmpSelector)
+                    if tmpSelectorType == 'names':
+                        targetDom = testWebDriver.getElementsByName(tmpSelector)
+                        loopFlg = True
                     if tmpEvent == constant.INPUT_ACTION and len(tmpOption) > 0:
                         testWebDriver.input(
                             dom=targetDom,

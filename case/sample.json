@@ -6,7 +6,7 @@
       "name" : "google_1",
       "action" : [
         "input---xpath---//*[@id='lst-ib']---hogehogehoge",
-        "PHOTO",
+        "PHOTO---google_xpath",
         "enter---xpath---//*[@id='lst-ib']",
         "WAIT"
       ]
@@ -16,7 +16,7 @@
       "name" : "google_2",
       "action" : [
         "input---id---lst-ib---hogehogehoge",
-        "PHOTO",
+        "PHOTO---google_id",
         "enter---id---lst-ib",
         "WAIT"
       ]
