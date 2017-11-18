@@ -69,16 +69,22 @@ u'''[CONST] Empty String'''
 constant.EMPTY = ''
 
 u'''[CONST] String [br]'''
-constant.BR = ''
+constant.BR = '\n'
 
 u'''[CONST] String [---]'''
 constant.ACTION_SPLIT_ID = '---'
+
+u'''[CONST] String [___]'''
+constant.CASE_TEST_PREFIX = '___'
 
 u'''[CONST] String [WAIT]'''
 constant.WAIT_ACTION_NAME = 'WAIT'
 
 u'''[CONST] String [PHOTO]'''
 constant.PHOTO_ACTION_NAME = 'PHOTO'
+
+u'''[CONST] String [SCAN]'''
+constant.SCAN_ACTION_NAME = 'SCAN'
 
 u'''[CONST] String [input]'''
 constant.INPUT_ACTION = 'input'
@@ -88,6 +94,7 @@ constant.ENTER_ACTION = 'enter'
 
 u'''[CONST] String [click]'''
 constant.CLICK_ACTION = 'click'
+
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Export

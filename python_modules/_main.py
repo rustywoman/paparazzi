@@ -49,10 +49,15 @@ def listUpTestCases(testCaseDir):
         for file in files:
             print('  [{0}] - {1}'.format(
                 testCaseIdx,
-                file.replace(
-                    constant.TEST_CASE_EXT,
-                    constant.EMPTY
-                )
+                file
+                    .replace(
+                        constant.TEST_CASE_EXT,
+                        constant.EMPTY
+                    )
+                    .replace(
+                        constant.CASE_TEST_PREFIX,
+                        constant.EMPTY
+                    )
             ))
             testCaseIdx = testCaseIdx + 1
             testCaseStack.append(file)
@@ -112,6 +117,8 @@ def executeAutoTest(testName, testCaseInfo):
                     )
                 elif action == constant.WAIT_ACTION_NAME:
                     testWebDriver.wait()
+                elif action == constant.SCAN_ACTION_NAME:
+                    testWebDriver.getFullHtmlInfo()
                 else:
                     loopFlg = False
                     actionInfo = action.split(constant.ACTION_SPLIT_ID)

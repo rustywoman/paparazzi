@@ -5,6 +5,12 @@
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Import
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import logging
+logging.basicConfig(
+    filename='log/webdriver.log',
+    format='%(message)s',
+    level=logging.INFO
+)
 import os
 import time
 from bs4 import BeautifulSoup
@@ -147,6 +153,23 @@ class WebDriverWrapper(object):
 
     def getElementsByClassName(self, domName):
         return self.driver.find_elements_by_class_name(domName)
+
+
+    def getFullHtmlInfo(self):
+        tmpHtml = BeautifulSoup(self.driver.page_source, 'lxml')
+        logging.info('===== Links =====')
+        links = []
+        linksIdx = 1
+        for link in tmpHtml.find_all('a'):
+            tmpUrl = link.get('href')
+            if(
+                not tmpUrl == '' and
+                tmpUrl.startswith('#') == False and
+                tmpUrl.startswith('javascript') == False
+            ):
+                links.append(tmpUrl)
+                logging.info('[{0}] {1}'.format(linksIdx, tmpUrl))
+                linksIdx = linksIdx + 1
 
 
     def input(self, dom, value, loopFlg=False):
