@@ -62,6 +62,9 @@ constant.SPLITTER = '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-'
 u'''[CONST] Test Case Extension'''
 constant.TEST_CASE_EXT = '.json'
 
+u'''[CONST] Log File Extension'''
+constant.LOG_EXT = '.log'
+
 u'''[CONST] Empty String'''
 constant.EMPTY = ''
 
@@ -73,6 +76,9 @@ constant.ACTION_SPLIT_ID = '---'
 
 u'''[CONST] String [___]'''
 constant.CASE_TEST_PREFIX = '___'
+
+u'''[CONST] String [logPaparazzi]'''
+constant.DEFAULT_LOGGER_NAME = 'logPaparazzi'
 
 u'''[CONST] String [WAIT]'''
 constant.WAIT_ACTION_NAME = 'WAIT'

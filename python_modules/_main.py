@@ -19,8 +19,19 @@ import json
 import time
 from datetime import datetime as dt
 from handler import WebDriverWrapper as paparazzi
+from handler import LoggingWrapper as log
 from pytz import timezone
 from tqdm import tqdm
+from urllib.parse import urlparse
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Global
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SERVICE_LINKS = []
+DUPLICATED_SERVICE_LINKS = []
+UNKNOWN_SERVICE_LINKS = []
+SERVICE_TMP_ID = 1
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -120,6 +131,10 @@ def executeAutoTest(testName, testCaseInfo):
     testWebDriver = paparazzi.WebDriverWrapper(
         screenshotDir=config['screenshot']['dir']
     )
+    logForTestWebDriver = log.LoggingWrapper(
+        constant.DEFAULT_LOGGER_NAME,
+        testName + constant.LOG_EXT
+    )
     testWebDriver.maximumWindow()
     with tqdm(total=len(testCaseInfo)) as pbar:
         for testCase in testCaseInfo:
@@ -138,8 +153,43 @@ def executeAutoTest(testName, testCaseInfo):
                     )
                 elif action == constant.WAIT_ACTION_NAME:
                     testWebDriver.wait()
-                elif action == constant.SCAN_ACTION_NAME:
-                    testWebDriver.getFullHtmlInfo()
+                elif not action.find(constant.SCAN_ACTION_NAME) == -1:
+                    global SERVICE_TMP_ID
+                    actionInfo = action.split(constant.ACTION_SPLIT_ID)
+                    if len(actionInfo) == 2:
+                        restrictKeyword = actionInfo[1]
+                    else:
+                        restrictKeyword = None
+                    SERVICE_LINKS.append(testCase['url'])
+                    testWebDriver.takeFullScreenshot(
+                        testDir=testCase['name'],
+                        imgName=str(SERVICE_TMP_ID) + '_' + testWebDriver.getTitle()
+                    )
+                    SERVICE_TMP_ID = SERVICE_TMP_ID + 1
+                    diveWebServiceLink(
+                        testWebDriver=testWebDriver,
+                        testCaseName=testCase['name'],
+                        extractedLinks=testWebDriver.getLinksInfo(
+                            testCase['url'],
+                            restrictKeyword
+                        ),
+                        restrictKeyword=restrictKeyword
+                    )
+                    writeScanLog(
+                        logForTestWebDriver,
+                        'Checked Links',
+                        SERVICE_LINKS
+                    )
+                    writeScanLog(
+                        logForTestWebDriver,
+                        'Unknown Links',
+                        UNKNOWN_SERVICE_LINKS
+                    )
+                    writeScanLog(
+                        logForTestWebDriver,
+                        'Duplicated Links',
+                        list(set(DUPLICATED_SERVICE_LINKS))
+                    )
                 else:
                     loopFlg = False
                     actionInfo = action.split(constant.ACTION_SPLIT_ID)
@@ -191,6 +241,70 @@ def endAutoTest(testName, startTime):
     '''
     print(constant.BR + '====== ' + testName + ' [  END  ] ======')
     print('{0} sec.{1}'.format(time.time() - startTime, constant.BR))
+
+
+def writeScanLog(logger, resultType, scanResult):
+    logger.log(constant.EMPTY)
+    logger.log('=== {0} ==='.format(resultType))
+    serviceLinkIdx = 1
+    for serviceTmpLink in scanResult:
+        logger.log('[{0}] {1}'.format(serviceLinkIdx, serviceTmpLink))
+        serviceLinkIdx = serviceLinkIdx + 1
+
+
+def checkIsDivedLink(targetLink):
+    checkIdx = 0
+    for serviceTmpLink in SERVICE_LINKS:
+        if serviceTmpLink == targetLink:
+            checkIdx = checkIdx + 1
+        else:
+            noneQueryTargetLink = targetLink.replace(
+                '?' + urlparse(targetLink).query,
+                constant.EMPTY
+            )
+            if serviceTmpLink.startswith(noneQueryTargetLink):
+                checkIdx = checkIdx + 1
+            noneHashTargetLink = targetLink.replace(
+                '#' + urlparse(targetLink).fragment,
+                constant.EMPTY
+            )
+            if serviceTmpLink.startswith(noneHashTargetLink):
+                checkIdx = checkIdx + 1
+    if checkIdx == 0:
+        return True
+    else:
+        return False
+
+
+def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyword):
+    global SERVICE_TMP_ID
+    for currentTmpLink in extractedLinks:
+        if checkIsDivedLink(currentTmpLink):
+            SERVICE_LINKS.append(currentTmpLink)
+            try:
+                testWebDriver.access(currentTmpLink)
+                testWebDriver.takeFullScreenshot(
+                    testDir=testCaseName,
+                    imgName=str(SERVICE_TMP_ID) + '_' + testWebDriver.getTitle()
+                )
+                SERVICE_TMP_ID = SERVICE_TMP_ID + 1
+                diveWebServiceLink(
+                    testWebDriver=testWebDriver,
+                    testCaseName=testCaseName,
+                    extractedLinks=testWebDriver.getLinksInfo(
+                        currentTmpLink,
+                        restrictKeyword
+                    ),
+                    restrictKeyword=restrictKeyword
+                )
+            except Exception as e:
+                print('=====================================')
+                print(currentTmpLink)
+                print('=====================================')
+                print(e)
+                UNKNOWN_SERVICE_LINKS.append(currentTmpLink)
+        else:
+            DUPLICATED_SERVICE_LINKS.append(currentTmpLink)
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

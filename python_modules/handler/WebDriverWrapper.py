@@ -5,17 +5,13 @@
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Import
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-import logging
-logging.basicConfig(
-    filename='log/webdriver.log',
-    format='%(message)s',
-    level=logging.INFO
-)
 import os
+import re
 import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from urllib.parse import urlparse
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -161,6 +157,13 @@ class WebDriverWrapper(object):
                     os.remove(capturedImages[capturedImageIdx + 1])
         return True
 
+    def getTitle(self):
+        u'''Get Title
+         @return Title
+        '''
+        invalidDirStrLst = ['\\', '/', ':', '*', '?', '"', '<', '>', '|']
+        return re.sub('|'.join(map(re.escape, invalidDirStrLst)), '_', self.driver.title)
+
     def getElementById(self, domId):
         u'''Dom Selector by Id
          @param  domId - Dom Id
@@ -196,24 +199,41 @@ class WebDriverWrapper(object):
         '''
         return self.driver.find_elements_by_class_name(domName)
 
-    def getFullHtmlInfo(self):
+    def getLinksInfo(self, targetUrl, restrictKeyword):
         u'''Get Html Information [ a(link) ]
-         @return void
+         @param targetUrl       - URL
+         @param restrictKeyword - Ex-Keyword
+         @return Link List
         '''
         tmpHtml = BeautifulSoup(self.driver.page_source, 'lxml')
-        logging.info('===== Links =====')
         links = []
         linksIdx = 1
         for link in tmpHtml.find_all('a'):
             tmpUrl = link.get('href')
-            if(
-                not tmpUrl == '' and
-                tmpUrl.startswith('#') is False and
-                tmpUrl.startswith('javascript') is False
-            ):
-                links.append(tmpUrl)
-                logging.info('[{0}] {1}'.format(linksIdx, tmpUrl))
-                linksIdx = linksIdx + 1
+            try:
+                if(
+                    tmpUrl is not '' and
+                    tmpUrl is not None and
+                    tmpUrl.startswith('#') is False and
+                    tmpUrl.startswith('javascript') is False
+                ):
+                    if tmpUrl.startswith('//'):
+                        links.append('https:' + tmpUrl)
+                    else:
+                        if tmpUrl.startswith('/'):
+                            tmpUrl = '{uri.scheme}://{uri.netloc}{filePath}'.format(
+                                uri=urlparse(targetUrl),
+                                filePath=tmpUrl
+                            )
+                        if restrictKeyword is None:
+                            links.append(tmpUrl)
+                        else:
+                            if not tmpUrl.find(restrictKeyword) == -1:
+                                links.append(tmpUrl)
+                    linksIdx = linksIdx + 1
+            except Exception as e:
+                print('Error [handler] : {0}'.format(tmpUrl))
+        return links
 
     def input(self, dom, value, loopFlg=False):
         u'''Action Handler For Input
