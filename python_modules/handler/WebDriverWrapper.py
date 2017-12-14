@@ -22,7 +22,12 @@ from selenium.webdriver.common.keys import Keys
 # Class
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 class WebDriverWrapper(object):
+    u'''Handler Class For Web Driver [ chrome ]
+    '''
     def __init__(self, screenshotDir):
+        u'''Constructor
+         @param  screenshotDir - Directory Name
+        '''
         CHROME_DRIVER = '/chromedriver.exe'
         DRIVER_DIR = os.path.abspath(
             os.path.join(
@@ -37,22 +42,32 @@ class WebDriverWrapper(object):
             executable_path=DRIVER_DIR + CHROME_DRIVER
         )
 
-
     def maximumWindow(self):
+        u'''Maximum Browser Window Size
+         @return void
+        '''
         self.driver.maximize_window()
 
-
     def access(self, url):
+        u'''Access
+         @param  url - URL
+         @return void
+        '''
         self.driver.get(url)
         self.wait(2)
 
-
     def wait(self, interval=5):
+        u'''Wait
+         @param  interval - Interval For Browser Rendering
+         @return True
+        '''
         time.sleep(interval)
         return True
 
-
     def getCurrentDir(self):
+        u'''Get Current Directory
+         @return Absolute Path For Current Directory
+        '''
         return os.path.abspath(
             os.path.join(
                 os.path.dirname(__file__),
@@ -61,20 +76,32 @@ class WebDriverWrapper(object):
             )
         )
 
-
     def makeResultStackDir(self, root, name):
+        u'''Make Test Case Directory
+         @param  root - Root Directory For Test Result
+         @param  name - Test Case Name
+         @return True
+        '''
         os.makedirs(os.path.sep.join([self.getCurrentDir(), root, name]))
         return True
 
-
     def getResultStackDir(self, root, name):
+        u'''Get Test Case Directory
+         @param  root - Root Directory For Test Result
+         @param  name - Test Case Name
+         @return Absolute Path For Test Result Directory
+        '''
         tmpStackDir = os.path.sep.join([self.getCurrentDir(), root, name])
         if not os.path.exists(tmpStackDir):
             self.makeResultStackDir(root, name)
         return tmpStackDir + os.path.sep
 
-
     def takeFullScreenshot(self, testDir, imgName):
+        u'''Take Screenshots
+         @param  testDir - Test Case Directory
+         @param  name - Test Case Name
+         @return True
+        '''
         root = self.screenshotDir + os.path.sep + testDir
         totalWidth = self.driver.execute_script(
             'return window.innerWidth'
@@ -106,7 +133,7 @@ class WebDriverWrapper(object):
         part = 1
         capturedImages = []
         for rectangle in rectangles:
-            if not previous is None:
+            if previous is not None:
                 self.driver.execute_script(
                     'window.scrollTo({0},{1})'.format(
                         rectangle[0],
@@ -134,28 +161,45 @@ class WebDriverWrapper(object):
                     os.remove(capturedImages[capturedImageIdx + 1])
         return True
 
-
     def getElementById(self, domId):
+        u'''Dom Selector by Id
+         @param  domId - Dom Id
+         @return Dom
+        '''
         return self.driver.find_element_by_id(domId)
 
-
     def getElementByXPath(self, domXpath):
+        u'''Dom Selector by XPath
+         @param  domXpath - Dom XPath
+         @return Dom
+        '''
         return self.driver.find_element_by_xpath(domXpath)
 
-
     def getElementByName(self, domName):
+        u'''Dom Selector by Name
+         @param  domName - Dom Name
+         @return Dom [ first ]
+        '''
         return self.driver.find_element_by_name(domName)
 
-
     def getElementsByName(self, domName):
+        u'''Dom Selector by Name
+         @param  domName - Dom Name
+         @return Dom [ all ]
+        '''
         return self.driver.find_elements_by_name(domName)
 
-
     def getElementsByClassName(self, domName):
+        u'''Dom Selector by Class
+         @param  domName - Dom Class Name
+         @return Dom [ all ]
+        '''
         return self.driver.find_elements_by_class_name(domName)
 
-
     def getFullHtmlInfo(self):
+        u'''Get Html Information [ a(link) ]
+         @return void
+        '''
         tmpHtml = BeautifulSoup(self.driver.page_source, 'lxml')
         logging.info('===== Links =====')
         links = []
@@ -164,15 +208,20 @@ class WebDriverWrapper(object):
             tmpUrl = link.get('href')
             if(
                 not tmpUrl == '' and
-                tmpUrl.startswith('#') == False and
-                tmpUrl.startswith('javascript') == False
+                tmpUrl.startswith('#') is False and
+                tmpUrl.startswith('javascript') is False
             ):
                 links.append(tmpUrl)
                 logging.info('[{0}] {1}'.format(linksIdx, tmpUrl))
                 linksIdx = linksIdx + 1
 
-
     def input(self, dom, value, loopFlg=False):
+        u'''Action Handler For Input
+         @param  dom     - Dom
+         @param  value   - Input Value
+         @param  loopFlg - Multi-Input Flg For Dom[s]
+         @return True
+        '''
         if loopFlg:
             for tmpDom in dom:
                 tmpDom.send_keys(value)
@@ -180,8 +229,12 @@ class WebDriverWrapper(object):
             dom.send_keys(value)
         return True
 
-
     def enter(self, dom, loopFlg=False):
+        u'''Action Handler For Enter
+         @param  dom     - Dom
+         @param  loopFlg - Multi-Input Flg For Dom[s]
+         @return True
+        '''
         if loopFlg:
             for tmpDom in dom:
                 tmpDom.send_keys(Keys.RETURN)
@@ -189,8 +242,12 @@ class WebDriverWrapper(object):
             dom.send_keys(Keys.RETURN)
         return True
 
-
     def click(self, dom, loopFlg=False):
+        u'''Action Handler For Click
+         @param  dom     - Dom
+         @param  loopFlg - Multi-Input Flg For Dom[s]
+         @return True
+        '''
         if loopFlg:
             for tmpDom in dom:
                 tmpDom.click()
@@ -198,11 +255,15 @@ class WebDriverWrapper(object):
             dom.click()
         return True
 
-
     def scrollToTop(self):
+        u'''Action Handler For Window Scroll
+         @return void
+        '''
         self.driver.execute_script('window.scrollTo(0,0)')
         time.sleep(0.25)
 
-
     def done(self):
+        u'''Kill Test Browser via Driver
+         @return void
+        '''
         self.driver.quit()

@@ -12,32 +12,29 @@ import sys
 # Class
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 class _const(object):
-    u'''CONSTANTとしてエクスポートするための、一時クラス。
+    u'''Temporary Class For Constant in Python
     '''
     class ConstError(TypeError):
-        u'''未定義の値を照会しようとした場合の内部空例外クラス。
-         @param  TypeError エラー文言
-         @return Empty
+        u'''Custom Inner Error for Undiefined Constant
+         @param  TypeError - Error
+         @return void
         '''
         pass
 
     def __setattr__(self, name, value):
-        u'''自変数設定関数を上書き。
-         @param  name  定数化したい値の名前
-         @param  value 定数化したい値そのもの
-         @return 設定済み定数値を返却。
-         ただし、重複して、同じ名前の値を設定しようとした場合には、内部空例外を発火。
+        u'''Setter For Constant
+         @param  name  - Constant Name
+         @param  value - Constant Value
+         @return Constant
         '''
         if name in self.__dict__:
             raise self.ConstError('Can\'t rebind const(%s)' % name)
         self.__dict__[name] = value
 
     def __delattr__(self, name):
-        u'''自変数削除関数を上書き。
-         @param  name  削除したい値の名前
-         @return 原則削除不可能。
-         既に設定されている定数を消そうとした場合には、内部空例外を発火。
-         未設定の定数を消そうとした場合には、NameErrorを発火。
+        u'''Delattr For Constant
+         @param  name - Constant Name
+         @return Custom Inner Error
         '''
         if name in self.__dict__:
             raise self.ConstError('Can\'t unbind const(%s)' % name)

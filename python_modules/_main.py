@@ -27,6 +27,9 @@ from tqdm import tqdm
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 def outputAsciiArt():
+    u'''Output Ascii Art
+     @return void
+    '''
     print('===================================================================')
     print('=       ===========================================================')
     print('=  ====  ==========================================================')
@@ -41,6 +44,10 @@ def outputAsciiArt():
 
 
 def listUpTestCases(testCaseDir):
+    u'''List Up Test Case From *. json @ Test Case Directory [ ./case ]
+     @param  testCaseDir - Test Case Directory
+     @return Test Case List
+    '''
     testCaseIdx = 1
     testCaseStack = []
     print(constant.BR)
@@ -49,15 +56,13 @@ def listUpTestCases(testCaseDir):
         for file in files:
             print('  [{0}] - {1}'.format(
                 testCaseIdx,
-                file
-                    .replace(
-                        constant.TEST_CASE_EXT,
-                        constant.EMPTY
-                    )
-                    .replace(
-                        constant.CASE_TEST_PREFIX,
-                        constant.EMPTY
-                    )
+                file.replace(
+                    constant.TEST_CASE_EXT,
+                    constant.EMPTY
+                ).replace(
+                    constant.CASE_TEST_PREFIX,
+                    constant.EMPTY
+                )
             ))
             testCaseIdx = testCaseIdx + 1
             testCaseStack.append(file)
@@ -65,6 +70,11 @@ def listUpTestCases(testCaseDir):
 
 
 def selectTestCase(testCaseDir, testCaseStack):
+    u'''Select Test Case via Command Line
+     @param  testCaseDir   - Test Case Directory
+     @param  testCaseStack - Test Case
+     @return Selected Test Case Index
+    '''
     testInfoJsonFlg = False
     while not testInfoJsonFlg:
         testCaseIdx = input('> Input Test Case Index ::: ')
@@ -87,14 +97,25 @@ def selectTestCase(testCaseDir, testCaseStack):
 
 
 def startAutoTest(testName):
+    u'''Stack Test Start Time
+     @param  testName - Test Case Name
+     @return Start Time
+    '''
     utcNow = dt.now(timezone('UTC'))
     print(constant.BR + '====== ' + testName + ' [ START ] ======')
-    print('Date : {0}'.format(utcNow.astimezone(timezone('Asia/Tokyo')).strftime('%Y.%m.%d %H:%M:%S')) + constant.BR)
+    print('Date : {0}'.format(
+        utcNow.astimezone(timezone('Asia/Tokyo')).strftime('%Y.%m.%d %H:%M:%S')) + constant.BR
+    )
     print('Initializing Dummy Browser ...')
     return time.time()
 
 
 def executeAutoTest(testName, testCaseInfo):
+    u'''Execute Auto Test
+     @param  testName     - Test Case Name
+     @param  testCaseInfo - Detail Action
+     @return void
+    '''
     print('Execute Auto Test ...' + constant.BR)
     testWebDriver = paparazzi.WebDriverWrapper(
         screenshotDir=config['screenshot']['dir']
@@ -127,7 +148,7 @@ def executeAutoTest(testName, testCaseInfo):
                     tmpSelector = actionInfo[2]
                     try:
                         tmpOption = actionInfo[3]
-                    except:
+                    except Exception as ex:
                         tmpOption = constant.EMPTY
                     if tmpSelectorType == 'xpath':
                         targetDom = testWebDriver.getElementByXPath(tmpSelector)
@@ -163,6 +184,11 @@ def executeAutoTest(testName, testCaseInfo):
 
 
 def endAutoTest(testName, startTime):
+    u'''Finish Auto Test
+     @param  testName  - Test Case Name
+     @param  startTime - Test Start Time
+     @return void
+    '''
     print(constant.BR + '====== ' + testName + ' [  END  ] ======')
     print('{0} sec.{1}'.format(time.time() - startTime, constant.BR))
 
