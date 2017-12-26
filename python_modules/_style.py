@@ -192,6 +192,7 @@ def executeAutoTest(logger, testCache, testCaseInfo):
         ))
         logger.info(constant.EMPTY)
         logger.info(constant.EMPTY)
+    print(constant.BR)
     print('Total Rules : {0} rules'.format(TOTAL_RULE_NUM))
     print('  o       : {0} ( {1} % )'.format(
         TOTAL_VALID_RULE_NUM,
