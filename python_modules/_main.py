@@ -65,18 +65,19 @@ def listUpTestCases(testCaseDir):
     print('> Selecable Test Case [X]')
     for root, dirs, files in os.walk(testCaseDir):
         for file in files:
-            print('  [{0}] - {1}'.format(
-                testCaseIdx,
-                file.replace(
-                    constant.TEST_CASE_EXT,
-                    constant.EMPTY
-                ).replace(
-                    constant.CASE_TEST_PREFIX,
-                    constant.EMPTY
-                )
-            ))
-            testCaseIdx = testCaseIdx + 1
-            testCaseStack.append(file)
+            if file.find('_style') == -1:
+                print('  [{0}] - {1}'.format(
+                    testCaseIdx,
+                    file.replace(
+                        constant.TEST_CASE_EXT,
+                        constant.EMPTY
+                    ).replace(
+                        constant.CASE_TEST_PREFIX,
+                        constant.EMPTY
+                    )
+                ))
+                testCaseIdx = testCaseIdx + 1
+                testCaseStack.append(file)
     return testCaseStack
 
 
@@ -244,6 +245,12 @@ def endAutoTest(testName, startTime):
 
 
 def writeScanLog(logger, resultType, scanResult):
+    u'''Log For Scan
+     @param  logger  - Logger
+     @param  resultType - Log Title
+     @param  scanResult - Extracted Result
+     @return void
+    '''
     logger.log(constant.EMPTY)
     logger.log('=== {0} ==='.format(resultType))
     serviceLinkIdx = 1
@@ -253,6 +260,10 @@ def writeScanLog(logger, resultType, scanResult):
 
 
 def checkIsDivedLink(targetLink):
+    u'''Check Link Validation
+     @param  targetLink - Target Link
+     @return boolean
+    '''
     checkIdx = 0
     for serviceTmpLink in SERVICE_LINKS:
         if serviceTmpLink == targetLink:
@@ -277,6 +288,13 @@ def checkIsDivedLink(targetLink):
 
 
 def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyword):
+    u'''Recursive Diving
+     @param  testWebDriver   - Web Driver
+     @param  testCaseName    - Test Case Name
+     @param  extractedLinks  - Extracted Links
+     @param  restrictKeyword - Search Limit
+     @return void
+    '''
     global SERVICE_TMP_ID
     for currentTmpLink in extractedLinks:
         if checkIsDivedLink(currentTmpLink):
