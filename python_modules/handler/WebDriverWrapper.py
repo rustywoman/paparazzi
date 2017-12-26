@@ -25,6 +25,8 @@ class WebDriverWrapper(object):
          @param  screenshotDir - Directory Name
         '''
         CHROME_DRIVER = '/chromedriver.exe'
+        GECHO_DRIVER = '/geckodriver.exe'
+        EDGE_DRIVER = '/MicrosoftWebDriver.exe'
         DRIVER_DIR = os.path.abspath(
             os.path.join(
                 os.path.dirname(__file__),
@@ -34,9 +36,23 @@ class WebDriverWrapper(object):
         )
         self.name = 'WebDriverWrapper'
         self.screenshotDir = screenshotDir
+        # -------------------
+        # Chrome
+        # -------------------
         self.driver = webdriver.Chrome(
             executable_path=DRIVER_DIR + CHROME_DRIVER
         )
+        # -------------------
+        # Firefox
+        # -------------------
+        # self.driver = webdriver.Firefox(
+        #     executable_path=DRIVER_DIR + GECHO_DRIVER,
+        #     log_path=os.devnull
+        # )
+        # -------------------
+        # Edge
+        # -------------------
+        # self.driver = webdriver.Edge(DRIVER_DIR + EDGE_DRIVER)
 
     def maximumWindow(self):
         u'''Maximum Browser Window Size
