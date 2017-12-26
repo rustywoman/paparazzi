@@ -108,6 +108,24 @@ def selectTestCase(testCaseDir, testCaseStack):
     return testRowInfo
 
 
+def selectBrowser():
+    u'''Select Browser
+     @return Selected Browser Type
+    '''
+    testBrowserFlg = False
+    browserList = ['chrome', 'firefox', 'edge']
+    while not testBrowserFlg:
+        for browserIdx in range(len(browserList)):
+            print('  [{0}] - {1}'.format(browserIdx + 1, browserList[browserIdx]))
+        testBrowserTypeIdx = input('> Input Browser Index ::: ')
+        try:
+            testBrowserTypeIdx = browserList[int(testBrowserTypeIdx) - 1]
+            testBrowserFlg = True
+        except Exception as e:
+            testBrowserFlg = False
+            print('  Warning - Input Browser Index !')
+    return testBrowserTypeIdx
+
 def startAutoTest(testName):
     u'''Stack Test Start Time
      @param  testName - Test Case Name
@@ -122,15 +140,17 @@ def startAutoTest(testName):
     return time.time()
 
 
-def executeAutoTest(testName, testCaseInfo):
+def executeAutoTest(testName, testCaseInfo, browserName):
     u'''Execute Auto Test
      @param  testName     - Test Case Name
      @param  testCaseInfo - Detail Action
+     @param  browserName  - Browser Name
      @return void
     '''
     print('Execute Auto Test ...' + constant.BR)
     testWebDriver = paparazzi.WebDriverWrapper(
-        screenshotDir=config['screenshot']['dir']
+        screenshotDir=config['screenshot']['dir'],
+        browser=browserName
     )
     logForTestWebDriver = log.LoggingWrapper(
         constant.DEFAULT_LOGGER_NAME,
@@ -333,8 +353,9 @@ if __name__ == '__main__':
     TEST_CASE_DIR = config['test']['dir']
     TEST_CASE_STACK = listUpTestCases(TEST_CASE_DIR)
     TEST_ROW_INFO = selectTestCase(TEST_CASE_DIR, TEST_CASE_STACK)
+    BROWSER_NAME = selectBrowser()
     TEST_NAME = TEST_ROW_INFO['name']
     TEST_CASE = TEST_ROW_INFO['case']
     START_TIME = startAutoTest(TEST_NAME)
-    executeAutoTest(TEST_NAME, TEST_CASE)
+    executeAutoTest(TEST_NAME, TEST_CASE, BROWSER_NAME)
     endAutoTest(TEST_NAME, START_TIME)
