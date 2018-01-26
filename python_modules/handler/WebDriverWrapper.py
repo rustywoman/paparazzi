@@ -11,6 +11,7 @@ import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse
 
 
@@ -20,11 +21,14 @@ from urllib.parse import urlparse
 class WebDriverWrapper(object):
     u'''Handler Class For Web Driver [ chrome ]
     '''
-    def __init__(self, screenshotDir, browser):
+    def __init__(self, screenshotDir, browser, device, options):
         u'''Constructor
          @param  screenshotDir - Directory Name
-         @param  browser       - Directory Name
+         @param  browser       - Browser Name
+         @param  device        - Device Name
+         @param  options       - Browser Options
         '''
+        tmpBrowserSize = options['SIZE'].split(',')
         CHROME_DRIVER = os.path.sep + 'chromedriver.exe'
         GECHO_DRIVER = os.path.sep + 'geckodriver.exe'
         EDGE_DRIVER = os.path.sep + 'MicrosoftWebDriver.exe'
@@ -42,27 +46,59 @@ class WebDriverWrapper(object):
             # Edge
             # -------------------
             self.driver = webdriver.Edge(DRIVER_DIR + EDGE_DRIVER)
+            self.setMaximumWindowSize()
         elif browser == 'firefox':
             # -------------------
             # Firefox
             # -------------------
-            self.driver = webdriver.Firefox(
-                executable_path=DRIVER_DIR + GECHO_DRIVER,
-                log_path=os.devnull
-            )
+            if device == 'pc':
+                self.driver = webdriver.Firefox(
+                    executable_path=DRIVER_DIR + GECHO_DRIVER,
+                    log_path=os.devnull
+                )
+                self.setMaximumWindowSize()
+            elif device == 'tablet' or device == 'sp':
+                profile = webdriver.FirefoxProfile()
+                profile.set_preference('general.useragent.override', options['UA'])
+                self.driver = webdriver.Firefox(
+                    firefox_profile=profile,
+                    executable_path=DRIVER_DIR + GECHO_DRIVER,
+                    log_path=os.devnull
+                )
+                self.setCustomWindowSize(tmpBrowserSize[0], tmpBrowserSize[1])
         else:
             # -------------------
             # Chrome
             # -------------------
-            self.driver = webdriver.Chrome(
-                executable_path=DRIVER_DIR + CHROME_DRIVER
-            )
+            if device == 'pc':
+                self.driver = webdriver.Chrome(
+                    executable_path=DRIVER_DIR + CHROME_DRIVER,
+                    chrome_options=opts
+                )
+                self.setMaximumWindowSize()
+            elif device == 'tablet' or device == 'sp':
+                opts = Options()
+                opts.add_argument('user-agent=' + options['UA'])
+                self.driver = webdriver.Chrome(
+                    executable_path=DRIVER_DIR + CHROME_DRIVER,
+                    chrome_options=opts
+                )
+                self.setCustomWindowSize(tmpBrowserSize[0], tmpBrowserSize[1])
 
-    def maximumWindow(self):
+
+    def setMaximumWindowSize(self):
         u'''Maximum Browser Window Size
          @return void
         '''
         self.driver.maximize_window()
+
+    def setCustomWindowSize(self, width, height):
+        u'''Maximum Browser Window Size
+         @param  width  - Window Width
+         @param  height - Window Height
+         @return void
+        '''
+        self.driver.set_window_size(width, height)
 
     def access(self, url):
         u'''Access

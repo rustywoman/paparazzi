@@ -48,6 +48,25 @@ def getMainScriptFileName(fileName):
     return os.path.basename(fileName).replace(constant.PYTHON_EXT, constant.EMPTY)
 
 
+def selectDeviceType():
+    u'''Select Device Type
+     @return Selected Device Type
+    '''
+    testDeviceTypeFlg = False
+    deviceTypeList = ['pc', 'tablet', 'sp']
+    while not testDeviceTypeFlg:
+        for deviceTypeIdx in range(len(deviceTypeList)):
+            print('  [{0}] - {1}'.format(deviceTypeIdx + 1, deviceTypeList[deviceTypeIdx]))
+        testDeviceTypeIdx = input('> Input Device Type Index ::: ')
+        try:
+            testDeviceTypeIdx = deviceTypeList[int(testDeviceTypeIdx) - 1]
+            testDeviceTypeFlg = True
+        except Exception as e:
+            testDeviceTypeFlg = False
+            print('  Warning - Input Device Type Index !')
+    return testDeviceTypeIdx
+
+
 def selectBrowser():
     u'''Select Browser
      @return Selected Browser Type

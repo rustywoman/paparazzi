@@ -34,23 +34,28 @@ SERVICE_TMP_ID = 1
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-def executeAutoTest(testName, testCaseInfo, browserName):
+def executeAutoTest(testName, testCaseInfo, browserName, deviceType):
     u'''Execute Auto Test
      @param  testName     - Test Case Name
      @param  testCaseInfo - Detail Action
      @param  browserName  - Browser Name
+     @param  deviceType   - Device Type
      @return void
     '''
     print('Execute Auto Test ...' + constant.BR)
     testWebDriver = paparazzi.WebDriverWrapper(
         screenshotDir=config['screenshot']['dir'],
-        browser=browserName
+        browser=browserName,
+        device=deviceType,
+        options={
+            'UA'   : config['browserUA'][deviceType],
+            'SIZE' : config['browserSize'][deviceType]
+        }
     )
     logForTestWebDriver = log.LoggingWrapper(
         constant.DEFAULT_LOGGER_NAME,
         testName + constant.LOG_EXT
     )
-    testWebDriver.maximumWindow()
     with tqdm(total=len(testCaseInfo)) as pbar:
         for testCase in testCaseInfo:
             testWebDriver.access(testCase['url'])
@@ -244,13 +249,18 @@ if __name__ == '__main__':
         testCaseStack=TEST_CASE_STACK
     )
     BROWSER_NAME = tools.selectBrowser()
+    if BROWSER_NAME == 'edge':
+        DEVICE_TYPE = 'pc'
+    else:
+        DEVICE_TYPE = tools.selectDeviceType();
     TEST_NAME = TEST_ROW_INFO['name']
     TEST_CASE = TEST_ROW_INFO['case']
     START_TIME = tools.startAutoTest(TEST_NAME)
     executeAutoTest(
         testName=TEST_NAME,
         testCaseInfo=TEST_CASE,
-        browserName=BROWSER_NAME
+        browserName=BROWSER_NAME,
+        deviceType=DEVICE_TYPE
     )
     tools.endAutoTest(
         testName=TEST_NAME,
