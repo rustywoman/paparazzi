@@ -15,12 +15,9 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import constant
 import config
-import json
-import time
-from datetime import datetime as dt
+import tools
 from handler import WebDriverWrapper as paparazzi
 from handler import LoggingWrapper as log
-from pytz import timezone
 from tqdm import tqdm
 from urllib.parse import urlparse
 
@@ -37,109 +34,6 @@ SERVICE_TMP_ID = 1
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-def outputAsciiArt():
-    u'''Output Ascii Art
-     @return void
-    '''
-    print('===================================================================')
-    print('=       ===========================================================')
-    print('=  ====  ==========================================================')
-    print('=  ====  ==========================================================')
-    print('=  ====  ===   ===    ====   ===  =   ====   ===      ==      ==  =')
-    print('=       ===  =  ==  =  ==  =  ==    =  ==  =  ======  ======  =====')
-    print('=  ===========  ==  =  =====  ==  ==========  =====  ======  ===  =')
-    print('=  =========    ==    ====    ==  ========    ====  ======  ====  =')
-    print('=  ========  =  ==  =====  =  ==  =======  =  ===  ======  =====  =')
-    print('=  =========    ==  ======    ==  ========    ==      ==      ==  =')
-    print('===================================================================')
-
-
-def listUpTestCases(testCaseDir):
-    u'''List Up Test Case From *. json @ Test Case Directory [ ./case ]
-     @param  testCaseDir - Test Case Directory
-     @return Test Case List
-    '''
-    testCaseIdx = 1
-    testCaseStack = []
-    print(constant.BR)
-    print('> Selecable Test Case [X]')
-    for root, dirs, files in os.walk(testCaseDir):
-        for file in files:
-            if file.find('_style') == -1:
-                print('  [{0}] - {1}'.format(
-                    testCaseIdx,
-                    file.replace(
-                        constant.TEST_CASE_EXT,
-                        constant.EMPTY
-                    ).replace(
-                        constant.CASE_TEST_PREFIX,
-                        constant.EMPTY
-                    )
-                ))
-                testCaseIdx = testCaseIdx + 1
-                testCaseStack.append(file)
-    return testCaseStack
-
-
-def selectTestCase(testCaseDir, testCaseStack):
-    u'''Select Test Case via Command Line
-     @param  testCaseDir   - Test Case Directory
-     @param  testCaseStack - Test Case
-     @return Selected Test Case Index
-    '''
-    testInfoJsonFlg = False
-    while not testInfoJsonFlg:
-        testCaseIdx = input('> Input Test Case Index ::: ')
-        try:
-            testRowInfo = json.load(
-                open(
-                    '{0}{1}{2}'.format(
-                        testCaseDir,
-                        os.path.sep,
-                        testCaseStack[int(testCaseIdx) - 1]
-                    ),
-                    'r'
-                )
-            )
-            testInfoJsonFlg = True
-        except Exception as e:
-            testInfoJsonFlg = False
-            print('  Warning - Input Test Case Index !')
-    return testRowInfo
-
-
-def selectBrowser():
-    u'''Select Browser
-     @return Selected Browser Type
-    '''
-    testBrowserFlg = False
-    browserList = ['chrome', 'firefox', 'edge']
-    while not testBrowserFlg:
-        for browserIdx in range(len(browserList)):
-            print('  [{0}] - {1}'.format(browserIdx + 1, browserList[browserIdx]))
-        testBrowserTypeIdx = input('> Input Browser Index ::: ')
-        try:
-            testBrowserTypeIdx = browserList[int(testBrowserTypeIdx) - 1]
-            testBrowserFlg = True
-        except Exception as e:
-            testBrowserFlg = False
-            print('  Warning - Input Browser Index !')
-    return testBrowserTypeIdx
-
-def startAutoTest(testName):
-    u'''Stack Test Start Time
-     @param  testName - Test Case Name
-     @return Start Time
-    '''
-    utcNow = dt.now(timezone('UTC'))
-    print(constant.BR + '====== ' + testName + ' [ START ] ======')
-    print('Date : {0}'.format(
-        utcNow.astimezone(timezone('Asia/Tokyo')).strftime('%Y.%m.%d %H:%M:%S')) + constant.BR
-    )
-    print('Initializing Dummy Browser ...')
-    return time.time()
-
-
 def executeAutoTest(testName, testCaseInfo, browserName):
     u'''Execute Auto Test
      @param  testName     - Test Case Name
@@ -254,16 +148,6 @@ def executeAutoTest(testName, testCaseInfo, browserName):
     testWebDriver.done()
 
 
-def endAutoTest(testName, startTime):
-    u'''Finish Auto Test
-     @param  testName  - Test Case Name
-     @param  startTime - Test Start Time
-     @return void
-    '''
-    print(constant.BR + '====== ' + testName + ' [  END  ] ======')
-    print('{0} sec.{1}'.format(time.time() - startTime, constant.BR))
-
-
 def writeScanLog(logger, resultType, scanResult):
     u'''Log For Scan
      @param  logger  - Logger
@@ -349,13 +233,26 @@ def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyw
 # Main
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if __name__ == '__main__':
-    outputAsciiArt()
+    tools.outputAsciiArt()
     TEST_CASE_DIR = config['test']['dir']
-    TEST_CASE_STACK = listUpTestCases(TEST_CASE_DIR)
-    TEST_ROW_INFO = selectTestCase(TEST_CASE_DIR, TEST_CASE_STACK)
-    BROWSER_NAME = selectBrowser()
+    TEST_CASE_STACK = tools.listUpTestCases(
+        testCaseDir=TEST_CASE_DIR,
+        execFileName=tools.getMainScriptFileName(__file__)
+    )
+    TEST_ROW_INFO = tools.selectTestCase(
+        testCaseDir=TEST_CASE_DIR,
+        testCaseStack=TEST_CASE_STACK
+    )
+    BROWSER_NAME = tools.selectBrowser()
     TEST_NAME = TEST_ROW_INFO['name']
     TEST_CASE = TEST_ROW_INFO['case']
-    START_TIME = startAutoTest(TEST_NAME)
-    executeAutoTest(TEST_NAME, TEST_CASE, BROWSER_NAME)
-    endAutoTest(TEST_NAME, START_TIME)
+    START_TIME = tools.startAutoTest(TEST_NAME)
+    executeAutoTest(
+        testName=TEST_NAME,
+        testCaseInfo=TEST_CASE,
+        browserName=BROWSER_NAME
+    )
+    tools.endAutoTest(
+        testName=TEST_NAME,
+        startTime=START_TIME
+    )

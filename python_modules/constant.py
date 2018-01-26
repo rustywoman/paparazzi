@@ -65,6 +65,9 @@ constant.TEST_CASE_EXT = '.json'
 u'''[CONST] Log File Extension'''
 constant.LOG_EXT = '.log'
 
+u'''[CONST] Python File Extension'''
+constant.PYTHON_EXT = '.py'
+
 u'''[CONST] Empty String'''
 constant.EMPTY = ''
 

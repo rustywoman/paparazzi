@@ -29,16 +29,6 @@
         "PHOTO",
         "WAIT"
       ]
-    },
-    {
-      "url" : "http://www.skygate.co.jp/",
-      "name" : "skygate",
-      "action" : [
-        "click---xpath---//*[@id='content']/div[2]/div[2]/div/div/div/div[1]/div[1]/p/a",
-        "click---class---depTimes",
-        "PHOTO",
-        "WAIT"
-      ]
     }
   ]
 }

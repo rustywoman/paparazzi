@@ -50,7 +50,7 @@ class WebDriverWrapper(object):
                 executable_path=DRIVER_DIR + GECHO_DRIVER,
                 log_path=os.devnull
             )
-        else :
+        else:
             # -------------------
             # Chrome
             # -------------------
