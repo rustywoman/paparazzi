@@ -34,8 +34,9 @@ SERVICE_TMP_ID = 1
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-def executeAutoTest(testName, testCaseInfo, browserName, deviceType):
+def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
     u'''Execute Auto Test
+     @param  logger       - Logger
      @param  testName     - Test Case Name
      @param  testCaseInfo - Detail Action
      @param  browserName  - Browser Name
@@ -51,10 +52,6 @@ def executeAutoTest(testName, testCaseInfo, browserName, deviceType):
             'UA'   : config['browserUA'][deviceType],
             'SIZE' : config['browserSize'][deviceType]
         }
-    )
-    logForTestWebDriver = log.LoggingWrapper(
-        constant.DEFAULT_LOGGER_NAME,
-        testName + constant.LOG_EXT
     )
     with tqdm(total=len(testCaseInfo)) as pbar:
         for testCase in testCaseInfo:
@@ -96,17 +93,17 @@ def executeAutoTest(testName, testCaseInfo, browserName, deviceType):
                         restrictKeyword=restrictKeyword
                     )
                     writeScanLog(
-                        logForTestWebDriver,
+                        logger,
                         'Checked Links',
                         SERVICE_LINKS
                     )
                     writeScanLog(
-                        logForTestWebDriver,
+                        logger,
                         'Unknown Links',
                         UNKNOWN_SERVICE_LINKS
                     )
                     writeScanLog(
-                        logForTestWebDriver,
+                        logger,
                         'Duplicated Links',
                         list(set(DUPLICATED_SERVICE_LINKS))
                     )
@@ -257,6 +254,10 @@ if __name__ == '__main__':
     TEST_CASE = TEST_ROW_INFO['case']
     START_TIME = tools.startAutoTest(TEST_NAME)
     executeAutoTest(
+        logger = log.LoggingWrapper(
+            constant.DEFAULT_LOGGER_NAME,
+            TEST_NAME + constant.LOG_EXT
+        ),
         testName=TEST_NAME,
         testCaseInfo=TEST_CASE,
         browserName=BROWSER_NAME,

@@ -72,8 +72,7 @@ class WebDriverWrapper(object):
             # -------------------
             if device == 'pc':
                 self.driver = webdriver.Chrome(
-                    executable_path=DRIVER_DIR + CHROME_DRIVER,
-                    chrome_options=opts
+                    executable_path=DRIVER_DIR + CHROME_DRIVER
                 )
                 self.setMaximumWindowSize()
             elif device == 'tablet' or device == 'sp':
