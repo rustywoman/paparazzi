@@ -49,8 +49,8 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
         browser=browserName,
         device=deviceType,
         options={
-            'UA'   : config['browserUA'][deviceType],
-            'SIZE' : config['browserSize'][deviceType]
+            'UA': config['browserUA'][deviceType],
+            'SIZE': config['browserSize'][deviceType]
         }
     )
     with tqdm(total=len(testCaseInfo)) as pbar:
@@ -249,14 +249,14 @@ if __name__ == '__main__':
     if BROWSER_NAME == 'edge':
         DEVICE_TYPE = 'pc'
     else:
-        DEVICE_TYPE = tools.selectDeviceType();
+        DEVICE_TYPE = tools.selectDeviceType()
     TEST_NAME = TEST_ROW_INFO['name']
     TEST_CASE = TEST_ROW_INFO['case']
     START_TIME = tools.startAutoTest(TEST_NAME)
     executeAutoTest(
-        logger = log.LoggingWrapper(
-            constant.DEFAULT_LOGGER_NAME,
-            TEST_NAME + constant.LOG_EXT
+        logger=log.LoggingWrapper(
+            loggerName=constant.DEFAULT_LOGGER_NAME,
+            logFineName=TEST_NAME + constant.LOG_EXT
         ),
         testName=TEST_NAME,
         testCaseInfo=TEST_CASE,

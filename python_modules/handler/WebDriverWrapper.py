@@ -84,7 +84,6 @@ class WebDriverWrapper(object):
                 )
                 self.setCustomWindowSize(tmpBrowserSize[0], tmpBrowserSize[1])
 
-
     def setMaximumWindowSize(self):
         u'''Maximum Browser Window Size
          @return void
