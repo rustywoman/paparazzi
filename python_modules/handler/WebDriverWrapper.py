@@ -253,6 +253,26 @@ class WebDriverWrapper(object):
         '''
         return self.driver.find_elements_by_class_name(domName)
 
+    def pickUpKeywords(self, targetUrl, keywords):
+        u'''Pick Up Keywords
+         @param keywords - URL
+         @return Matched Result
+        '''
+        result = {
+            'url' : targetUrl,
+            'matched' : {},
+            'status' : False
+        }
+        tmpHtml = self.driver.page_source
+        for keyword in keywords:
+            matchedCnt = tmpHtml.count(keyword)
+            if matchedCnt == 0 :
+                result['matched'][keyword] = 0
+            else :
+                result['matched'][keyword] = matchedCnt
+                result['status'] = True
+        return result
+
     def getLinksInfo(self, targetUrl, restrictKeyword):
         u'''Get Html Information [ a(link) ]
          @param targetUrl       - URL

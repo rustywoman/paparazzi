@@ -202,11 +202,17 @@ def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyw
      @return void
     '''
     global SERVICE_TMP_ID
+    # logger = log.LoggingWrapper(
+    #     loggerName=constant.DEFAULT_LOGGER_NAME,
+    #     logFineName='SEARCH' + constant.LOG_EXT
+    # )
     for currentTmpLink in extractedLinks:
         if checkIsDivedLink(currentTmpLink):
             SERVICE_LINKS.append(currentTmpLink)
             try:
                 testWebDriver.access(currentTmpLink)
+                # pickUpResult = testWebDriver.pickUpKeywords(currentTmpLink, ['無料', 'タダ', '送料', '円'])
+                # logger.log(pickUpResult)
                 testWebDriver.takeFullScreenshot(
                     testDir=testCaseName,
                     imgName=str(SERVICE_TMP_ID) + '_' + testWebDriver.getTitle()
