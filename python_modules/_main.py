@@ -79,7 +79,7 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                         restrictKeyword = None
                         searchKeyword = None
                     diveWebServiceKeyword(
-                        searchLogger = log.LoggingWrapper(
+                        searchLogger=log.LoggingWrapper(
                             loggerName=constant.DEFAULT_LOGGER_NAME,
                             logFineName='SEARCH_' + testName + constant.LOG_EXT
                         ),
@@ -213,6 +213,7 @@ def checkIsDivedLink(targetLink):
         return True
     else:
         return False
+
 
 def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLinks, restrictKeyword, searchKeyword):
     u'''Recursive Diving - word
