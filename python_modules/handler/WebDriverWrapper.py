@@ -259,16 +259,16 @@ class WebDriverWrapper(object):
          @return Matched Result
         '''
         result = {
-            'url' : targetUrl,
-            'matched' : {},
-            'status' : False
+            'url': targetUrl,
+            'matched': {},
+            'status': False
         }
         tmpHtml = self.driver.page_source
         for keyword in keywords:
             matchedCnt = tmpHtml.count(keyword)
-            if matchedCnt == 0 :
+            if matchedCnt == 0:
                 result['matched'][keyword] = 0
-            else :
+            else:
                 result['matched'][keyword] = matchedCnt
                 result['status'] = True
         return result
