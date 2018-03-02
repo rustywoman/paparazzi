@@ -70,6 +70,28 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                     )
                 elif action == constant.WAIT_ACTION_NAME:
                     testWebDriver.wait()
+                elif not action.find(constant.SEARCH_ACTION_NAME) == -1:
+                    actionInfo = action.split(constant.ACTION_SPLIT_ID)
+                    if len(actionInfo) == 3:
+                        restrictKeyword = actionInfo[1]
+                        searchKeyword = actionInfo[2]
+                    else:
+                        restrictKeyword = None
+                        searchKeyword = None
+                    diveWebServiceKeyword(
+                        searchLogger = log.LoggingWrapper(
+                            loggerName=constant.DEFAULT_LOGGER_NAME,
+                            logFineName='SEARCH_' + testName + constant.LOG_EXT
+                        ),
+                        testWebDriver=testWebDriver,
+                        testCaseName=testCase['name'],
+                        extractedLinks=testWebDriver.getLinksInfo(
+                            testCase['url'],
+                            restrictKeyword
+                        ),
+                        restrictKeyword=restrictKeyword,
+                        searchKeyword=searchKeyword
+                    )
                 elif not action.find(constant.SCAN_ACTION_NAME) == -1:
                     global SERVICE_TMP_ID
                     actionInfo = action.split(constant.ACTION_SPLIT_ID)
@@ -192,9 +214,47 @@ def checkIsDivedLink(targetLink):
     else:
         return False
 
+def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLinks, restrictKeyword, searchKeyword):
+    u'''Recursive Diving - word
+     @param  testWebDriver   - Web Driver
+     @param  testCaseName    - Test Case Name
+     @param  extractedLinks  - Extracted Links
+     @param  restrictKeyword - Search Limit
+     @param  searchKeyword   - Search Keywords
+     @return void
+    '''
+    global SERVICE_TMP_ID
+    for currentTmpLink in extractedLinks:
+        if checkIsDivedLink(currentTmpLink):
+            SERVICE_LINKS.append(currentTmpLink)
+            try:
+                testWebDriver.access(currentTmpLink)
+                pickUpResult = testWebDriver.pickUpKeywords(currentTmpLink, searchKeyword)
+                searchLogger.log(pickUpResult)
+                SERVICE_TMP_ID = SERVICE_TMP_ID + 1
+                diveWebServiceKeyword(
+                    searchLogger=searchLogger,
+                    testWebDriver=testWebDriver,
+                    testCaseName=testCaseName,
+                    extractedLinks=testWebDriver.getLinksInfo(
+                        currentTmpLink,
+                        restrictKeyword
+                    ),
+                    restrictKeyword=restrictKeyword,
+                    searchKeyword=searchKeyword
+                )
+            except Exception as e:
+                print('=====================================')
+                print(currentTmpLink)
+                print('=====================================')
+                print(e)
+                UNKNOWN_SERVICE_LINKS.append(currentTmpLink)
+        else:
+            DUPLICATED_SERVICE_LINKS.append(currentTmpLink)
+
 
 def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyword):
-    u'''Recursive Diving
+    u'''Recursive Diving - link
      @param  testWebDriver   - Web Driver
      @param  testCaseName    - Test Case Name
      @param  extractedLinks  - Extracted Links
@@ -202,17 +262,11 @@ def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyw
      @return void
     '''
     global SERVICE_TMP_ID
-    # logger = log.LoggingWrapper(
-    #     loggerName=constant.DEFAULT_LOGGER_NAME,
-    #     logFineName='SEARCH' + constant.LOG_EXT
-    # )
     for currentTmpLink in extractedLinks:
         if checkIsDivedLink(currentTmpLink):
             SERVICE_LINKS.append(currentTmpLink)
             try:
                 testWebDriver.access(currentTmpLink)
-                # pickUpResult = testWebDriver.pickUpKeywords(currentTmpLink, ['無料', 'タダ', '送料', '円'])
-                # logger.log(pickUpResult)
                 testWebDriver.takeFullScreenshot(
                     testDir=testCaseName,
                     imgName=str(SERVICE_TMP_ID) + '_' + testWebDriver.getTitle()

@@ -92,6 +92,9 @@ constant.PHOTO_ACTION_NAME = 'PHOTO'
 u'''[CONST] String [SCAN]'''
 constant.SCAN_ACTION_NAME = 'SCAN'
 
+u'''[CONST] String [SEARCH]'''
+constant.SEARCH_ACTION_NAME = 'SEARCH'
+
 u'''[CONST] String [input]'''
 constant.INPUT_ACTION = 'input'
 
