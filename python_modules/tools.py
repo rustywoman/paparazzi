@@ -186,7 +186,7 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
             'SIZE': config['browserSize'][deviceType]
         }
     )
-    with tqdm(total=len(testCaseInfo)) as pbar:
+    with tqdm(total=len(testCaseInfo), desc=testName) as pbar:
         for testCase in testCaseInfo:
             testWebDriver.access(testCase['url'])
             for action in testCase['action']:
@@ -301,7 +301,6 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                             loopFlg=loopFlg
                         )
             pbar.update(1)
-    print(constant.BR + 'Finalizing Dummy Browser ...')
     testWebDriver.done()
 
 

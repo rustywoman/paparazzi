@@ -1,0 +1,197 @@
+{
+  "name" : "MULTI-SAMPLE-TEST-BY-MAIN",
+  "case" : [
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_1",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge1",
+        "PHOTO---google_xpath_1",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_2",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge2",
+        "PHOTO---google_id_2",
+        "enter---id---lst-ib"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_3",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge3",
+        "PHOTO---google_xpath_3",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_4",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge4",
+        "PHOTO---google_id_4",
+        "enter---id---lst-ib",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_5",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge5",
+        "PHOTO---google_id_5",
+        "enter---id---lst-ib"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_6",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge6",
+        "PHOTO---google_xpath_6",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_7",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge7",
+        "PHOTO---google_xpath_7",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_11",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge11",
+        "PHOTO---google_xpath_11",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_22",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge22",
+        "PHOTO---google_id_22",
+        "enter---id---lst-ib"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_33",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge33",
+        "PHOTO---google_xpath_33",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_44",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge44",
+        "PHOTO---google_id_44",
+        "enter---id---lst-ib",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_55",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge55",
+        "PHOTO---google_id_55",
+        "enter---id---lst-ib"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_66",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge66",
+        "PHOTO---google_xpath_66",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_77",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge77",
+        "PHOTO---google_xpath_77",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_111",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge111",
+        "PHOTO---google_xpath_111",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_222",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge222",
+        "PHOTO---google_id_222",
+        "enter---id---lst-ib"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_333",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge333",
+        "PHOTO---google_xpath_333",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_444",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge444",
+        "PHOTO---google_id_444",
+        "enter---id---lst-ib",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id_555",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge555",
+        "PHOTO---google_id_555",
+        "enter---id---lst-ib"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_666",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge666",
+        "PHOTO---google_xpath_666",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath_777",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge777",
+        "PHOTO---google_xpath_777",
+        "enter---xpath---//*[@id='lst-ib']"
+      ]
+    }
+  ]
+}

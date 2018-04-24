@@ -194,7 +194,7 @@ class WebDriverWrapper(object):
             fileName = self.getResultStackDir(
                 root,
                 imgName
-            ) + 'part_{0}.png'.format(part)
+            ) + 'captured_{0}.png'.format(part)
             self.driver.save_screenshot(fileName)
             capturedImages.append(fileName)
             part = part + 1
