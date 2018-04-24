@@ -1,0 +1,14 @@
+{
+  "name" : "SCAN-SAMPLE",
+  "case" : [
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_top",
+      "action" : [
+        "WAIT",
+        "SCAN",
+        "WAIT"
+      ]
+    }
+  ]
+}

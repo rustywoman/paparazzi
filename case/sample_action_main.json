@@ -1,0 +1,25 @@
+{
+  "name" : "ACTION-SAMPLE",
+  "case" : [
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_xpath",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge",
+        "PHOTO---google_xpath",
+        "enter---xpath---//*[@id='lst-ib']",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_search_by_selector__id",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge",
+        "PHOTO---google_id",
+        "enter---id---lst-ib",
+        "WAIT"
+      ]
+    }
+  ]
+}

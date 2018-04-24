@@ -1,0 +1,55 @@
+{
+  "name" : "SAMPLE",
+  "case" : [
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_1",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge1",
+        "PHOTO---google_xpath",
+        "enter---xpath---//*[@id='lst-ib']",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_2",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge2",
+        "PHOTO---google_id",
+        "enter---id---lst-ib",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_3",
+      "action" : [
+        "input---xpath---//*[@id='lst-ib']---hogehogehoge3",
+        "PHOTO---google_xpath",
+        "enter---xpath---//*[@id='lst-ib']",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_4",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge4",
+        "PHOTO---google_id",
+        "enter---id---lst-ib",
+        "WAIT"
+      ]
+    },
+    {
+      "url"  : "https://www.google.co.jp/",
+      "name" : "google_5",
+      "action" : [
+        "input---id---lst-ib---hogehogehoge5",
+        "PHOTO---google_id",
+        "enter---id---lst-ib",
+        "WAIT"
+      ]
+    }
+  ]
+}
