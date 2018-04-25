@@ -19,7 +19,7 @@ from urllib.parse import urlparse
 # Class
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 class WebDriverWrapper(object):
-    u'''Handler Class For Web Driver [ chrome ]
+    u'''Handler Class For Web Driver [ chrome, Firefox, IE(edge) ]
     '''
     def __init__(self, screenshotDir, browser, device, options):
         u'''Constructor
