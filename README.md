@@ -68,6 +68,7 @@ _./case/sample.json_
 | beautifulsoup4   | version 4.6.0              |
 | selenium         | version 3.7.0              |
 | tqdm             | version 4.19.4             |
+| numpy            | any                        |
 
 <br />
 <br />
