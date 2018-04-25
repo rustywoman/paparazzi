@@ -12,7 +12,8 @@
         "___screenshot",
         "___cache",
         "driver",
-        "log"
+        "log",
+        "test"
       ]
     }
   ]
