@@ -408,15 +408,15 @@ def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyw
                 # ------------------------------------------
                 # ToDo - Infinite Scan
                 # ------------------------------------------
-                # diveWebServiceLink(
-                #     testWebDriver=testWebDriver,
-                #     testCaseName=testCaseName,
-                #     extractedLinks=testWebDriver.getLinksInfo(
-                #         currentTmpLink,
-                #         restrictKeyword
-                #     ),
-                #     restrictKeyword=restrictKeyword
-                # )
+                diveWebServiceLink(
+                    testWebDriver=testWebDriver,
+                    testCaseName=testCaseName,
+                    extractedLinks=testWebDriver.getLinksInfo(
+                        currentTmpLink,
+                        restrictKeyword
+                    ),
+                    restrictKeyword=restrictKeyword
+                )
             except Exception as e:
                 print('=====================================')
                 print(currentTmpLink)
