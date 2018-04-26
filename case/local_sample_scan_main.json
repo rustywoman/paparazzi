@@ -1,0 +1,12 @@
+{
+  "name" : "LOCAL-SCAN-SAMPLE",
+  "case" : [
+    {
+      "url"  : "http://localhost:9999/",
+      "name" : "local_web_page",
+      "action" : [
+        "SCAN---A"
+      ]
+    }
+  ]
+}

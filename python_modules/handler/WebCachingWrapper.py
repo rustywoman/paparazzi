@@ -7,12 +7,15 @@
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import os
 import pickle
+import re
+import time
 import urllib.request
+import uuid
 from bs4 import BeautifulSoup
 from datetime import datetime as dt
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -45,10 +48,6 @@ class WebCachingWrapper(object):
                 os.pardir
             ) + os.path.sep + cacheDir
         ) + os.path.sep + cacheName + '.pickle'
-        # cachedTime = dt.fromtimestamp(os.stat(self.cache).st_mtime)
-        # now = dt.now()
-        # delta = (now - cacheTime).total_seconds()
-        # print(delta)
         try:
             with open(self.cache, 'rb') as f:
                 self.rawHtml = pickle.load(f)
@@ -58,6 +57,8 @@ class WebCachingWrapper(object):
                 chrome_options=DRIVER_OPTIONS
             )
             webDriver.get(url)
+            # ToDo - Async Content or SPA
+            time.sleep(5)
             self.rawHtml = webDriver.page_source
             webDriver.quit()
             with open(self.cache, 'wb') as f:
@@ -65,23 +66,71 @@ class WebCachingWrapper(object):
         self.html = BeautifulSoup(self.rawHtml, 'lxml')
 
     def getHtml(self):
-        u'''Get Html Via BeautiflSoup
+        u'''Get Html Via BeautifulSoup
          @return Html Object converted by BeautifulSoup
         '''
         return self.html
 
-    def loadRawCss(self, cssName):
-        u'''Load Raw Css Information
-         @return Decoded Css Information
+    def getOuterCss(self):
+        u'''Get Css @ File Via BeautifulSoup
+         @return Css File List
         '''
-        try:
-            rawCss = str(urllib.request.urlopen(cssName).read().decode(encoding='utf-8'))
-        except Exception as e:
-            rawCss = str(urllib.request.urlopen(cssName).read().decode(encoding='shift_jis'))
-        return rawCss
+        return self.html.find_all(
+            'link',
+            {
+                'rel' : 'stylesheet'
+            }
+        )
+
+    def getInlineImage(self):
+        u'''Get Inline Image @ Raw Html Via BeautifulSoup
+         @return Image List
+        '''
+        return self.html.find_all('img')
+
+    def changeMultiToOneArray(self, selectorsList):
+        u'''Change Multi List To Single List
+         @param  selectorsList - Target Multi List
+         @return Single List
+        '''
+        result = []
+        for selectors in selectorsList:
+            for selector in selectors:
+                result.append(selector)
+        return result
 
     def getDispFileName(self, cssName):
         u'''Get Display Name
          @return Slim Name for Display
         '''
         return os.path.basename(urlparse(cssName).path)
+
+    def changeAbsPathToRelPath(self, domain, relativePath):
+        u'''Change Absolute Path To Relative Path
+         @param  domain       - Target Web Page Domain
+         @param  relativePath - Target Asset's URL
+         @return Asset's Relative Path
+        '''
+        return urljoin(domain, relativePath)
+
+    def downloadImage(self, savedDirPath, domain, assetURL, inlineFlg=True):
+        u'''Download Image
+         @param  savedDirPath - Image Saved Directory Path
+         @param  domain       - Target Web Page Domain
+         @param  assetURL     - Target Image URL
+         @param  inlineFlg    - Tag or Css
+        '''
+        if inlineFlg:
+            # Html Image Tag
+            refinedImageURL = self.changeAbsPathToRelPath(domain, assetURL)
+        else:
+            # Background-Image @ Css
+            refinedImageURL = self.changeAbsPathToRelPath(
+                domain,
+                re.sub('url\(\'|url\(\"|url\(|\'\)|\"\)|\)', '', assetURL)
+            )
+        localSavedImageURL = savedDirPath + str(uuid.uuid4().hex) + '_' + self.getDispFileName(refinedImageURL)
+        with urllib.request.urlopen(refinedImageURL) as response:
+            with open(localSavedImageURL, 'wb') as scrapedImage:
+                data = response.read()
+                scrapedImage.write(data)

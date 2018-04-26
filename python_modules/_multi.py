@@ -70,7 +70,7 @@ if __name__ == '__main__':
     POOL_LIMIT = multi.cpu_count()
     SPLIT_TEST_CASE = np.array_split(np.array(TEST_CASE), POOL_LIMIT)
     print(constant.BR + '====== [ {0} ] Connection ======'.format(POOL_LIMIT))
-    POOL = Pool(multi.cpu_count())
+    POOL = Pool(POOL_LIMIT)
     for testCaseGroup in SPLIT_TEST_CASE:
         POOL.apply_async(
             bridgeMultiSeleniumHandler,
