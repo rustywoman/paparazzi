@@ -78,7 +78,7 @@ class WebCachingWrapper(object):
         return self.html.find_all(
             'link',
             {
-                'rel' : 'stylesheet'
+                'rel': 'stylesheet'
             }
         )
 

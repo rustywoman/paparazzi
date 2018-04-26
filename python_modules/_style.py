@@ -121,24 +121,24 @@ if __name__ == '__main__':
                         if tmpElmNum == 0:
                             invalidSelector.append(
                                 {
-                                    'selector' : tmpSelector,
-                                    'count'    : tmpElmNum
+                                    'selector': tmpSelector,
+                                    'count': tmpElmNum
                                 }
                             )
                             TOTAL_INVALID_RULE_NUM = TOTAL_INVALID_RULE_NUM + 1
                         else:
                             validSelector.append(
                                 {
-                                    'selector' : tmpSelector,
-                                    'count'    : tmpElmNum
+                                    'selector': tmpSelector,
+                                    'count': tmpElmNum
                                 }
                             )
                             TOTAL_VALID_RULE_NUM = TOTAL_VALID_RULE_NUM + 1
                     except Exception as e:
                         unknownSelector.append(
                             {
-                                'selector' : tmpSelector,
-                                'count'    : 0
+                                'selector': tmpSelector,
+                                'count': 0
                             }
                         )
                         TOTAL_UNKNOWN_RULE_NUM = TOTAL_UNKNOWN_RULE_NUM + 1
