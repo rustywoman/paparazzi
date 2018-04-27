@@ -119,6 +119,7 @@ class WebCachingWrapper(object):
          @param  domain       - Target Web Page Domain
          @param  assetURL     - Target Image URL
          @param  inlineFlg    - Tag or Css
+         @return Saved Status
         '''
         if inlineFlg:
             # Html Image Tag
@@ -130,7 +131,14 @@ class WebCachingWrapper(object):
                 re.sub('url\(\'|url\(\"|url\(|\'\)|\"\)|\)', '', assetURL)
             )
         localSavedImageURL = savedDirPath + str(uuid.uuid4().hex) + '_' + self.getDispFileName(refinedImageURL)
-        with urllib.request.urlopen(refinedImageURL) as response:
-            with open(localSavedImageURL, 'wb') as scrapedImage:
-                data = response.read()
-                scrapedImage.write(data)
+        try:
+            with urllib.request.urlopen(refinedImageURL) as response:
+                try:
+                    with open(localSavedImageURL, 'wb') as scrapedImage:
+                        data = response.read()
+                        scrapedImage.write(data)
+                        return True
+                except Exception as ioEx:
+                    return False
+        except Exception as httpEx:
+            return False

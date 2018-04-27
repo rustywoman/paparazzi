@@ -28,13 +28,24 @@ from multiprocessing import Pool
 from tqdm import tqdm
 
 
-def multiImageDownloader(TEST_NAME, TEST_URL, TEST_SAVED_IMAGES_DIR, imagesGroup, downloadPipeIdx, inlineFlg):
+def multiImageDownloader(
+    TEST_NAME,
+    TEST_URL,
+    TEST_SAVED_IMAGES_DIR,
+    imagesGroup,
+    imagesCategory,
+    downloadPipeIdx,
+    inlineFlg
+):
     testCache = paparazzi.WebCachingWrapper(
         cacheDir=config['cache']['dir'],
         cacheName=TEST_NAME,
         url=TEST_URL
     )
-    with tqdm(total=len(imagesGroup), desc='Downloading ... Images In HTML [ {0} ]'.format(downloadPipeIdx)) as pbar:
+    with tqdm(
+        total=len(imagesGroup),
+        desc='Downloading ... Images In {0} [ {1} ]'.format(imagesCategory, downloadPipeIdx)
+    ) as pbar:
         for tagImage in imagesGroup:
             testCache.downloadImage(TEST_SAVED_IMAGES_DIR, TEST_URL, tagImage, inlineFlg)
             pbar.update(1)
@@ -45,6 +56,7 @@ def multiImageDownloader(TEST_NAME, TEST_URL, TEST_SAVED_IMAGES_DIR, imagesGroup
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if __name__ == '__main__':
     tools.outputAsciiArt()
+    POOL_LIMIT = multi.cpu_count()
     TOTAL_RULE_NUM = 0
     TOTAL_VALID_RULE_NUM = 0
     TOTAL_INVALID_RULE_NUM = 0
@@ -193,7 +205,6 @@ if __name__ == '__main__':
     ))
     # Html内の画像をローカルにダウンロード
     serializedImages = []
-    POOL_LIMIT = multi.cpu_count()
     for tagImage in testCache.getInlineImage():
         serializedImages.append(tagImage['src'])
     serializedImages = list(set(serializedImages))
@@ -203,20 +214,37 @@ if __name__ == '__main__':
     for imagesGroup in SPLIT_IMAGES_GROUP:
         POOL.apply_async(
             multiImageDownloader,
-            args=(TEST_NAME, TEST_URL, TEST_SAVED_IMAGES_DIR, imagesGroup, DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_HTML, True)
+            args=(
+                TEST_NAME,
+                TEST_URL,
+                TEST_SAVED_IMAGES_DIR,
+                imagesGroup,
+                'HTML',
+                DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_HTML,
+                True,
+            )
         )
         DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_HTML = DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_HTML + 1
     POOL.close()
     POOL.join()
     # Css内の画像をローカルにダウンロード
     serializedImages = list(set(IMAGES_IN_CSS))
+    logger.log(serializedImages)
     SPLIT_IMAGES_GROUP = np.array_split(np.array(serializedImages), POOL_LIMIT)
     POOL = Pool(POOL_LIMIT)
     DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_CSS = 1
     for imagesGroup in SPLIT_IMAGES_GROUP:
         POOL.apply_async(
             multiImageDownloader,
-            args=(TEST_NAME, TEST_URL, TEST_SAVED_IMAGES_DIR, imagesGroup, DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_CSS, False, )
+            args=(
+                TEST_NAME,
+                TEST_URL,
+                TEST_SAVED_IMAGES_DIR,
+                imagesGroup,
+                'CSS',
+                DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_CSS,
+                False,
+            )
         )
         DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_CSS = DONWLOAD_PIPE_IDX_FOR_IMAGES_IN_CSS + 1
     POOL.close()
