@@ -136,10 +136,29 @@ if __name__ == '__main__':
     )
     # Html情報をpickleから取得
     tmpHtml = testCache.getHtml()
+    # Style解析機
+    cssParser = tinycss.make_parser()
+
+    # ToDo
+    # インラインスタイル化しているCssをpickleのキャッシュから取得
+    # inlineSelectors = []
+    # tmpStyles = testCache.getInlineStyle();
+    # for inlineStyle in tmpStyles:
+    #     stylesheet = cssParser.parse_stylesheet(inlineStyle.text)
+    #     for rule in stylesheet.rules:
+    #         filteredSelector = rule.selector.as_css().replace(
+    #             constant.BR,
+    #             constant.EMPTY
+    #         ).split(',')
+    #         inlineSelectors.append(filteredSelector)
+    # inlineSelectors = testCache.changeMultiToOneArray(inlineSelectors)
+    # for inlineSelector in inlineSelectors:
+    #     tmpSelector = inlineSelector.strip()
+    #     print(len(tmpHtml.select(tmpSelector)))
+
     # 外部ファイル化しているCssをpickleのキャッシュから取得
     for link in testCache.getOuterCss():
         tmpCssName = testCache.changeAbsPathToRelPath(TEST_URL, link['href'])
-        cssParser = tinycss.make_parser()
         cssSelectors = []
         cssSelectors = diveCssFile(
             cssParser,
@@ -216,6 +235,8 @@ if __name__ == '__main__':
                 logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
             logger.log(constant.EMPTY)
             logger.log(constant.EMPTY)
+
+
     logger.log('Total Rules : {0} rules'.format(TOTAL_RULE_NUM))
     logger.log('  o       : {0} ( {1} % )'.format(
         TOTAL_VALID_RULE_NUM,
@@ -229,6 +250,7 @@ if __name__ == '__main__':
         TOTAL_UNKNOWN_RULE_NUM,
         ((TOTAL_UNKNOWN_RULE_NUM / TOTAL_RULE_NUM) * 100)
     ))
+
     # HTML, CSS内部の画像を一覧化（重複なし）後、並列ダウンロード
     serializedImages = []
     for tagImage in testCache.getInlineImage():
@@ -252,6 +274,7 @@ if __name__ == '__main__':
         DONWLOAD_PIPE_IDX = DONWLOAD_PIPE_IDX + 1
     POOL.close()
     POOL.join()
+
     tools.endAutoTest(
         testName=TEST_NAME,
         startTime=START_TIME

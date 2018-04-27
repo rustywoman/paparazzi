@@ -88,6 +88,12 @@ class WebCachingWrapper(object):
         '''
         return self.html.find_all('img')
 
+    def getInlineStyle(self):
+        u'''Get Inline Style @ Raw Html Via BeautifulSoup
+         @return Style List
+        '''
+        return self.html.find_all('style')
+
     def changeMultiToOneArray(self, selectorsList):
         u'''Change Multi List To Single List
          @param  selectorsList - Target Multi List
