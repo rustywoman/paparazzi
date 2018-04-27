@@ -113,23 +113,17 @@ class WebCachingWrapper(object):
         '''
         return urljoin(domain, relativePath)
 
-    def downloadImage(self, savedDirPath, domain, assetURL, inlineFlg=True):
+    def downloadImage(self, savedDirPath, domain, assetURL):
         u'''Download Image
          @param  savedDirPath - Image Saved Directory Path
          @param  domain       - Target Web Page Domain
          @param  assetURL     - Target Image URL
-         @param  inlineFlg    - Tag or Css
          @return Saved Status
         '''
-        if inlineFlg:
-            # Html Image Tag
-            refinedImageURL = self.changeAbsPathToRelPath(domain, assetURL)
-        else:
-            # Background-Image @ Css
-            refinedImageURL = self.changeAbsPathToRelPath(
-                domain,
-                re.sub('url\(\'|url\(\"|url\(|\'\)|\"\)|\)', '', assetURL)
-            )
+        refinedImageURL = self.changeAbsPathToRelPath(
+            domain,
+            re.sub('url\(\'|url\(\"|url\(|\'\)|\"\)|\)', '', assetURL)
+        )
         localSavedImageURL = savedDirPath + str(uuid.uuid4().hex) + '_' + self.getDispFileName(refinedImageURL)
         try:
             with urllib.request.urlopen(refinedImageURL) as response:
