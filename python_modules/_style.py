@@ -28,6 +28,15 @@ from multiprocessing import Pool
 from tqdm import tqdm
 
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Global
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IMAGES_IN_CSS = []
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Function
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 def multiImageDownloader(
     TEST_NAME,
     TEST_URL,
@@ -49,6 +58,42 @@ def multiImageDownloader(
             pbar.update(1)
 
 
+def diveImageInCss(rawCss):
+    global IMAGES_IN_CSS
+    unminifiedCss = re.sub('\{', ' {\n\r\n\r\t', rawCss)
+    unminifiedCss = re.sub('\}', '\n\r\n\r}\n\r\n\r', unminifiedCss)
+    unminifiedCss = re.sub(';', ';\n\r\t', unminifiedCss)
+    for outerImageURL in re.findall('(url\(.+\))', unminifiedCss):
+        IMAGES_IN_CSS.append(outerImageURL)
+
+
+def diveCssFile(cssParser, tmpCssName, cssSelectors):
+    try:
+        rawCss = str(urllib.request.urlopen(tmpCssName).read().decode(encoding='utf-8'))
+    except Exception as e:
+        rawCss = str(urllib.request.urlopen(tmpCssName).read().decode(encoding='shift_jis'))
+    stylesheet = cssParser.parse_stylesheet(rawCss)
+    for rule in stylesheet.rules:
+        try:
+            filteredSelector = rule.selector.as_css().replace(
+                constant.BR,
+                constant.EMPTY
+            ).split(',')
+            cssSelectors.append(filteredSelector)
+        except Exception as parseEx:
+            try:
+                diveCssFile(
+                    cssParser,
+                    testCache.changeAbsPathToRelPath(tmpCssName, rule.uri),
+                    cssSelectors
+                )
+            except Exception as e:
+                print('Selector Parse Error ---> Skip...')
+                print(e)
+    diveImageInCss(rawCss)
+    return cssSelectors
+
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Main
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -60,7 +105,6 @@ if __name__ == '__main__':
     TOTAL_INVALID_RULE_NUM = 0
     TOTAL_UNKNOWN_RULE_NUM = 0
     TEST_CASE_DIR = config['test']['dir']
-    IMAGES_IN_CSS = []
     TEST_CASE_STACK = tools.listUpTestCases(
         testCaseDir=TEST_CASE_DIR,
         execFileName=tools.getMainScriptFileName(__file__)
@@ -95,24 +139,13 @@ if __name__ == '__main__':
     # 外部ファイル化しているCssをpickleのキャッシュから取得
     for link in testCache.getOuterCss():
         tmpCssName = testCache.changeAbsPathToRelPath(TEST_URL, link['href'])
-        try:
-            rawCss = str(urllib.request.urlopen(tmpCssName).read().decode(encoding='utf-8'))
-        except Exception as e:
-            rawCss = str(urllib.request.urlopen(tmpCssName).read().decode(encoding='shift_jis'))
         cssParser = tinycss.make_parser()
         cssSelectors = []
-        stylesheet = cssParser.parse_stylesheet(rawCss)
-        for rule in stylesheet.rules:
-            try:
-                filteredSelector = rule.selector.as_css().replace(
-                    constant.BR,
-                    constant.EMPTY
-                ).split(',')
-                cssSelectors.append(filteredSelector)
-            except Exception as e:
-                # ToDo - Imported CSS
-                print('Import CSS ---> Skip...')
-                # print(rule)
+        cssSelectors = diveCssFile(
+            cssParser,
+            tmpCssName,
+            cssSelectors
+        )
         if len(cssSelectors) is not 0:
             cssSelectors = testCache.changeMultiToOneArray(cssSelectors)
             totalSelectorsNum = len(cssSelectors)
@@ -166,28 +199,23 @@ if __name__ == '__main__':
                 tmpValidSelectorRate
             ))
             for info in validSelector:
-                logger.log('        {0} - {1}'.format(info['selector'], info['count']))
+                logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
             logger.log(constant.EMPTY)
             logger.log('    x       : {0} ( {1} % )'.format(
                 tmpInvalidSelectorNum,
                 tmpInvalidSelectorRate
             ))
             for info in invalidSelector:
-                logger.log('        {0} - {1}'.format(info['selector'], info['count']))
+                logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
             logger.log(constant.EMPTY)
             logger.log('    unknown : {0} ( {1} % )'.format(
                 tmpUnknownSelectorNum,
                 tmpUnknownSelectorRate
             ))
             for info in unknownSelector:
-                logger.log('        {0} - {1}'.format(info['selector'], info['count']))
+                logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
             logger.log(constant.EMPTY)
             logger.log(constant.EMPTY)
-            unminifiedCss = re.sub('\{', ' {\n\r\n\r\t', rawCss)
-            unminifiedCss = re.sub('\}', '\n\r\n\r}\n\r\n\r', unminifiedCss)
-            unminifiedCss = re.sub(';', ';\n\r\t', unminifiedCss)
-            for outerImageURL in re.findall('(url\(.+\))', unminifiedCss):
-                IMAGES_IN_CSS.append(outerImageURL)
     logger.log('Total Rules : {0} rules'.format(TOTAL_RULE_NUM))
     logger.log('  o       : {0} ( {1} % )'.format(
         TOTAL_VALID_RULE_NUM,
