@@ -33,6 +33,13 @@ TEST_CASE_GROUP_IDX = 1
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 def bridgeMultiSeleniumHandler(testName, browserName, deviceType, testCase, groupIdx):
+    u'''Download Images by Parallel Pipeline
+     @param testName    - Test Name
+     @param browserName - Browser Name
+     @param deviceType  - Device Type
+     @param testCase    - Test Case
+     @param groupIdx    - Multi Index
+    '''
     tools.executeAutoTest(
         logger=log.LoggingWrapper(
             loggerName=constant.DEFAULT_LOGGER_NAME,
@@ -49,8 +56,15 @@ def bridgeMultiSeleniumHandler(testName, browserName, deviceType, testCase, grou
 # Main
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if __name__ == '__main__':
-    TEST_CASE_DIR = config['test']['dir']
+    helper = tools.outputHelp(
+        scriptFileName=__file__,
+        scriptUsage='sh multi.sh',
+        description='Execute Unit UI Test in Multi-Processing',
+        epilog=''
+    )
+    helper.parse_args()
     tools.outputAsciiArt()
+    TEST_CASE_DIR = config['test']['dir']
     TEST_CASE_DIR = config['test']['dir']
     TEST_CASE_STACK = tools.listUpTestCases(
         testCaseDir=TEST_CASE_DIR,
@@ -60,11 +74,8 @@ if __name__ == '__main__':
         testCaseDir=TEST_CASE_DIR,
         testCaseStack=TEST_CASE_STACK
     )
-    BROWSER_NAME = tools.selectBrowser()
-    if BROWSER_NAME == 'edge':
-        DEVICE_TYPE = 'pc'
-    else:
-        DEVICE_TYPE = tools.selectDeviceType()
+    BROWSER_NAME = tools.selectBrowser(multiFlg=True)
+    DEVICE_TYPE = tools.selectDeviceType()
     TEST_NAME = TEST_ROW_INFO['name']
     TEST_CASE = TEST_ROW_INFO['case']
     POOL_LIMIT = multi.cpu_count()

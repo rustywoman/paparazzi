@@ -7,68 +7,46 @@
 
 <br />
 
-#### How To Use
-
-１． Download and Install Python (Anaconda3) in your own Machine.
-
-２． Activate Terminal or Console and Change Directory to This Directory.
-
-３． Execute Bellow:
-
-```
-  pip install -r paparazzi.pip.txt
-```
-
-４． Execute Sample:
-
-```
-  sh main.sh
-```
-
-<br />
-<br />
-
-#### How To Test
-
-_./case/sample.json_
-
-```
-{
-  "name" : "TEST CASE MAIN NAME",
-  "case" : [
-    {
-      "url"  : "https://www.google.co.jp/",
-      "name" : "TEST CASE SUB NAME == RESULT DIRECTORY NAME",
-      "action" : [
-        "input---xpath---//*[@id='lst-ib']---hogehogehoge",
-        "PHOTO---google_xpath",
-        "enter---xpath---//*[@id='lst-ib']",
-        "WAIT"
-      ]
-    }
-  ]
-}
-```
-
-<br />
-<br />
-
-#### Environment
-
-| Module                   | Version |
-|:-------------------------|:--------|
-| Windows 10 (64bit, 16GB) | 1709    |
+<p align="center">
+  Auto Test Via Client Browser - Parse and Check HTML + Css, Download All Assets, etc ...
+</p>
 
 <br />
 
-#### Modules
+<p align="center">
+  <h4 align="center">This Project needs Python 3.x and following modules.</h4>
+  <h5 align="center">Try `pip install -r requirements.txt`.</h5>
+</p>
+
+<br />
+
+#### Required Modules
 
 | Module           | Detail                     |
 |:-----------------|:---------------------------|
 | beautifulsoup4   | version 4.6.0              |
 | selenium         | version 3.7.0              |
 | tqdm             | version 4.19.4             |
+| tinycss          | version 0.4                |
+| pytz             | version 2017.2             |
 | numpy            | any                        |
+
+<br />
+<br />
+
+#### Browser Driver
+
+This Project handles Selenium.
+
+Please Check Your Browser Versions and Each Driver Support are matched.
+
+With Miss-matching, Check following pages:
+
+| Browser Name | Driver Link                                                                                        |
+|:-------------|:---------------------------------------------------------------------------------------------------|
+| Edge         | [Edge Driver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/ 'Edge Driver') |
+| Chrome       | [Chrome Driver](https://sites.google.com/a/chromium.org/chromedriver/downloads 'Chrome Driver')    |
+| Firefox      | [Firefox Driver](https://github.com/mozilla/geckodriver/releases 'Firefox Driver')                 |
 
 <br />
 <br />

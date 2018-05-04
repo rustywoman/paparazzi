@@ -13,6 +13,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Import
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import argparse
 import constant
 import config
 import json
@@ -38,6 +39,25 @@ SERVICE_TMP_ID = 1
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def outputHelp(scriptFileName, scriptUsage, description, epilog):
+    u'''Output Help
+     @param  scriptFileName - File Name
+     @param  scriptUsage    - Sample Command
+     @param  description    - Description
+     @param  epilog         - Epi. Message
+     @return Argument parser
+    '''
+    parser = argparse.ArgumentParser(
+        prog=scriptFileName,
+        usage=scriptUsage,
+        description=description,
+        epilog=epilog,
+        add_help=True
+    )
+    return parser
+
+
 def outputAsciiArt():
     u'''Output Ascii Art
      @return void
@@ -82,12 +102,16 @@ def selectDeviceType():
     return testDeviceTypeIdx
 
 
-def selectBrowser():
+def selectBrowser(multiFlg=False):
     u'''Select Browser
      @return Selected Browser Type
     '''
     testBrowserFlg = False
-    browserList = ['chrome', 'firefox', 'edge']
+    if multiFlg is True:
+        # Check : Edgeは、multi-sessionに対応していないので、複数プロセスでEdgeを同時操作は不可 @ 2018.05.04
+        browserList = ['chrome', 'firefox']
+    else:
+        browserList = ['chrome', 'firefox', 'edge']
     while not testBrowserFlg:
         for browserIdx in range(len(browserList)):
             print('  [{0}] - {1}'.format(browserIdx + 1, browserList[browserIdx]))
