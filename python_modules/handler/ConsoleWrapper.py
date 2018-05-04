@@ -65,36 +65,3 @@ class ConsoleWrapper(object):
          @param  msg - WARN Message
         '''
         self.customPrint(self.STR_YELLOW, msg)
-
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# Main
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-if __name__ == '__main__':
-    console = ConsoleWrapper()
-    print('')
-    print(console.UNDERLINE + '+++ Console consoleration +++' + console.END_CODE)
-    print('')
-    print('[ Colored String ]')
-    print(console.TAB + console.STR_RED + 'RED' + console.END_CODE)
-    print(console.TAB + console.STR_GREEN + 'GREEN' + console.END_CODE)
-    print(console.TAB + console.STR_YELLOW + 'YELLOW' + console.END_CODE)
-    print(console.TAB + console.STR_BLUE + 'BLUE' + console.END_CODE)
-    print(console.TAB + console.STR_PURPLE + 'PURPLE' + console.END_CODE)
-    print(console.TAB + console.STR_CYAN + 'CYAN' + console.END_CODE)
-    print(console.TAB + console.STR_WHITE + 'WHITE' + console.END_CODE)
-    print('')
-    print('[ Filled String ]')
-    print(console.TAB + console.BG_RED + 'RED' + console.END_CODE)
-    print(console.TAB + console.BG_GREEN + console.STR_BLACK + 'GREEN' + console.END_CODE)
-    print(console.TAB + console.BG_YELLOW + console.STR_BLACK + 'YELLOW' + console.END_CODE)
-    print(console.TAB + console.BG_BLUE + 'BLUE' + console.END_CODE)
-    print(console.TAB + console.BG_PURPLE + 'PURPLE' + console.END_CODE)
-    print(console.TAB + console.BG_CYAN + console.STR_BLACK + 'CYAN' + console.END_CODE)
-    print(console.TAB + console.BG_WHITE + console.STR_BLACK + 'WHITE' + console.END_CODE)
-    print('')
-    print('[ Instance Method ]')
-    console.log('OK Message')
-    console.info('INFORMATION Message')
-    console.error('ERROR Message')
-    console.warn('Warning Message')

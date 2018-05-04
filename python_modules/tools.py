@@ -20,9 +20,11 @@ import json
 import time
 # ---
 from datetime import datetime as dt
+from handler import ConsoleWrapper as deco
 from handler import WebDriverWrapper as paparazzi
 from handler import LoggingWrapper as log
 from pytz import timezone
+# Check : Colored Problem
 from tqdm import tqdm
 from urllib.parse import urlparse
 
@@ -34,12 +36,12 @@ SERVICE_LINKS = []
 DUPLICATED_SERVICE_LINKS = []
 UNKNOWN_SERVICE_LINKS = []
 SERVICE_TMP_ID = 1
+console = deco.ConsoleWrapper()
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 def outputHelp(scriptFileName, scriptUsage, description, epilog):
     u'''Output Help
      @param  scriptFileName - File Name
@@ -62,17 +64,21 @@ def outputAsciiArt():
     u'''Output Ascii Art
      @return void
     '''
-    print('===================================================================')
-    print('=       ===========================================================')
-    print('=  ====  ==========================================================')
-    print('=  ====  ==========================================================')
-    print('=  ====  ===   ===    ====   ===  =   ====   ===      ==      ==  =')
-    print('=       ===  =  ==  =  ==  =  ==    =  ==  =  ======  ======  =====')
-    print('=  ===========  ==  =  =====  ==  ==========  =====  ======  ===  =')
-    print('=  =========    ==    ====    ==  ========    ====  ======  ====  =')
-    print('=  ========  =  ==  =====  =  ==  =======  =  ===  ======  =====  =')
-    print('=  =========    ==  ======    ==  ========    ==      ==      ==  =')
-    print('===================================================================')
+    asciiInfo = [
+        '-------------------------------------------------------------------',
+        '-       -----------------------------------------------------------',
+        '-  ----  ----------------------------------------------------------',
+        '-  ----  ----------------------------------------------------------',
+        '-  ----  ---   ---    ----   ---  -   ----   ---      --      --  -',
+        '-       ---  -  --  -  --  -  --    -  --  -  ------  ------  -----',
+        '-  -----------  --  -  -----  --  ----------  -----  ------  ---  -',
+        '-  ---------    --    ----    --  --------    ----  ------  ----  -',
+        '-  --------  -  --  -----  -  --  -------  -  ---  ------  -----  -',
+        '-  ---------    --  ------    --  --------    --      --      --  -',
+        '-------------------------------------------------------------------',
+    ]
+    for asciiStr in asciiInfo:
+        print(console.STR_BLUE + asciiStr + console.END_CODE)
 
 
 def getMainScriptFileName(fileName):
@@ -89,16 +95,17 @@ def selectDeviceType():
     '''
     testDeviceTypeFlg = False
     deviceTypeList = ['pc', 'tablet', 'sp']
+    print(console.UNDERLINE + console.STR_CYAN + 'Selectable Device [X]' + console.END_CODE)
+    for deviceTypeIdx in range(len(deviceTypeList)):
+        print(console.TAB + '[{0}] - {1}'.format(deviceTypeIdx + 1, deviceTypeList[deviceTypeIdx]))
     while not testDeviceTypeFlg:
-        for deviceTypeIdx in range(len(deviceTypeList)):
-            print('  [{0}] - {1}'.format(deviceTypeIdx + 1, deviceTypeList[deviceTypeIdx]))
-        testDeviceTypeIdx = input('> Input Device Type Index ::: ')
+        testDeviceTypeIdx = input(console.STR_CYAN + '> Input Device Type Index ::: ' + console.END_CODE)
         try:
             testDeviceTypeIdx = deviceTypeList[int(testDeviceTypeIdx) - 1]
             testDeviceTypeFlg = True
         except Exception as e:
             testDeviceTypeFlg = False
-            print('  Warning - Input Device Type Index !')
+            console.error(console.TAB + 'Warning - Device is required. Re-Input, please.')
     return testDeviceTypeIdx
 
 
@@ -112,16 +119,17 @@ def selectBrowser(multiFlg=False):
         browserList = ['chrome', 'firefox']
     else:
         browserList = ['chrome', 'firefox', 'edge']
+    print(console.UNDERLINE + console.STR_CYAN + 'Selectable Browser [X]' + console.END_CODE)
+    for browserIdx in range(len(browserList)):
+        print(console.TAB + '[{0}] - {1}'.format(browserIdx + 1, browserList[browserIdx]))
     while not testBrowserFlg:
-        for browserIdx in range(len(browserList)):
-            print('  [{0}] - {1}'.format(browserIdx + 1, browserList[browserIdx]))
-        testBrowserTypeIdx = input('> Input Browser Index ::: ')
+        testBrowserTypeIdx = input(console.STR_CYAN + '> Input Browser Index ::: ' + console.END_CODE)
         try:
             testBrowserTypeIdx = browserList[int(testBrowserTypeIdx) - 1]
             testBrowserFlg = True
         except Exception as e:
             testBrowserFlg = False
-            print('  Warning - Input Browser Index !')
+            console.error(console.TAB + 'Warning - Browser is required. Re-Input, please.')
     return testBrowserTypeIdx
 
 
@@ -132,12 +140,11 @@ def listUpTestCases(testCaseDir, execFileName):
     '''
     testCaseIdx = 1
     testCaseStack = []
-    print(constant.BR)
-    print('> Selectable Test Case [X]')
+    print(console.UNDERLINE + console.STR_CYAN + 'Selectable Test Cases [X]' + console.END_CODE)
     for root, dirs, files in os.walk(testCaseDir):
         for file in files:
             if not file.find(execFileName) == -1:
-                print('  [{0}] - {1}'.format(
+                print(console.TAB + '[{0}] - {1}'.format(
                     testCaseIdx,
                     file.replace(
                         constant.TEST_CASE_EXT,
@@ -160,7 +167,7 @@ def selectTestCase(testCaseDir, testCaseStack):
     '''
     testInfoJsonFlg = False
     while not testInfoJsonFlg:
-        testCaseIdx = input('> Input Test Case Index ::: ')
+        testCaseIdx = input(console.STR_CYAN + '> Input Test Case Index ::: ' + console.END_CODE)
         try:
             testRowInfo = json.load(
                 open(
@@ -175,7 +182,7 @@ def selectTestCase(testCaseDir, testCaseStack):
             testInfoJsonFlg = True
         except Exception as e:
             testInfoJsonFlg = False
-            print('  Warning - Input Test Case Index !')
+            console.error(console.TAB + 'Warning - Test Case Index is required. Re-Input, please.')
     return testRowInfo
 
 
@@ -186,9 +193,8 @@ def startAutoTest(testName):
     '''
     utcNow = dt.now(timezone('UTC'))
     print(constant.BR + '====== ' + testName + ' [ START ] ======' + constant.BR)
-    print('Date : {0}'.format(
-        utcNow.astimezone(timezone('Asia/Tokyo')).strftime('%Y.%m.%d %H:%M:%S')) + constant.BR
-    )
+    print('Date : {0}'.format(utcNow.astimezone(timezone('Asia/Tokyo')).strftime('%Y.%m.%d %H:%M:%S')))
+    print(constant.BR)
     return time.time()
 
 
@@ -458,4 +464,4 @@ def endAutoTest(testName, startTime):
      @return void
     '''
     print(constant.BR + '====== ' + testName + ' [  END  ] ======' + constant.BR)
-    print('{0} sec.{1}'.format(time.time() - startTime, constant.BR))
+    print('{0} sec.'.format(time.time() - startTime))
