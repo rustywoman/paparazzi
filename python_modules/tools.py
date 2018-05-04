@@ -109,7 +109,7 @@ def listUpTestCases(testCaseDir, execFileName):
     testCaseIdx = 1
     testCaseStack = []
     print(constant.BR)
-    print('> Selecable Test Case [X]')
+    print('> Selectable Test Case [X]')
     for root, dirs, files in os.walk(testCaseDir):
         for file in files:
             if not file.find(execFileName) == -1:
