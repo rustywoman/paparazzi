@@ -71,6 +71,9 @@ constant.PYTHON_EXT = '.py'
 u'''[CONST] Empty String'''
 constant.EMPTY = ''
 
+u'''[CONST] TAB String'''
+constant.TAB = '    '
+
 u'''[CONST] String [br]'''
 constant.BR = '\n'
 

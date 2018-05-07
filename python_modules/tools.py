@@ -97,7 +97,7 @@ def selectDeviceType():
     deviceTypeList = ['pc', 'tablet', 'sp']
     print(console.UNDERLINE + console.STR_CYAN + 'Selectable Device [X]' + console.END_CODE)
     for deviceTypeIdx in range(len(deviceTypeList)):
-        print(console.TAB + '[{0}] - {1}'.format(deviceTypeIdx + 1, deviceTypeList[deviceTypeIdx]))
+        print(constant.TAB + '[{0}] - {1}'.format(deviceTypeIdx + 1, deviceTypeList[deviceTypeIdx]))
     while not testDeviceTypeFlg:
         testDeviceTypeIdx = input(console.STR_CYAN + '> Input Device Type Index ::: ' + console.END_CODE)
         try:
@@ -105,7 +105,7 @@ def selectDeviceType():
             testDeviceTypeFlg = True
         except Exception as e:
             testDeviceTypeFlg = False
-            console.error(console.TAB + 'Warning - Device is required. Re-Input, please.')
+            console.error(constant.TAB + 'Warning - Device is required. Re-Input, please.')
     return testDeviceTypeIdx
 
 
@@ -121,7 +121,7 @@ def selectBrowser(multiFlg=False):
         browserList = ['chrome', 'firefox', 'edge']
     print(console.UNDERLINE + console.STR_CYAN + 'Selectable Browser [X]' + console.END_CODE)
     for browserIdx in range(len(browserList)):
-        print(console.TAB + '[{0}] - {1}'.format(browserIdx + 1, browserList[browserIdx]))
+        print(constant.TAB + '[{0}] - {1}'.format(browserIdx + 1, browserList[browserIdx]))
     while not testBrowserFlg:
         testBrowserTypeIdx = input(console.STR_CYAN + '> Input Browser Index ::: ' + console.END_CODE)
         try:
@@ -129,7 +129,7 @@ def selectBrowser(multiFlg=False):
             testBrowserFlg = True
         except Exception as e:
             testBrowserFlg = False
-            console.error(console.TAB + 'Warning - Browser is required. Re-Input, please.')
+            console.error(constant.TAB + 'Warning - Browser is required. Re-Input, please.')
     return testBrowserTypeIdx
 
 
@@ -144,7 +144,7 @@ def listUpTestCases(testCaseDir, execFileName):
     for root, dirs, files in os.walk(testCaseDir):
         for file in files:
             if not file.find(execFileName) == -1:
-                print(console.TAB + '[{0}] - {1}'.format(
+                print(constant.TAB + '[{0}] - {1}'.format(
                     testCaseIdx,
                     file.replace(
                         constant.TEST_CASE_EXT,
@@ -182,7 +182,7 @@ def selectTestCase(testCaseDir, testCaseStack):
             testInfoJsonFlg = True
         except Exception as e:
             testInfoJsonFlg = False
-            console.error(console.TAB + 'Warning - Test Case Index is required. Re-Input, please.')
+            console.error(constant.TAB + 'Warning - Test Case Index is required. Re-Input, please.')
     return testRowInfo
 
 

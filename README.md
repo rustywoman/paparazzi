@@ -25,6 +25,7 @@
 | Module           | Detail                     |
 |:-----------------|:---------------------------|
 | beautifulsoup4   | version 4.6.0              |
+| jsbeautifier     | version 1.7.5              |
 | selenium         | version 3.7.0              |
 | tqdm             | version 4.19.4             |
 | tinycss          | version 0.4                |

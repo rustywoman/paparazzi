@@ -231,6 +231,28 @@ if __name__ == '__main__':
     )
     # Html情報をpickleから取得
     tmpHtml = testCache.getHtml()
+    # Htmlのタイトル情報
+    print('Title :')
+    print('    ' + testCache.getHtmlTitle())
+    print(constant.EMPTY)
+    # HtmlのインラインMeta情報
+    print('Metas :')
+    tmpMetas = testCache.getInlineMeta()
+    for meta in tmpMetas:
+        print('    {0}'.format(meta))
+    print(constant.EMPTY)
+    # Htmlの外部Script情報
+    print('Outer Scripts :')
+    tmpOuterScripts = testCache.getOuterScript()
+    for script in tmpOuterScripts:
+        print('    {0}'.format(script))
+    print(constant.EMPTY)
+    # HtmlのインラインScript情報
+    print('Inline Scripts :')
+    tmpInlineScripts = testCache.getInlineScript(constant.BR)
+    for script in tmpInlineScripts:
+        print(script)
+    print(constant.EMPTY)
     # Style解析機
     cssParser = tinycss.make_parser()
     # インラインスタイル化しているCssをpickleのキャッシュから取得

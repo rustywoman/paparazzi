@@ -32,8 +32,6 @@ class ConsoleWrapper(object):
         self.BG_WHITE = '\033[47m'
         # reset
         self.END_CODE = '\033[0m'
-        # tab
-        self.TAB = '    '
 
     def customPrint(self, color, msg):
         u'''Print Wrapper

@@ -5,6 +5,7 @@
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Import
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import jsbeautifier
 import os
 import pickle
 import re
@@ -71,6 +72,12 @@ class WebCachingWrapper(object):
         '''
         return self.html
 
+    def getHtmlTitle(self):
+        u'''Get Html Title Via BeautifulSoup
+         @return Html Title
+        '''
+        return self.html.title.string
+
     def getOuterCss(self):
         u'''Get Css @ File Via BeautifulSoup
          @return Css File List
@@ -81,6 +88,23 @@ class WebCachingWrapper(object):
                 'rel': 'stylesheet'
             }
         )
+
+    def getOuterScript(self):
+        u'''Get Script @ File Via BeautifulSoup
+         @return Script File List
+        '''
+        return self.html.find_all(
+            'script',
+            {
+                'src': True
+            }
+        )
+
+    def getInlineMeta(self):
+        u'''Get Inline Meta @ Raw Html Via BeautifulSoup
+         @return Meta List
+        '''
+        return self.html.find_all('meta')
 
     def getInlineImage(self):
         u'''Get Inline Image @ Raw Html Via BeautifulSoup
@@ -93,6 +117,30 @@ class WebCachingWrapper(object):
          @return Style List
         '''
         return self.html.find_all('style')
+
+    def getInlineScript(self, spliterStr):
+        u'''Get Inline Script @ Raw Html Via BeautifulSoup
+         @return Script List
+        '''
+        opts = jsbeautifier.default_options()
+        opts.indent_size = 2
+        opts.space_in_empty_paren = True
+        tmpInnerScripts = self.html.find_all(
+            'script',
+            {
+                'src': False
+            }
+        )
+        resultList = []
+        for script in tmpInnerScripts:
+            rawScript = jsbeautifier.beautify(script.string, opts).split(spliterStr)
+            formatScript = []
+            for splitRawScript in rawScript:
+                # ToDo - Comment '/* hogehoge */'
+                if splitRawScript is not '' and re.match('^//', splitRawScript) is None:
+                    formatScript.append('    ' + splitRawScript)
+            resultList.append(spliterStr.join(formatScript))
+        return resultList
 
     def changeMultiToOneArray(self, selectorsList):
         u'''Change Multi List To Single List
