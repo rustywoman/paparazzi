@@ -64,3 +64,10 @@ Execute following commands :
 
 <br />
 <br />
+
+#### Notice
+
+`___` files are not stacked in Git. ( Check `.gitignore` )
+
+<br />
+<br />
