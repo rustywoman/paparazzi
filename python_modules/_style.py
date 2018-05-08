@@ -31,6 +31,16 @@ from tqdm import tqdm
 # Global
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 IMAGES_IN_CSS = []
+EX_SELECTORS_REG_EXP = '|'.join(
+    [
+        ':after',
+        ':active',
+        ':before',
+        ':focus',
+        ':hover',
+        ':not(.*)'
+    ]
+)
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -114,7 +124,7 @@ def validateCssSelector(logger, cssSelectors, dispFileName):
     global TOTAL_VALID_RULE_NUM
     global TOTAL_UNKNOWN_RULE_NUM
     totalSelectorsNum = len(cssSelectors)
-    logger.log('[ {0} ] - {1} rules.'.format(dispFileName, totalSelectorsNum))
+    logger.log('File Name : [ {0} ] - {1} rules.'.format(dispFileName, totalSelectorsNum))
     TOTAL_RULE_NUM = TOTAL_RULE_NUM + totalSelectorsNum
     validSelector = []
     invalidSelector = []
@@ -124,7 +134,8 @@ def validateCssSelector(logger, cssSelectors, dispFileName):
             tmpElmNum = 0
             tmpSelector = selector.strip()
             try:
-                tmpElmNum = len(tmpHtml.select(tmpSelector))
+                # Check : 議事要素はSelectorから除外 ( EX_SELECTORS_REG_EXP )
+                tmpElmNum = len(tmpHtml.select(re.sub(EX_SELECTORS_REG_EXP, '', tmpSelector)))
                 if tmpElmNum == 0:
                     invalidSelector.append(
                         {
@@ -261,11 +272,22 @@ if __name__ == '__main__':
     for inlineStyle in tmpStyles:
         stylesheet = cssParser.parse_stylesheet(inlineStyle.text)
         for rule in stylesheet.rules:
-            filteredSelector = rule.selector.as_css().replace(
-                constant.BR,
-                constant.EMPTY
-            ).split(',')
-            inlineSelectors.append(filteredSelector)
+            try:
+                filteredSelector = rule.selector.as_css().replace(
+                    constant.BR,
+                    constant.EMPTY
+                ).split(',')
+                inlineSelectors.append(filteredSelector)
+            except Exception as parseEx:
+                try:
+                    diveCssFile(
+                        cssParser,
+                        'https:' + rule.uri if re.match('^//', rule.uri) else rule.uri,
+                        inlineSelectors
+                    )
+                except Exception as e:
+                    print('Selector Parse Error ---> Skip...')
+                    print(e)
     inlineSelectors = testCache.changeMultiToOneArray(inlineSelectors)
     if len(inlineSelectors) is not 0:
         validateCssSelector(
@@ -276,6 +298,7 @@ if __name__ == '__main__':
     # 外部ファイル化しているCssをpickleのキャッシュから取得
     for link in testCache.getOuterCss():
         tmpCssName = testCache.changeAbsPathToRelPath(TEST_URL, link['href'])
+        logger.log('Absolute Path : [ {0} ]'.format(tmpCssName))
         cssSelectors = []
         cssSelectors = diveCssFile(
             cssParser,

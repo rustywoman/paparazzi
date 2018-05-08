@@ -6,3 +6,6 @@ h1{
   background-size: 40px 40px;
   color: #fff;
 }
+a:hover{
+  text-decoration: underline;
+}
