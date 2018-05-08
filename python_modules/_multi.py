@@ -44,7 +44,7 @@ def bridgeMultiSeleniumHandler(testName, browserName, deviceType, testCase, grou
     tools.executeAutoTest(
         logger=log.LoggingWrapper(
             loggerName=constant.DEFAULT_LOGGER_NAME,
-            logFineName=testName + '_' + datetime.now().strftime('%Y%m%d_%H%M%S') + constant.LOG_EXT
+            logFineName=testName + '_' + datetime.now().strftime(constant.LOG_TIMESTAMP_FORMAT) + constant.LOG_EXT
         ),
         testName=testName + '_' + str(groupIdx),
         testCaseInfo=testCase,

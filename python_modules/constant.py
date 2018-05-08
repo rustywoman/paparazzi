@@ -65,6 +65,9 @@ constant.TEST_CASE_EXT = '.json'
 u'''[CONST] Log File Extension'''
 constant.LOG_EXT = '.log'
 
+u'''[CONST] Log File Timestamp'''
+constant.LOG_TIMESTAMP_FORMAT = '%Y%m%d_%H%M%S'
+
 u'''[CONST] Python File Extension'''
 constant.PYTHON_EXT = '.py'
 

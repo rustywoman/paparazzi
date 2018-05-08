@@ -234,7 +234,7 @@ if __name__ == '__main__':
     START_TIME = tools.startAutoTest(TEST_NAME)
     logger = log.LoggingWrapper(
         loggerName=constant.DEFAULT_LOGGER_NAME,
-        logFineName='STYLE_' + TEST_NAME + '_' + datetime.now().strftime('%Y%m%d_%H%M%S') + constant.LOG_EXT
+        logFineName='STYLE_' + TEST_NAME + '_' + datetime.now().strftime(constant.LOG_TIMESTAMP_FORMAT) + constant.LOG_EXT
     )
     testCache = paparazzi.WebCachingWrapper(
         cacheDir=config['cache']['dir'],
