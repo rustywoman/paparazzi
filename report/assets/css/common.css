@@ -1,0 +1,143 @@
+@charset 'UTF-8';
+
+/*
+=================================
+Common - General
+=================================
+*/
+html{
+  height: 100%;
+}
+body{
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  position: relative;
+  font-family: 'Roboto', 'Noto Sans Japanese', 'Yu Gothic', '游ゴシック', YuGothic, '游ゴシック体', 'ヒラギノ角ゴ Pro W3', 'メイリオ', sans-serif;
+  font-size: 14px;
+  letter-spacing: 1.4px;
+}
+::selection{
+  background: #444 !important;
+  color: #fff !important;
+}
+::-moz-selection{
+  background: #444 !important;
+  color: #fff !important;
+}
+.wrapper{
+  padding: 0 80px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+@media screen and (max-width: 900px){
+  .wrapper{
+    padding: 0 20px;
+  }
+}
+#header{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  box-shadow: 1px 2px 2px -3px #222;
+  background-color: #fff;
+  z-index: 10;
+}
+.marker{
+  display: inline-block;
+  position: relative;
+  padding: 0 0 8px 0;
+  transform: translateX(-5%);
+}
+.marker:before{
+  display: inline-block;
+  position: absolute;
+  bottom: 6px;
+  left: -5%;
+  content: '';
+  width: 110%;
+  height: 1px;
+  background-color: #000;
+}
+.marker:after{
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  right: -5%;
+  content: '';
+  width: 2px;
+  height: 2px;
+  background-color: #000;
+}
+.marker span{
+  transition: opacity .25s ease-in-out 0s;
+}
+.marker:hover span{
+  opacity: .5;
+}
+#content{
+  padding: 60px 0 40px 0;
+}
+#footer{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  box-shadow: -2px 3px 2px 2px #222;
+}
+
+
+/*
+=================================
+Common - Component - Header
+=================================
+*/
+#l_header__title{
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%);
+}
+@media screen and (max-width: 900px){
+  #l_header__title{
+    left: 20px;
+  }
+}
+
+
+/*
+=================================
+Common - Component - Footer
+=================================
+*/
+#l_footer__copyright{
+  font-size: 10px;
+  position: absolute;
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+}
+@media screen and (max-width: 900px){
+  #l_footer__copyright{
+    right: 20px;
+  }
+}
+#l_footer__copyright:before{
+  content: '©';
+  display: inline-block;
+  padding: 0 4px 0 0;
+}
+#l_footer__copyright span{
+  display: inline-block;
+}
+#l_footer__publication{
+  padding: 0 4px 0 0;
+}
+#l_footer__author{
+  padding: 0;
+}

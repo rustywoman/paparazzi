@@ -1,0 +1,47 @@
+@charset 'UTF-8';
+
+/*
+=================================
+Case
+=================================
+*/
+.m_content__report_section{
+  margin: 0 0 60px;
+}
+.m_content__report_section:first-child{
+  padding: 60px 0 0;
+}
+@media screen and (max-width: 900px){
+  .m_content__report_section:first-child{
+    padding: 30px 0 0;
+  }
+}
+.m_content__report_section:last-child{
+  margin: 0;
+  padding: 0 0 60px;
+}
+@media screen and (max-width: 900px){
+  .m_content__report_section:last-child{
+    padding: 0 0 30px;
+  }
+}
+
+.m_section__title{
+  display: inline-block;
+  font-size: 16px;
+}
+.m_section__sub_title{
+  display: inline-block;
+  font-weight: 900;
+  margin: 0 0 10px 0;
+}
+.m_content__report_wrapper{
+  margin: 20px 0 0;
+  padding: 0 20px;
+}
+.m_content__report_inner_wrapper{
+  margin: 0 0 20px;
+}
+.m_content__report_inner_wrapper:last-child{
+  margin: 0;
+}
