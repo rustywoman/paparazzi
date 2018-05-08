@@ -51,3 +51,16 @@ With Miss-matching, Check following pages:
 
 <br />
 <br />
+
+#### How To Use
+
+Execute following commands :
+
+| Command     | Detail                                            | Configuration     |
+|:------------|:--------------------------------------------------|:------------------|
+| sh main.sh  | Research Web Page ( crawl, log in-out, etc ... )  | case/*_main.json  |
+| sh multi.sh | Research Web Page in Multi-Process                | case/*_multi.json |
+| sh style.sh | Research Style ( css selector, image, etc ... )   | case/*_style.json |
+
+<br />
+<br />
