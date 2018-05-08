@@ -6,7 +6,8 @@ Case
 =================================
 */
 .m_content__report_section{
-  margin: 0 0 60px;
+  width: 80%;
+  margin: 0 auto 60px;
 }
 .m_content__report_section:first-child{
   padding: 60px 0 0;
@@ -17,7 +18,7 @@ Case
   }
 }
 .m_content__report_section:last-child{
-  margin: 0;
+  margin: 0 auto;
   padding: 0 0 60px;
 }
 @media screen and (max-width: 900px){

@@ -5,6 +5,14 @@
 Common - General
 =================================
 */
+/*@keyframes init{
+    from{
+      opacity: 0;
+    }
+    to{
+      opacity: 1;
+    }
+}*/
 html{
   height: 100%;
 }
@@ -16,6 +24,11 @@ body{
   font-family: 'Roboto', 'Noto Sans Japanese', 'Yu Gothic', '游ゴシック', YuGothic, '游ゴシック体', 'ヒラギノ角ゴ Pro W3', 'メイリオ', sans-serif;
   font-size: 14px;
   letter-spacing: 1.4px;
+/*  animation-duration: 1.4s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-name: init;*/
 }
 ::selection{
   background: #444 !important;
