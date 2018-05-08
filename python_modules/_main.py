@@ -16,6 +16,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import constant
 import config
 import tools
+from datetime import datetime
 from handler import LoggingWrapper as log
 
 
@@ -44,7 +45,7 @@ if __name__ == '__main__':
     tools.executeAutoTest(
         logger=log.LoggingWrapper(
             loggerName=constant.DEFAULT_LOGGER_NAME,
-            logFineName=TEST_NAME + constant.LOG_EXT
+            logFineName=TEST_NAME  + '_' + datetime.now().strftime('%Y%m%d_%H%M%S') + constant.LOG_EXT
         ),
         testName=TEST_NAME,
         testCaseInfo=TEST_CASE,

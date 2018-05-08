@@ -19,6 +19,7 @@ import tools
 import multiprocessing as multi
 import numpy as np
 # ---
+from datetime import datetime
 from handler import LoggingWrapper as log
 from multiprocessing import Pool
 
@@ -43,7 +44,7 @@ def bridgeMultiSeleniumHandler(testName, browserName, deviceType, testCase, grou
     tools.executeAutoTest(
         logger=log.LoggingWrapper(
             loggerName=constant.DEFAULT_LOGGER_NAME,
-            logFineName=testName + constant.LOG_EXT
+            logFineName=testName + '_' + datetime.now().strftime('%Y%m%d_%H%M%S') + constant.LOG_EXT
         ),
         testName=testName + '_' + str(groupIdx),
         testCaseInfo=testCase,

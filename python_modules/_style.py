@@ -21,6 +21,7 @@ import re
 import tools
 import tinycss
 import urllib.request
+from datetime import datetime
 from handler import WebCachingWrapper as paparazzi
 from handler import LoggingWrapper as log
 from multiprocessing import Pool
@@ -233,7 +234,7 @@ if __name__ == '__main__':
     START_TIME = tools.startAutoTest(TEST_NAME)
     logger = log.LoggingWrapper(
         loggerName=constant.DEFAULT_LOGGER_NAME,
-        logFineName='STYLE_' + TEST_NAME + constant.LOG_EXT
+        logFineName='STYLE_' + TEST_NAME + '_' + datetime.now().strftime('%Y%m%d_%H%M%S') + constant.LOG_EXT
     )
     testCache = paparazzi.WebCachingWrapper(
         cacheDir=config['cache']['dir'],
