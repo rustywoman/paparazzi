@@ -396,7 +396,17 @@ if __name__ == '__main__':
         testName=TEST_NAME,
         startTime=START_TIME
     )
-    # Report Configuration
+    # Reportの素JSONを生成
+    TEST_SAVED_REPORTS_DIR = os.path.sep.join(
+        [
+            config['report']['dir'],
+            'assets',
+            'json'
+        ]
+    )
+    if not os.path.exists(TEST_SAVED_REPORTS_DIR):
+        os.makedirs(TEST_SAVED_REPORTS_DIR)
+    TEST_SAVED_REPORTS_DIR = TEST_SAVED_REPORTS_DIR + os.path.sep
     reportConfig = {}
     # Title
     reportConfig['title'] = testCache.getHtmlTitle()
@@ -410,12 +420,16 @@ if __name__ == '__main__':
     # JavaScript
     reportConfig['script'] = {}
     # JavaScript [ inline ]
-    reportConfig['script']['inline'] = constant.BR.join(testCache.getInlineScript(constant.BR))
+    reportConfig['script']['inline'] = constant.BR.join(
+        testCache.getInlineScript(constant.BR)
+    )
     # JavaScript [ ref ]
     reportConfig['script']['ref'] = []
     for script in testCache.getOuterScript():
-        reportConfig['script']['ref'].append(testCache.changeAbsPathToRelPath(TEST_URL, script.get('src')))
+        reportConfig['script']['ref'].append(
+            testCache.changeAbsPathToRelPath(TEST_URL, script.get('src'))
+        )
     # Css [ inline + ref ]
     reportConfig['css'] = cssParseResult
-    reportConfigStream = open('___hoge.json','w')
+    reportConfigStream = open(TEST_SAVED_REPORTS_DIR + TEST_NAME + '.json','w')
     json.dump(reportConfig, reportConfigStream, indent=2)

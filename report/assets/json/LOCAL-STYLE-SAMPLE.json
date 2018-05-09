@@ -1,0 +1,547 @@
+{
+  "title": "Local Dummy Page - TOP",
+  "url": "http://localhost:9999/",
+  "meta": "&lt;meta charset=\"utf-8\"/&gt;\n&lt;meta content=\"Sample Description\" name=\"description\"/&gt;\n&lt;meta content=\"hoge,fuga,hogehoge,fugafuga\" name=\"keywords\"/&gt;\n&lt;meta content=\"John Doe\" name=\"author\"/&gt;\n&lt;meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\"/&gt;",
+  "script": {
+    "inline": "\"use strict\";\n(function() {\n  ReactDOM.render(React.createElement(\n    \"div\", {\n      id: \"wrapper\"\n    },\n    React.createElement(\n      \"h1\",\n      null,\n      \"TOP\"\n    ),\n    React.createElement(\n      \"h2\",\n      null,\n      \"local test page\"\n    ),\n    React.createElement(\n      \"h3\",\n      null,\n      \"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, delectus culpa dolor libero voluptatum incidunt quae! Quasi consequatur, quod. Sint, quisquam magni ullam culpa sapiente maxime eaque consequatur atque tempora.\"\n    ),\n    React.createElement(\n      \"h4\",\n      null,\n      \"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, delectus culpa dolor libero voluptatum incidunt quae! Quasi consequatur, quod. Sint, quisquam magni ullam culpa sapiente maxime eaque consequatur atque tempora.\"\n    ),\n    React.createElement(\n      \"p\",\n      null,\n      React.createElement(\"img\", {\n        src: \"//localhost:9999/assets/image/1.png\",\n        alt: \"1_png\"\n      })\n    ),\n    React.createElement(\n      \"a\", {\n        href: \"/sub/A/\"\n      },\n      \"SUB_A\"\n    )\n  ), document.getElementById('content'));\n})();\n(function() {\n  console.log('inline script');\n})();",
+    "ref": [
+      "http://localhost:9999/assets/js/lib/react.development.js",
+      "http://localhost:9999/assets/js/lib/react-dom.development.js",
+      "http://localhost:9999/assets/js/lib/babel.min.js",
+      "http://localhost:9999/assets/js/main.jsx"
+    ]
+  },
+  "css": [
+    {
+      "path": "inline",
+      "digest": {
+        "total": 1,
+        "ok": 1,
+        "ng": 0,
+        "unknown": 0
+      },
+      "detail": [
+        {
+          "selector": "h1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "http://localhost:9999/assets/css/reset.css",
+      "digest": {
+        "total": 103,
+        "ok": 17,
+        "ng": 86,
+        "unknown": 0
+      },
+      "detail": [
+        {
+          "selector": "html",
+          "count": 1
+        },
+        {
+          "selector": "body",
+          "count": 1
+        },
+        {
+          "selector": "div",
+          "count": 2
+        },
+        {
+          "selector": "h1",
+          "count": 1
+        },
+        {
+          "selector": "h2",
+          "count": 1
+        },
+        {
+          "selector": "h3",
+          "count": 1
+        },
+        {
+          "selector": "h4",
+          "count": 1
+        },
+        {
+          "selector": "p",
+          "count": 1
+        },
+        {
+          "selector": "img",
+          "count": 1
+        },
+        {
+          "selector": "h1",
+          "count": 1
+        },
+        {
+          "selector": "h2",
+          "count": 1
+        },
+        {
+          "selector": "h3",
+          "count": 1
+        },
+        {
+          "selector": "h4",
+          "count": 1
+        },
+        {
+          "selector": "a",
+          "count": 1
+        },
+        {
+          "selector": "a:focus",
+          "count": 1
+        },
+        {
+          "selector": "a:active",
+          "count": 1
+        },
+        {
+          "selector": "a:hover",
+          "count": 1
+        },
+        {
+          "selector": "article",
+          "count": 0
+        },
+        {
+          "selector": "aside",
+          "count": 0
+        },
+        {
+          "selector": "details",
+          "count": 0
+        },
+        {
+          "selector": "figcaption",
+          "count": 0
+        },
+        {
+          "selector": "figure",
+          "count": 0
+        },
+        {
+          "selector": "footer",
+          "count": 0
+        },
+        {
+          "selector": "header",
+          "count": 0
+        },
+        {
+          "selector": "hgroup",
+          "count": 0
+        },
+        {
+          "selector": "main",
+          "count": 0
+        },
+        {
+          "selector": "nav",
+          "count": 0
+        },
+        {
+          "selector": "section",
+          "count": 0
+        },
+        {
+          "selector": "summary",
+          "count": 0
+        },
+        {
+          "selector": "audio",
+          "count": 0
+        },
+        {
+          "selector": "canvas",
+          "count": 0
+        },
+        {
+          "selector": "progress",
+          "count": 0
+        },
+        {
+          "selector": "video",
+          "count": 0
+        },
+        {
+          "selector": "audio:not([controls])",
+          "count": 0
+        },
+        {
+          "selector": "[hidden]",
+          "count": 0
+        },
+        {
+          "selector": "template",
+          "count": 0
+        },
+        {
+          "selector": "dl",
+          "count": 0
+        },
+        {
+          "selector": "dt",
+          "count": 0
+        },
+        {
+          "selector": "dd",
+          "count": 0
+        },
+        {
+          "selector": "ul",
+          "count": 0
+        },
+        {
+          "selector": "ol",
+          "count": 0
+        },
+        {
+          "selector": "li",
+          "count": 0
+        },
+        {
+          "selector": "h5",
+          "count": 0
+        },
+        {
+          "selector": "h6",
+          "count": 0
+        },
+        {
+          "selector": "pre",
+          "count": 0
+        },
+        {
+          "selector": "code",
+          "count": 0
+        },
+        {
+          "selector": "form",
+          "count": 0
+        },
+        {
+          "selector": "fieldset",
+          "count": 0
+        },
+        {
+          "selector": "legend",
+          "count": 0
+        },
+        {
+          "selector": "input",
+          "count": 0
+        },
+        {
+          "selector": "textarea",
+          "count": 0
+        },
+        {
+          "selector": "blockquote",
+          "count": 0
+        },
+        {
+          "selector": "th",
+          "count": 0
+        },
+        {
+          "selector": "td",
+          "count": 0
+        },
+        {
+          "selector": "caption",
+          "count": 0
+        },
+        {
+          "selector": "th",
+          "count": 0
+        },
+        {
+          "selector": "fieldset",
+          "count": 0
+        },
+        {
+          "selector": "address",
+          "count": 0
+        },
+        {
+          "selector": "caption",
+          "count": 0
+        },
+        {
+          "selector": "cite",
+          "count": 0
+        },
+        {
+          "selector": "code",
+          "count": 0
+        },
+        {
+          "selector": "dfn",
+          "count": 0
+        },
+        {
+          "selector": "em",
+          "count": 0
+        },
+        {
+          "selector": "strong",
+          "count": 0
+        },
+        {
+          "selector": "th",
+          "count": 0
+        },
+        {
+          "selector": "var",
+          "count": 0
+        },
+        {
+          "selector": "h5",
+          "count": 0
+        },
+        {
+          "selector": "h6",
+          "count": 0
+        },
+        {
+          "selector": "legend",
+          "count": 0
+        },
+        {
+          "selector": "mark",
+          "count": 0
+        },
+        {
+          "selector": "hr",
+          "count": 0
+        },
+        {
+          "selector": "pre",
+          "count": 0
+        },
+        {
+          "selector": "table",
+          "count": 0
+        },
+        {
+          "selector": "b",
+          "count": 0
+        },
+        {
+          "selector": "strong",
+          "count": 0
+        },
+        {
+          "selector": "small",
+          "count": 0
+        },
+        {
+          "selector": "ol",
+          "count": 0
+        },
+        {
+          "selector": "ul",
+          "count": 0
+        },
+        {
+          "selector": "q:before",
+          "count": 0
+        },
+        {
+          "selector": "q:after",
+          "count": 0
+        },
+        {
+          "selector": "abbr",
+          "count": 0
+        },
+        {
+          "selector": "acronym",
+          "count": 0
+        },
+        {
+          "selector": "sub",
+          "count": 0
+        },
+        {
+          "selector": "sup",
+          "count": 0
+        },
+        {
+          "selector": "sup",
+          "count": 0
+        },
+        {
+          "selector": "sub",
+          "count": 0
+        },
+        {
+          "selector": "optgroup",
+          "count": 0
+        },
+        {
+          "selector": "input",
+          "count": 0
+        },
+        {
+          "selector": "textarea",
+          "count": 0
+        },
+        {
+          "selector": "select",
+          "count": 0
+        },
+        {
+          "selector": "textarea",
+          "count": 0
+        },
+        {
+          "selector": "button",
+          "count": 0
+        },
+        {
+          "selector": "input",
+          "count": 0
+        },
+        {
+          "selector": "button",
+          "count": 0
+        },
+        {
+          "selector": "select",
+          "count": 0
+        },
+        {
+          "selector": "button",
+          "count": 0
+        },
+        {
+          "selector": "html input[type='button']",
+          "count": 0
+        },
+        {
+          "selector": "input[type='reset']",
+          "count": 0
+        },
+        {
+          "selector": "input[type='submit']",
+          "count": 0
+        },
+        {
+          "selector": "button[disabled]",
+          "count": 0
+        },
+        {
+          "selector": "html input[disabled]",
+          "count": 0
+        },
+        {
+          "selector": "input[type='checkbox']",
+          "count": 0
+        },
+        {
+          "selector": "input[type='radio']",
+          "count": 0
+        }
+      ]
+    },
+    {
+      "path": "http://localhost:9999/assets/css/common.css",
+      "digest": {
+        "total": 11,
+        "ok": 11,
+        "ng": 0,
+        "unknown": 0
+      },
+      "detail": [
+        {
+          "selector": "html",
+          "count": 1
+        },
+        {
+          "selector": "body",
+          "count": 1
+        },
+        {
+          "selector": "#content",
+          "count": 1
+        },
+        {
+          "selector": "#wrapper",
+          "count": 1
+        },
+        {
+          "selector": "#wrapper h1",
+          "count": 1
+        },
+        {
+          "selector": "#wrapper h2",
+          "count": 1
+        },
+        {
+          "selector": "#wrapper h3",
+          "count": 1
+        },
+        {
+          "selector": "#wrapper h4",
+          "count": 1
+        },
+        {
+          "selector": "#wrapper a",
+          "count": 1
+        },
+        {
+          "selector": "#wrapper p",
+          "count": 1
+        },
+        {
+          "selector": "#wrapper p img",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "http://localhost:9999/assets/css/main.css",
+      "digest": {
+        "total": 2,
+        "ok": 2,
+        "ng": 0,
+        "unknown": 0
+      },
+      "detail": [
+        {
+          "selector": "h1",
+          "count": 1
+        },
+        {
+          "selector": "a:hover",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "http://localhost:9999/assets/css/import.css",
+      "digest": {
+        "total": 2,
+        "ok": 2,
+        "ng": 0,
+        "unknown": 0
+      },
+      "detail": [
+        {
+          "selector": "img",
+          "count": 1
+        },
+        {
+          "selector": "img",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}
