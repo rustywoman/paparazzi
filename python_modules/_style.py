@@ -224,7 +224,9 @@ if __name__ == '__main__':
     TEST_URL = TEST_ROW_INFO['url']
     TEST_SAVED_IMAGES_DIR = os.path.sep.join(
         [
-            config['cache']['dir'],
+            config['report']['dir'],
+            'assets',
+            'image',
             TEST_NAME
         ]
     )

@@ -1,5 +1,20 @@
 $(function(){
   console.log('++ case ++');
+  // Test
+  $.ajax(
+    {
+      type     : 'GET',
+      url      : '/assets/json/' + window.CONFIG_KEY + '.json',
+      dataType : 'json'
+    }
+  ).then(
+    function(result){
+      console.dir(result);
+    },
+    function(err){
+      console.error(err);
+    }
+  );
   // Init - [ Highlight ]
   $('pre code').each(
     function(idx, block){

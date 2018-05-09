@@ -5,3 +5,6 @@ log
 
 # Exclude File
 *.sublime-workspace
+
+# Dynamic
+report/assets/image
