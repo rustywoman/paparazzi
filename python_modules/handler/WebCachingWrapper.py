@@ -193,10 +193,13 @@ class WebCachingWrapper(object):
                         data = response.read()
                         scrapedImage.write(data)
                         result['status'] = 1
+                        result['path']['local'] = localSavedImageURL.replace(savedDirPath, '')
                         return result
                 except Exception as ioEx:
                     result['status'] = 0
+                    result['path']['local'] = localSavedImageURL.replace(savedDirPath, '')
                     return result
         except Exception as httpEx:
             result['status'] = -1
+            result['path']['local'] = localSavedImageURL.replace(savedDirPath, '')
             return result

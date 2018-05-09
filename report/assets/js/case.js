@@ -1,20 +1,4 @@
 $(function(){
-  console.log('++ case ++');
-  // Test
-  $.ajax(
-    {
-      type     : 'GET',
-      url      : '/assets/json/' + window.CONFIG_KEY + '.json',
-      dataType : 'json'
-    }
-  ).then(
-    function(result){
-      console.dir(result);
-    },
-    function(err){
-      console.error(err);
-    }
-  );
   // Init - [ Highlight ]
   $('pre code').each(
     function(idx, block){
@@ -40,4 +24,18 @@ $(function(){
       )
     }
   );
+  // Init - Async Load
+  $('.j_async_image_load').each(
+    function(idx, imgWrapper){
+      var tmpImg = $(document.createElement('img'));
+      $(imgWrapper).append(tmpImg);
+      tmpImg.on(
+        'load',
+        function(){
+          tmpImg.addClass('___loaded');
+        }
+      );
+      tmpImg.attr('src', $(imgWrapper).attr('data-async-src'));
+    }
+  )
 });

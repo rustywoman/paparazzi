@@ -48,18 +48,21 @@ Case
 }
 
 .m_section__ref_css_list,
-.m_section__ref_js_list{
+.m_section__ref_js_list,
+.m_section__ref_image_list{
   width: 90%;
   margin: 0 auto;
 }
 .m_section__ref_css_list__item,
-.m_section__ref_js_list__item{
+.m_section__ref_js_list__item,
+.m_section__ref_image_list__item{
   width: 100%;
   position: relative;
   overflow: hidden;
   margin: 0 0 20px 0;
 }
-.m_section__ref_css_list__item:last-child{
+.m_section__ref_css_list__item:last-child,
+.m_section__ref_image_list__item:last-child{
   margin: 0;
 }
 .m_section__ref_css__file_name,
@@ -80,15 +83,18 @@ Case
   margin: 20px 0 0 0;
 }
 .m_content__css_table__row,
-.m_content__css_digest_table__row{
+.m_content__css_digest_table__row,
+.m_content__image_digest_table__row{
   display: table-row;
 }
 .m_content__css_table__row:last-child .m_content__css_table__cell,
-.m_content__css_digest_table__row:last-child .m_content__css_digest_table__cell{
+.m_content__css_digest_table__row:last-child .m_content__css_digest_table__cell,
+.m_content__image_digest_table__row:last-child .m_content__image_digest_table__cell{
   border-bottom: none !important;
 }
 .m_content__css_table__cell,
-.m_content__css_digest_table__cell{
+.m_content__css_digest_table__cell,
+.m_content__image_digest_table__cell{
   display: table-cell;
   vertical-align: middle;
   width: 50%;
@@ -99,16 +105,19 @@ Case
 }
 @media screen and (max-width: 900px){
   .m_content__css_table__cell,
-  .m_content__css_digest_table__cell{
+  .m_content__css_digest_table__cell,
+  .m_content__image_digest_table__cell{
     padding: 10px 20px;
   }
 }
 .m_content__css_table__row:nth-child(2n-1) .m_content__css_table__cell,
-.m_content__css_digest_table__row:nth-child(2n-1) .m_content__css_digest_table__cell{
+.m_content__css_digest_table__row:nth-child(2n-1) .m_content__css_digest_table__cell,
+.m_content__image_digest_table__row:nth-child(2n-1) .m_content__image_digest_table__cell{
   background-color: rgba(68, 68, 68, .2);
 }
 .m_content__css_table__cell.___head,
-.m_content__css_digest_table__cell.___head{
+.m_content__css_digest_table__cell.___head,
+.m_content__image_digest_table__cell.___head{
   padding: 10px 30px;
   background-color: #444 !important;
   color: #fff;
@@ -117,30 +126,56 @@ Case
 }
 @media screen and (max-width: 900px){
   .m_content__css_table__cell.___head,
-  .m_content__css_digest_table__cell.___head{
+  .m_content__css_digest_table__cell.___head,
+  .m_content__image_digest_table__cell.___head{
     padding: 10px 30px;
   }
 }
 .m_content__css_table__cell:first-child,
-.m_content__css_digest_table__cell:first-child{
+.m_content__css_digest_table__cell:first-child,
+.m_content__image_digest_table__cell:first-child{
   border-right: 1px solid #fff;
   box-sizing: content-box;
 }
 
-.m_section__css_digest_table{
+.m_section__css_digest_table,
+.m_section__image_digest_table{
   display: table;
   width: 50%;
 }
-.m_section__css_digest_table.___maximum{
+.m_section__css_digest_table.___maximum,
+.m_section__image_digest_table.___maximum{
   width: 100%;
 }
-.m_content__css_digest_table__cell{
+.m_content__css_digest_table__cell,
+.m_content__image_digest_table__cell{
   display: table-cell;
   vertical-align: middle;
   width: 25%;
   border-right: 1px solid #fff;
   box-sizing: content-box;
 }
-.m_content__css_digest_table__row:last-child .m_content__css_digest_table__cell:last-child{
+.m_content__css_digest_table__row:last-child .m_content__css_digest_table__cell:last-child,
+.m_content__image_digest_table__row:last-child .m_content__image_digest_table__cell:last-child{
   border-right: none !important;
+}
+.m_content__image_digest_table__cell:nth-child(1){
+  width: 60%;
+}
+.m_content__image_digest_table__cell:nth-child(2){
+  width: 10%;
+  text-align: center;
+}
+.m_content__image_digest_table__cell:nth-child(3){
+  width: 30%;
+}
+.m_content__image_digest_table__cell:nth-child(3) img{
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity .25s ease-in-out .25s;
+}
+.m_content__image_digest_table__cell:nth-child(3) img.___loaded{
+  opacity: 1;
 }

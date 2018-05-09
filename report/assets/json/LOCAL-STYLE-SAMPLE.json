@@ -560,5 +560,21 @@
         ]
       }
     ]
-  }
+  },
+  "image": [
+    {
+      "status": 1,
+      "path": {
+        "raw": "http://localhost:9999/assets/image/1.png",
+        "local": "1228102875134f7da9bede2e33b2bfbd_1.png"
+      }
+    },
+    {
+      "status": 1,
+      "path": {
+        "raw": "http://localhost:9999/assets/image/2.png",
+        "local": "6033917938f740d4a040128d1638f911_2.png"
+      }
+    }
+  ]
 }

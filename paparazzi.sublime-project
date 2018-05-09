@@ -11,6 +11,7 @@
         "__pycache__",
         "___screenshot",
         "___cache",
+        "___tmp",
         "driver",
         "log",
         "test",

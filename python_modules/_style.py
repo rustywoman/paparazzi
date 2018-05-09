@@ -13,6 +13,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Import
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import codecs
 import constant
 import config
 import json
@@ -61,13 +62,27 @@ def multiImageDownloader(testName, testURL, savedDir, imagesGroup, downloadPipeI
         cacheName=testName,
         url=testURL
     )
-    with tqdm(
-        total=len(imagesGroup),
-        desc='Image Downloading Pipeline [ {0} ] '.format(downloadPipeIdx)
-    ) as pbar:
-        for tagImage in imagesGroup:
-            tmpResult = testCache.downloadImage(savedDir, testURL, tagImage)
-            pbar.update(1)
+    tmpDataDir = os.path.sep.join(
+        [
+            config['report']['tmp-dir']
+        ]
+    ) + os.path.sep
+    imageInfo = []
+    if len(imagesGroup) is not 0:
+        reportConfigStreamForImage = open(
+            tmpDataDir + testName + '_' + str(downloadPipeIdx) + constant.TEST_CASE_EXT,
+            'w'
+        )
+        with tqdm(
+            total=len(imagesGroup),
+            desc='Image Downloading Pipeline [ {0} ] '.format(downloadPipeIdx)
+        ) as pbar:
+            for tagImage in imagesGroup:
+                tmpResult = testCache.downloadImage(savedDir, testURL, tagImage)
+                imageInfo.append(tmpResult)
+                pbar.update(1)
+        json.dump(imageInfo, reportConfigStreamForImage, indent=2)
+        reportConfigStreamForImage.close()
 
 
 def diveImageInCss(rawCss):
@@ -259,6 +274,14 @@ if __name__ == '__main__':
     if not os.path.exists(TEST_SAVED_IMAGES_DIR):
         os.makedirs(TEST_SAVED_IMAGES_DIR)
     TEST_SAVED_IMAGES_DIR = TEST_SAVED_IMAGES_DIR + os.path.sep
+    TEST_TMP_REPORTS_DIR = os.path.sep.join(
+        [
+            '___tmp'
+        ]
+    )
+    if not os.path.exists(TEST_TMP_REPORTS_DIR):
+        os.makedirs(TEST_TMP_REPORTS_DIR)
+    TEST_TMP_REPORTS_DIR = TEST_TMP_REPORTS_DIR + os.path.sep
     START_TIME = tools.startAutoTest(TEST_NAME)
     logger = log.LoggingWrapper(
         loggerName=constant.DEFAULT_LOGGER_NAME,
@@ -271,28 +294,6 @@ if __name__ == '__main__':
     )
     # Html情報をpickleから取得
     tmpHtml = testCache.getHtml()
-    # Htmlのタイトル情報
-    print('Title :')
-    print('    ' + testCache.getHtmlTitle())
-    print(constant.EMPTY)
-    # HtmlのインラインMeta情報
-    print('Metas :')
-    tmpMetas = testCache.getInlineMeta()
-    for meta in tmpMetas:
-        print('    {0}'.format(meta))
-    print(constant.EMPTY)
-    # Htmlの外部Script情報
-    print('Outer Scripts :')
-    tmpOuterScripts = testCache.getOuterScript()
-    for script in tmpOuterScripts:
-        print('    {0}'.format(script))
-    print(constant.EMPTY)
-    # HtmlのインラインScript情報
-    print('Inline Scripts :')
-    tmpInlineScripts = testCache.getInlineScript(constant.BR)
-    for script in tmpInlineScripts:
-        print(script)
-    print(constant.EMPTY)
     # Style解析機
     cssParser = tinycss.make_parser()
     cssParseResult = []
@@ -392,10 +393,6 @@ if __name__ == '__main__':
             DONWLOAD_PIPE_IDX = DONWLOAD_PIPE_IDX + 1
         POOL.close()
         POOL.join()
-    tools.endAutoTest(
-        testName=TEST_NAME,
-        startTime=START_TIME
-    )
     # Reportの素JSONを生成
     TEST_SAVED_REPORTS_DIR = os.path.sep.join(
         [
@@ -447,5 +444,206 @@ if __name__ == '__main__':
         }
     }
     reportConfig['css']['info'] = cssParseResult
-    reportConfigStream = open(TEST_SAVED_REPORTS_DIR + TEST_NAME + '.json','w')
+    # Image
+    tmpReportConfigForImage = []
+    tmpImageInfoFiles = os.listdir(TEST_TMP_REPORTS_DIR)
+    for imageInfoFile in tmpImageInfoFiles:
+        if imageInfoFile.find(TEST_NAME) is not -1:
+            tmpStream = open(TEST_TMP_REPORTS_DIR + imageInfoFile, 'r')
+            imageInfo = json.load(tmpStream)
+            tmpStream.close()
+            tmpReportConfigForImage.append(imageInfo)
+    reportConfig['image'] = testCache.changeMultiToOneArray(tmpReportConfigForImage)
+    reportConfigStream = open(
+        TEST_SAVED_REPORTS_DIR + TEST_NAME + constant.TEST_CASE_EXT,
+        'w'
+    )
     json.dump(reportConfig, reportConfigStream, indent=2)
+    reportConfigStream.close()
+    REPORTS_HTML_DIR = os.path.sep.join(
+        [
+            config['report']['dir'],
+            'case'
+        ]
+    ) + os.path.sep
+    tmpStream = open(
+        REPORTS_HTML_DIR + 'template.html',
+        'r'
+    )
+    reportStream = codecs.open(
+        REPORTS_HTML_DIR + constant.CASE_TEST_PREFIX + TEST_NAME + '.html',
+        'w',
+        'utf-8'
+    )
+    refScriptInfoDOM = ''
+    for refJsInfo in reportConfig['script']['ref']:
+        refScriptInfoDOM = refScriptInfoDOM + constant.BR.join(
+            [
+                '<li class="m_section__ref_js_list__item">',
+                    '<h4 class="m_section__ref_js__file_name">{0}</h4>'.format(refJsInfo),
+                    '<p class="m_section__css_digest_detail_trigger_wrapper">',
+                        '<a class="marker" href="{0}" target="_blank">More</a>'.format(refJsInfo),
+                    '</p>',
+                '</li>'
+            ]
+        )
+    cssGeneralInfoDOM = constant.BR.join(
+        [
+            '<div class="m_content__css_digest_table__row">',
+                '<div class="m_content__css_digest_table__cell">{0}</div>'.format(
+                    reportConfig['css']['general']['total']
+                ),
+                '<div class="m_content__css_digest_table__cell">{0} ( {1} % )</div>'.format(
+                    reportConfig['css']['general']['ok']['count'],
+                    reportConfig['css']['general']['ok']['rate']
+                ),
+                '<div class="m_content__css_digest_table__cell">{0} ( {1} % )</div>'.format(
+                    reportConfig['css']['general']['ng']['count'],
+                    reportConfig['css']['general']['ng']['rate']
+                ),
+                '<div class="m_content__css_digest_table__cell">{0} ( {1} % )</div>'.format(
+                    reportConfig['css']['general']['unknown']['count'],
+                    reportConfig['css']['general']['unknown']['rate']
+                ),
+            '</div>'
+        ]
+    )
+    inlineCssInfoDOM = ''
+    refCssInfoDOM = ''
+    for cssInfo in cssParseResult:
+        if cssInfo['path'] == 'inline':
+            cssSelectorInfoDOM = ''
+            for cssSelectorInfo in cssInfo['detail']:
+                cssSelectorInfoDOM = cssSelectorInfoDOM + constant.BR.join(
+                    [
+                        '<div class="m_content__css_table__row">',
+                            '<div class="m_content__css_table__cell">{0}</div>'.format(cssSelectorInfo['selector']),
+                            '<div class="m_content__css_table__cell">{0}</div>'.format(cssSelectorInfo['count']),
+                        '</div>'
+                    ]
+                )
+            inlineCssInfoDOM = inlineCssInfoDOM + constant.BR.join(
+                [
+                    '<li class="m_section__ref_css_list__item">',
+                        '<p class="m_section__css_digest_detail_trigger_wrapper">',
+                            '<a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_css">More</a>',
+                        '</p>',
+                        '<div class="j_toggle" data-target-url="inline_css">',
+                            '<div class="m_section__css_digest_table">',
+                                '<div class="m_content__css_digest_table__row">',
+                                    '<div class="m_content__css_digest_table__cell ___head">Total</div>',
+                                    '<div class="m_content__css_digest_table__cell ___head">OK</div>',
+                                    '<div class="m_content__css_digest_table__cell ___head">NG</div>',
+                                    '<div class="m_content__css_digest_table__cell ___head">Unknown</div>',
+                                '</div>',
+                                '<div class="m_content__css_digest_table__row">',
+                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['total']),
+                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['ok']),
+                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['ng']),
+                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['unknown']),
+                                '</div>',
+                            '</div>'
+                            '<div class="m_content__css_table">',
+                                '<div class="m_content__css_table__row">',
+                                    '<div class="m_content__css_table__cell ___head">Selector Definition</div>',
+                                    '<div class="m_content__css_table__cell ___head">Matched DOM Count</div>',
+                                '</div>',
+                                cssSelectorInfoDOM,
+                            '</div>',
+                        '</div>',
+                    '</li>'
+                ]
+            )
+        else:
+            cssSelectorInfoDOM = ''
+            for cssSelectorInfo in cssInfo['detail']:
+                cssSelectorInfoDOM = cssSelectorInfoDOM + constant.BR.join(
+                    [
+                        '<div class="m_content__css_table__row">',
+                            '<div class="m_content__css_table__cell">{0}</div>'.format(cssSelectorInfo['selector']),
+                            '<div class="m_content__css_table__cell">{0}</div>'.format(cssSelectorInfo['count']),
+                        '</div>'
+                    ]
+                )
+            refCssInfoDOM = refCssInfoDOM + constant.BR.join(
+                [
+                    '<li class="m_section__ref_css_list__item">',
+                        '<h4 class="m_section__ref_css__file_name">{0}</h4>'.format(cssInfo['path']),
+                        '<p class="m_section__css_digest_detail_trigger_wrapper">',
+                            '<a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="{0}">More</a>'.format(
+                                cssInfo['path']
+                            ),
+                        '</p>',
+                        '<div class="j_toggle" data-target-url="{0}">'.format(
+                            cssInfo['path']
+                        ),
+                            '<div class="m_section__css_digest_table">',
+                                '<div class="m_content__css_digest_table__row">',
+                                    '<div class="m_content__css_digest_table__cell ___head">Total</div>',
+                                    '<div class="m_content__css_digest_table__cell ___head">OK</div>',
+                                    '<div class="m_content__css_digest_table__cell ___head">NG</div>',
+                                    '<div class="m_content__css_digest_table__cell ___head">Unknown</div>',
+                                '</div>',
+                                '<div class="m_content__css_digest_table__row">',
+                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['total']),
+                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['ok']),
+                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['ng']),
+                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['unknown']),
+                                '</div>',
+                            '</div>'
+                            '<div class="m_content__css_table">',
+                                '<div class="m_content__css_table__row">',
+                                    '<div class="m_content__css_table__cell ___head">Selector Definition</div>',
+                                    '<div class="m_content__css_table__cell ___head">Matched DOM Count</div>',
+                                '</div>',
+                                cssSelectorInfoDOM,
+                            '</div>',
+                        '</div>',
+                    '</li>'
+                ]
+            )
+    imageInfoDOM = ''
+    for imageInfo in reportConfig['image']:
+        if imageInfo['status'] == 1:
+            imageDownLoadStatus = 'o'
+        elif imageInfo['status'] == 0:
+            imageDownLoadStatus = 'x'
+        else:
+            imageDownLoadStatus = '-'
+        imageInfoDOM = imageInfoDOM + constant.BR.join(
+            [
+                '<div class="m_content__image_digest_table__row">',
+                    '<div class="m_content__image_digest_table__cell">{0}</div>'.format(
+                        imageInfo['path']['raw']
+                    ),
+                    '<div class="m_content__image_digest_table__cell">{0}</div>'.format(imageDownLoadStatus),
+                    '<div class="m_content__image_digest_table__cell j_async_image_load" data-async-src="/{0}/{1}/{2}/{3}">'.format(
+                        'assets',
+                        'image',
+                        TEST_NAME,
+                        imageInfo['path']['local']
+                    ),
+                    '</div>',
+                '</div>'
+            ]
+        )
+    for line in tmpStream:
+        reportStream.write(
+            line
+                .replace('###TEST_NAME', TEST_NAME)
+                .replace('###URL', TEST_URL)
+                .replace('###TITLE', reportConfig['title'])
+                .replace('###META', reportConfig['meta'])
+                .replace('###GENERAL_CSS_INFO', cssGeneralInfoDOM)
+                .replace('###INLINE_CSS', inlineCssInfoDOM)
+                .replace('###REF_CSS', refCssInfoDOM)
+                .replace('###INLINE_JS', reportConfig['script']['inline'])
+                .replace('###REF_JS', refScriptInfoDOM)
+                .replace('###IMAGE', imageInfoDOM)
+            )
+    tmpStream.close()
+    reportStream.close()
+    tools.endAutoTest(
+        testName=TEST_NAME,
+        startTime=START_TIME
+    )
