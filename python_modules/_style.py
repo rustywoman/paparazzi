@@ -430,6 +430,22 @@ if __name__ == '__main__':
             testCache.changeAbsPathToRelPath(TEST_URL, script.get('src'))
         )
     # Css [ inline + ref ]
-    reportConfig['css'] = cssParseResult
+    reportConfig['css'] = {}
+    reportConfig['css']['general'] = {
+        'total' : TOTAL_RULE_NUM,
+        'ok' : {
+            'count' : TOTAL_VALID_RULE_NUM,
+            'rate' : round(((TOTAL_VALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+        },
+        'ng' : {
+            'count' : TOTAL_INVALID_RULE_NUM,
+            'rate' : round(((TOTAL_INVALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+        },
+        'unknown' : {
+            'count' : TOTAL_UNKNOWN_RULE_NUM,
+            'rate' : round(((TOTAL_UNKNOWN_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+        }
+    }
+    reportConfig['css']['info'] = cssParseResult
     reportConfigStream = open(TEST_SAVED_REPORTS_DIR + TEST_NAME + '.json','w')
     json.dump(reportConfig, reportConfigStream, indent=2)
