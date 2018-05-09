@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import constant
 import config
+import json
 import multiprocessing as multi
 import numpy as np
 import re
@@ -65,7 +66,7 @@ def multiImageDownloader(testName, testURL, savedDir, imagesGroup, downloadPipeI
         desc='Image Downloading Pipeline [ {0} ] '.format(downloadPipeIdx)
     ) as pbar:
         for tagImage in imagesGroup:
-            testCache.downloadImage(savedDir, testURL, tagImage)
+            tmpResult = testCache.downloadImage(savedDir, testURL, tagImage)
             pbar.update(1)
 
 
@@ -114,7 +115,7 @@ def diveCssFile(cssParser, tmpCssName, cssSelectors):
     return cssSelectors
 
 
-def validateCssSelector(logger, cssSelectors, dispFileName):
+def validateCssSelector(logger, cssSelectors, dispFileName, reportResult):
     u'''Validate Selector
      @param logger       - Logger
      @param cssSelectors - Selectors in Css
@@ -168,14 +169,26 @@ def validateCssSelector(logger, cssSelectors, dispFileName):
     tmpInvalidSelectorRate = (tmpInvalidSelectorNum / totalSelectorsNum) * 100
     tmpUnknownSelectorNum = len(unknownSelector)
     tmpUnknownSelectorRate = (tmpUnknownSelectorNum / totalSelectorsNum) * 100
+    reportResult['digest'] = {}
+    reportResult['digest']['total'] = totalSelectorsNum
+    reportResult['digest']['ok'] = tmpValidSelectorNum
+    reportResult['digest']['ng'] = tmpInvalidSelectorNum
+    reportResult['digest']['unknown'] = tmpUnknownSelectorNum
     logger.log(constant.EMPTY)
     logger.log('  {0} - {1} rules'.format(dispFileName, totalSelectorsNum))
     logger.log('    o       : {0} ( {1} % )'.format(
         tmpValidSelectorNum,
         tmpValidSelectorRate
     ))
+    reportResult['detail'] = []
     for info in validSelector:
         logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
+        reportResult['detail'].append(
+            {
+                'selector' : info['selector'],
+                'count'    : info['count']
+            }
+        )
     logger.log(constant.EMPTY)
     logger.log('    x       : {0} ( {1} % )'.format(
         tmpInvalidSelectorNum,
@@ -183,6 +196,12 @@ def validateCssSelector(logger, cssSelectors, dispFileName):
     ))
     for info in invalidSelector:
         logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
+        reportResult['detail'].append(
+            {
+                'selector' : info['selector'],
+                'count'    : info['count']
+            }
+        )
     logger.log(constant.EMPTY)
     logger.log('    unknown : {0} ( {1} % )'.format(
         tmpUnknownSelectorNum,
@@ -190,8 +209,15 @@ def validateCssSelector(logger, cssSelectors, dispFileName):
     ))
     for info in unknownSelector:
         logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
+        reportResult['detail'].append(
+            {
+                'selector' : info['selector'],
+                'count'    : info['count']
+            }
+        )
     logger.log(constant.EMPTY)
     logger.log(constant.EMPTY)
+    return reportResult
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -269,6 +295,7 @@ if __name__ == '__main__':
     print(constant.EMPTY)
     # Style解析機
     cssParser = tinycss.make_parser()
+    cssParseResult = []
     # インラインスタイル化しているCssをpickleのキャッシュから取得
     inlineSelectors = []
     tmpStyles = testCache.getInlineStyle()
@@ -293,11 +320,15 @@ if __name__ == '__main__':
                     print(e)
     inlineSelectors = testCache.changeMultiToOneArray(inlineSelectors)
     if len(inlineSelectors) is not 0:
-        validateCssSelector(
+        validateResult = validateCssSelector(
             logger,
             inlineSelectors,
-            'inline'
+            'inline',
+            {
+                'path' : 'inline'
+            }
         )
+        cssParseResult.append(validateResult)
     # 外部ファイル化しているCssをpickleのキャッシュから取得
     for link in testCache.getOuterCss():
         tmpCssName = testCache.changeAbsPathToRelPath(TEST_URL, link['href'])
@@ -309,11 +340,15 @@ if __name__ == '__main__':
             cssSelectors
         )
         if len(cssSelectors) is not 0:
-            validateCssSelector(
+            validateResult = validateCssSelector(
                 logger,
                 testCache.changeMultiToOneArray(cssSelectors),
-                testCache.getDispFileName(tmpCssName)
+                testCache.getDispFileName(tmpCssName),
+                {
+                    'path' : tmpCssName
+                }
             )
+            cssParseResult.append(validateResult)
     logger.log('Total Rules : {0} rules'.format(TOTAL_RULE_NUM))
     logger.log('  o       : {0} ( {1} % )'.format(
         TOTAL_VALID_RULE_NUM,
@@ -361,3 +396,26 @@ if __name__ == '__main__':
         testName=TEST_NAME,
         startTime=START_TIME
     )
+    # Report Configuration
+    reportConfig = {}
+    # Title
+    reportConfig['title'] = testCache.getHtmlTitle()
+    # URL
+    reportConfig['url'] = TEST_URL
+    # Meta
+    reportConfig['meta'] = []
+    for meta in testCache.getInlineMeta():
+        reportConfig['meta'].append(str(meta).replace('<', '&lt;').replace('>', '&gt;'))
+    reportConfig['meta'] = constant.BR.join(reportConfig['meta'])
+    # JavaScript
+    reportConfig['script'] = {}
+    # JavaScript [ inline ]
+    reportConfig['script']['inline'] = constant.BR.join(testCache.getInlineScript(constant.BR))
+    # JavaScript [ ref ]
+    reportConfig['script']['ref'] = []
+    for script in testCache.getOuterScript():
+        reportConfig['script']['ref'].append(testCache.changeAbsPathToRelPath(TEST_URL, script.get('src')))
+    # Css [ inline + ref ]
+    reportConfig['css'] = cssParseResult
+    reportConfigStream = open('___hoge.json','w')
+    json.dump(reportConfig, reportConfigStream, indent=2)

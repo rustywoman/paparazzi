@@ -138,7 +138,7 @@ class WebCachingWrapper(object):
             for splitRawScript in rawScript:
                 # ToDo - Comment '/* hogehoge */'
                 if splitRawScript is not '' and re.match('^//', splitRawScript) is None:
-                    formatScript.append('    ' + splitRawScript)
+                    formatScript.append(splitRawScript)
             resultList.append(spliterStr.join(formatScript))
         return resultList
 
@@ -179,14 +179,24 @@ class WebCachingWrapper(object):
             re.sub('url\(\'|url\(\"|url\(|\'\)|\"\)|\)', '', assetURL)
         )
         localSavedImageURL = savedDirPath + str(uuid.uuid4().hex) + '_' + self.getDispFileName(refinedImageURL)
+        result = {
+            'status' : 0,
+            'path' : {
+                'raw' : refinedImageURL,
+                'local' : localSavedImageURL
+            }
+        }
         try:
             with urllib.request.urlopen(refinedImageURL) as response:
                 try:
                     with open(localSavedImageURL, 'wb') as scrapedImage:
                         data = response.read()
                         scrapedImage.write(data)
-                        return True
+                        result['status'] = 1
+                        return result
                 except Exception as ioEx:
-                    return False
+                    result['status'] = 0
+                    return result
         except Exception as httpEx:
-            return False
+            result['status'] = -1
+            return result
