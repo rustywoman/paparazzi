@@ -68,7 +68,7 @@ $(function(){
     $.when.apply($, DEFS).done(
       function(){
         ASYNC_LOOP_START_INDEX = ASYNC_LOOP_START_INDEX + ASYNC_LOOP_RATE;
-        ASYNC_LOOP_STOP_INDEX = ASYNC_LOOP_START_INDEX + ASYNC_LOOP_RATE
+        ASYNC_LOOP_STOP_INDEX = ASYNC_LOOP_START_INDEX + ASYNC_LOOP_RATE;
         if(ASYNC_LOOP_START_INDEX >= asyncImagesNum){
           console.log('All Images Downloaded');
         }else{
