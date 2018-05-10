@@ -89,6 +89,9 @@ def getMainScriptFileName(fileName):
     return os.path.basename(fileName).replace(constant.PYTHON_EXT, constant.EMPTY)
 
 
+def getTimeFromEpoc(epocTime):
+    return dt(*time.localtime(epocTime)[:6]).strftime(constant.REPORT_TIMESTAMP_FORMAT)
+
 def selectDeviceType():
     u'''Select Device Type
      @return Selected Device Type
@@ -193,7 +196,7 @@ def startAutoTest(testName):
     '''
     utcNow = dt.now(timezone('UTC'))
     print(constant.BR + '====== ' + testName + ' [ START ] ======' + constant.BR)
-    print('Date : {0}'.format(utcNow.astimezone(timezone('Asia/Tokyo')).strftime('%Y.%m.%d %H:%M:%S')))
+    print('Date : {0}'.format(utcNow.astimezone(timezone('Asia/Tokyo')).strftime(constant.REPORT_TIMESTAMP_FORMAT)))
     print(constant.BR)
     return time.time()
 

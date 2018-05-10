@@ -68,6 +68,9 @@ constant.LOG_EXT = '.log'
 u'''[CONST] Log File Timestamp'''
 constant.LOG_TIMESTAMP_FORMAT = '%Y%m%d_%H%M%S'
 
+u'''[CONST] Report File Timestamp'''
+constant.REPORT_TIMESTAMP_FORMAT = '%Y/%m/%d %H:%M:%S'
+
 u'''[CONST] Python File Extension'''
 constant.PYTHON_EXT = '.py'
 

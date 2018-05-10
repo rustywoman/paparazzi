@@ -20,6 +20,7 @@ import json
 import multiprocessing as multi
 import numpy as np
 import re
+import time
 import tools
 import tinycss
 import urllib.request
@@ -27,6 +28,7 @@ from datetime import datetime
 from handler import WebCachingWrapper as paparazzi
 from handler import LoggingWrapper as log
 from multiprocessing import Pool
+# from pytz import timezone
 from tqdm import tqdm
 
 
@@ -276,7 +278,7 @@ if __name__ == '__main__':
     TEST_SAVED_IMAGES_DIR = TEST_SAVED_IMAGES_DIR + os.path.sep
     TEST_TMP_REPORTS_DIR = os.path.sep.join(
         [
-            '___tmp'
+            config['report']['tmp-dir']
         ]
     )
     if not os.path.exists(TEST_TMP_REPORTS_DIR):
@@ -643,6 +645,28 @@ if __name__ == '__main__':
             )
     tmpStream.close()
     reportStream.close()
+    # 目次ページの設定JSONを更新
+    indexLinkList = []
+    tmpReportInfoFiles = os.listdir(TEST_SAVED_REPORTS_DIR)
+    for researchResult in tmpReportInfoFiles:
+        indexLinkList.append(
+            {
+                'name' : researchResult.replace(constant.TEST_CASE_EXT, constant.EMPTY),
+                'path' : '/case/___' + researchResult.replace(constant.TEST_CASE_EXT, '.html'),
+                'date' : tools.getTimeFromEpoc(os.path.getctime(TEST_SAVED_REPORTS_DIR + researchResult))
+            }
+        )
+    indexLinkStream = open(
+        os.path.sep.join(
+            [
+                config['report']['dir'],
+                'index' + constant.TEST_CASE_EXT
+            ]
+        ),
+        'w'
+    )
+    json.dump(indexLinkList, indexLinkStream, indent=2)
+    indexLinkStream.close()
     tools.endAutoTest(
         testName=TEST_NAME,
         startTime=START_TIME
