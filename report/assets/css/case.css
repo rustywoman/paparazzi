@@ -5,6 +5,9 @@
 Case
 =================================
 */
+#loading__bg{
+  height: calc(100vh - 60px);
+}
 .m_content__report_section{
   width: 80%;
   margin: 0 auto 60px;
@@ -26,7 +29,6 @@ Case
     padding: 0 0 30px;
   }
 }
-
 .m_section__title{
   display: inline-block;
   font-size: 16px;
@@ -46,7 +48,6 @@ Case
 .m_content__report_inner_wrapper:last-child{
   margin: 0;
 }
-
 .m_section__ref_css_list,
 .m_section__ref_js_list,
 .m_section__ref_image_list{
@@ -69,7 +70,6 @@ Case
 .m_section__ref_js__file_name{
   font-size: 16px;
 }
-
 .m_section__css_digest_detail_trigger_wrapper{
   text-align: right;
 }

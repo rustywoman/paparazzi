@@ -153,7 +153,7 @@ def validateCssSelector(logger, cssSelectors, dispFileName, reportResult):
             tmpElmNum = 0
             tmpSelector = selector.strip()
             try:
-                # Check : 議事要素はSelectorから除外 ( EX_SELECTORS_REG_EXP )
+                # Check : 擬似要素はSelectorから除外 ( EX_SELECTORS_REG_EXP )
                 tmpElmNum = len(tmpHtml.select(re.sub(EX_SELECTORS_REG_EXP, '', tmpSelector)))
                 if tmpElmNum == 0:
                     invalidSelector.append(

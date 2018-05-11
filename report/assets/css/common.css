@@ -173,11 +173,11 @@ Common - Component - Loading
   left: 50%;
   color: #fff;
   transform: translateX(-50%) translateY(-50%);
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 10px;
 }
 #loading__status{
-  font-size: 14px;
+  font-size: 18px;
 }
 #loading__title:before,
 #loading__status:before,

@@ -1,131 +1,131 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>###TEST_NAME</title>
-  <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEUAAAAAFx8t7DCsAAAAAXRSTlMAQObYZgAAACdJREFUSMdj+A8EDEjkqMCoADI5ClDAoImXUYHBKTAKRvPLqADRAgAGUnu9KI2EPgAAAABJRU5ErkJggg==" />
-  <link href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/reset.css">
-  <link rel="stylesheet" href="/assets/css/common.css">
-  <link rel="stylesheet" href="/assets/css/case.css">
-  <link rel="stylesheet" href="/assets/css/highlight.css">
-</head>
-<body>
-  <header id="header">
-    <div class="wrapper">
-      <h1 id="l_header__title">
-        <a href="/">Paparazzi Report</a>
-      </h1>
-    </div>
-  </header>
-  <div id="content">
-    <div class="wrapper">
-      <!-- URL Information Section -->
-      <section class="m_content__report_section">
-        <h2 class="m_section__title">URL : ###URL</h2>
-      </section>
-      <!-- Title Information Section -->
-      <section class="m_content__report_section">
-        <h2 class="m_section__title">Title : ###TITLE</h2>
-      </section>
-      <!-- Meta Information Section -->
-      <section class="m_content__report_section">
-        <h2 class="m_section__title marker">Meta</h2>
-        <div class="m_content__report_wrapper">
-<pre><code class="html">###META</code></pre>
+  <head>
+    <meta charset="UTF-8">
+    <title>###TEST_NAME</title>
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEUAAAAAFx8t7DCsAAAAAXRSTlMAQObYZgAAACdJREFUSMdj+A8EDEjkqMCoADI5ClDAoImXUYHBKTAKRvPLqADRAgAGUnu9KI2EPgAAAABJRU5ErkJggg==" />
+    <link href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <link rel="stylesheet" href="/assets/css/case.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+  </head>
+  <body>
+    <header id="header">
+      <div class="wrapper">
+        <h1 id="l_header__title">
+          <a href="/">Paparazzi Report</a>
+        </h1>
+      </div>
+    </header>
+    <div id="content">
+      <div id="loading__bg">
+        <div id="loading__bg_inner_wrapper">
+          <div id="loading__progress">
+            <p id="loading__title" class="glitch" data-text="Loading ...">Loading ...
+              <span id="loading__status" class="glitch" data-text="0%">0%</span>
+            </p>
+          </div>
         </div>
-      </section>
-      <!-- Css Information Section -->
-      <section class="m_content__report_section">
-        <h2 class="m_section__title marker">Css</h2>
-        <div class="m_content__report_wrapper">
-          <div class="m_content__report_inner_wrapper">
-            <ul class="m_section__ref_css_list">
-              <li class="m_section__ref_css_list__item">
-                <div class="m_section__css_digest_table ___maximum">
-                  <div class="m_content__css_digest_table__row">
-                    <div class="m_content__css_digest_table__cell ___head">Total</div>
-                    <div class="m_content__css_digest_table__cell ___head">OK</div>
-                    <div class="m_content__css_digest_table__cell ___head">NG</div>
-                    <div class="m_content__css_digest_table__cell ___head">Unknown</div>
+      </div>
+      <div class="wrapper">
+        <section class="m_content__report_section">
+          <h2 class="m_section__title">URL : ###URL</h2>
+        </section>
+        <section class="m_content__report_section">
+          <h2 class="m_section__title">Title : ###TITLE</h2>
+        </section>
+        <section class="m_content__report_section">
+          <h2 class="m_section__title marker">Meta</h2>
+          <div class="m_content__report_wrapper"><pre><code class="html">###META</code></pre></div>
+        </section>
+        <section class="m_content__report_section">
+          <h2 class="m_section__title marker">Css</h2>
+          <div class="m_content__report_wrapper">
+            <div class="m_content__report_inner_wrapper">
+              <ul class="m_section__ref_css_list">
+                <li class="m_section__ref_css_list__item">
+                  <div class="m_section__css_digest_table ___maximum">
+                    <div class="m_content__css_digest_table__row">
+                      <div class="m_content__css_digest_table__cell ___head">Total</div>
+                      <div class="m_content__css_digest_table__cell ___head">OK</div>
+                      <div class="m_content__css_digest_table__cell ___head">NG</div>
+                      <div class="m_content__css_digest_table__cell ___head">Unknown</div>
+                    </div>
+                    ###GENERAL_CSS_INFO
                   </div>
-                  ###GENERAL_CSS_INFO
-                </div>
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="m_content__report_inner_wrapper">
+              <h3 class="m_section__sub_title">In-line</h3>
+              <ul class="m_section__ref_css_list">###INLINE_CSS</ul>
+            </div>
+            <div class="m_content__report_inner_wrapper">
+              <h3 class="m_section__sub_title">Ref</h3>
+              <ul class="m_section__ref_css_list">###REF_CSS</ul>
+            </div>
           </div>
-          <div class="m_content__report_inner_wrapper">
-            <h3 class="m_section__sub_title">In-line</h3>
-            <ul class="m_section__ref_css_list">###INLINE_CSS</ul>
+        </section>
+        <!-- JavaScript Information Section -->
+        <section class="m_content__report_section">
+          <h2 class="m_section__title marker">JavaScript</h2>
+          <div class="m_content__report_wrapper">
+            <div class="m_content__report_inner_wrapper">
+              <h3 class="m_section__sub_title">In-line</h3>
+              <ul class="m_section__ref_js_list">
+                <li class="m_section__ref_js_list__item">
+                  <p class="m_section__css_digest_detail_trigger_wrapper">
+                    <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_js">More</a>
+                  </p>
+                  <div class="j_toggle" data-target-url="inline_js"><pre><code class="js">###INLINE_JS</code></pre></div>
+                </li>
+              </ul>
+            </div>
+            <div class="m_content__report_inner_wrapper">
+              <h3 class="m_section__sub_title">Ref</h3>
+              <ul class="m_section__ref_js_list">###REF_JS</ul>
+            </div>
           </div>
-          <div class="m_content__report_inner_wrapper">
-            <h3 class="m_section__sub_title">Ref</h3>
-            <ul class="m_section__ref_css_list">###REF_CSS</ul>
-          </div>
-        </div>
-      </section>
-      <!-- JavaScript Information Section -->
-      <section class="m_content__report_section">
-        <h2 class="m_section__title marker">JavaScript</h2>
-        <div class="m_content__report_wrapper">
-          <div class="m_content__report_inner_wrapper">
-            <h3 class="m_section__sub_title">In-line</h3>
-            <ul class="m_section__ref_js_list">
-              <li class="m_section__ref_js_list__item">
-                <p class="m_section__css_digest_detail_trigger_wrapper">
-                  <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_js">More</a>
-                </p>
-                <div class="j_toggle" data-target-url="inline_js">
-<pre><code class="js">###INLINE_JS</code></pre>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="m_content__report_inner_wrapper">
-            <h3 class="m_section__sub_title">Ref</h3>
-            <ul class="m_section__ref_js_list">###REF_JS</ul>
-          </div>
-        </div>
-      </section>
-      <section class="m_content__report_section">
-        <h2 class="m_section__title marker">Image</h2>
-        <div class="m_content__report_wrapper">
-          <div class="m_content__report_inner_wrapper">
-            <ul class="m_section__ref_image_list">
-              <li class="m_section__ref_image_list__item">
-                <div class="m_section__image_digest_table ___maximum">
-                  <div class="m_content__image_digest_table__row">
-                    <div class="m_content__image_digest_table__cell ___head">Path</div>
-                    <div class="m_content__image_digest_table__cell ___head">Status</div>
-                    <div class="m_content__image_digest_table__cell ___head">Image</div>
+        </section>
+        <section class="m_content__report_section">
+          <h2 class="m_section__title marker">Image</h2>
+          <div class="m_content__report_wrapper">
+            <div class="m_content__report_inner_wrapper">
+              <ul class="m_section__ref_image_list">
+                <li class="m_section__ref_image_list__item">
+                  <div class="m_section__image_digest_table ___maximum">
+                    <div class="m_content__image_digest_table__row">
+                      <div class="m_content__image_digest_table__cell ___head">Path</div>
+                      <div class="m_content__image_digest_table__cell ___head">Status</div>
+                      <div class="m_content__image_digest_table__cell ___head">Image</div>
+                    </div>
+                    ###IMAGE
                   </div>
-                  ###IMAGE
-                </div>
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
-  </div>
-  <footer id="footer">
-    <div class="wrapper">
-      <p id="l_footer__copyright">
-        <span id="l_footer__publication">2018</span>
-        <span id="l_footer__author">rustywoman</span>
-      </p>
-    </div>
-  </footer>
-  <script>
-    (function(){
-      window.CONFIG_KEY = '###TEST_NAME';
-    })();
-  </script>
-  <script type="text/javascript" src="/assets/js/lib/jquery-3.3.1.min.js"></script>
-  <!-- <script type="text/javascript" src="/assets/js/lib/d3.min.js"></script> -->
-  <script type="text/javascript" src="/assets/js/lib/highlight.min.js"></script>
-  <script type="text/javascript" src="/assets/js/common.js"></script>
-  <script type="text/javascript" src="/assets/js/case.js"></script>
-</body>
+    <footer id="footer">
+      <div class="wrapper">
+        <p id="l_footer__copyright">
+          <span id="l_footer__publication">2018</span>
+          <span id="l_footer__author">rustywoman</span>
+        </p>
+      </div>
+    </footer>
+    <script>
+      (function(){
+        window.CONFIG_KEY = '###TEST_NAME';
+      })();
+    </script>
+    <script type="text/javascript" src="/assets/js/lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/lib/highlight.min.js"></script>
+    <script type="text/javascript" src="/assets/js/common.js"></script>
+    <script type="text/javascript" src="/assets/js/case.js"></script>
+  </body>
 </html>

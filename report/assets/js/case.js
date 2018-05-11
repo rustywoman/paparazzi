@@ -1,4 +1,6 @@
 $(function(){
+  var loadingHandlerIns = new LoadingHandler($('#loading__bg'), $('#loading__status'));
+  var markerHandlerIns = new MarkerHandler();
   // Init - [ Highlight ]
   $('pre code').each(
     function(idx, block){
@@ -71,8 +73,38 @@ $(function(){
         ASYNC_LOOP_STOP_INDEX = ASYNC_LOOP_START_INDEX + ASYNC_LOOP_RATE;
         if(ASYNC_LOOP_START_INDEX >= asyncImagesNum){
           console.log('All Images Downloaded');
+          markerHandlerIns.reset();
+          loadingHandlerIns
+            .init(80)
+            .then(
+              function(){
+                loadingHandlerIns
+                  .init(100)
+                  .then(
+                    function(){
+                      markerHandlerIns
+                        .init()
+                        .then(
+                          function(){
+                            console.info('ALL DONE');
+                          }
+                        );
+                    }
+                  );
+              }
+            );
         }else{
-          asyncLoad();
+          var asyncLoadStatus = Math.ceil((ASYNC_LOOP_START_INDEX / asyncImagesNum) * 100);
+          if(asyncLoadStatus >= 80){
+            asyncLoadStatus = 79;
+          }
+          loadingHandlerIns
+            .init(asyncLoadStatus)
+            .then(
+              function(){
+                asyncLoad();
+              }
+            );
         }
       }
     );

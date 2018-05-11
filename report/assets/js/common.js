@@ -89,7 +89,7 @@
                 _this.loadingDOM.addClass('___loaded');
                 dfd.resolve();
               },
-              800
+              1000
             );
           }else{
             dfd.resolve();

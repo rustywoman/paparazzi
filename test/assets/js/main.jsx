@@ -8,6 +8,9 @@
       <p>
         <img src="//localhost:9999/assets/image/1.png" alt="1_png" />
       </p>
+      <p>
+        <img src="//localhost:9999/assets/image/1.gif" alt="1_gif" />
+      </p>
       <a href="/sub/A/">SUB_A</a>
     </div>,
     document.getElementById('content')
