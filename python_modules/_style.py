@@ -296,6 +296,35 @@ if __name__ == '__main__':
     )
     # Html情報をpickleから取得
     tmpHtml = testCache.getHtml()
+    # # Text情報
+    # textDOM = tmpHtml.find_all(
+    #     [
+    #         # Title
+    #         'h1',
+    #         'h2',
+    #         'h3',
+    #         'h4',
+    #         'h5',
+    #         'h6',
+    #         # Description
+    #         'article',
+    #         'section',
+    #         'div',
+    #         'p',
+    #         'span',
+    #         'i',
+    #         'a'
+    #     ]
+    # )
+    # textReport = []
+    # for dom in textDOM:
+    #     if dom.string is not None:
+    #         textReport.append(
+    #             {
+    #                 'tag' : dom.name,
+    #                 'text' : dom.string
+    #             }
+    #         )
     # Style解析機
     cssParser = tinycss.make_parser()
     cssParseResult = []
