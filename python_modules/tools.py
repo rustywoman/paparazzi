@@ -92,6 +92,7 @@ def getMainScriptFileName(fileName):
 def getTimeFromEpoc(epocTime):
     return dt(*time.localtime(epocTime)[:6]).strftime(constant.REPORT_TIMESTAMP_FORMAT)
 
+
 def selectDeviceType():
     u'''Select Device Type
      @return Selected Device Type

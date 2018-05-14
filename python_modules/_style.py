@@ -16,6 +16,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import codecs
 import constant
 import config
+import doms
 import json
 import multiprocessing as multi
 import numpy as np
@@ -202,8 +203,8 @@ def validateCssSelector(logger, cssSelectors, dispFileName, reportResult):
         logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
         reportResult['detail'].append(
             {
-                'selector' : info['selector'],
-                'count'    : info['count']
+                'selector': info['selector'],
+                'count': info['count']
             }
         )
     logger.log(constant.EMPTY)
@@ -215,8 +216,8 @@ def validateCssSelector(logger, cssSelectors, dispFileName, reportResult):
         logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
         reportResult['detail'].append(
             {
-                'selector' : info['selector'],
-                'count'    : info['count']
+                'selector': info['selector'],
+                'count': info['count']
             }
         )
     logger.log(constant.EMPTY)
@@ -228,8 +229,8 @@ def validateCssSelector(logger, cssSelectors, dispFileName, reportResult):
         logger.log('        {0} - {1}'.format(info['selector'], info['count']).encode(encoding='utf-8'))
         reportResult['detail'].append(
             {
-                'selector' : info['selector'],
-                'count'    : info['count']
+                'selector': info['selector'],
+                'count': info['count']
             }
         )
     logger.log(constant.EMPTY)
@@ -285,9 +286,10 @@ if __name__ == '__main__':
         os.makedirs(TEST_TMP_REPORTS_DIR)
     TEST_TMP_REPORTS_DIR = TEST_TMP_REPORTS_DIR + os.path.sep
     START_TIME = tools.startAutoTest(TEST_NAME)
+    logFineName = 'STYLE_' + TEST_NAME + '_' + datetime.now().strftime(constant.LOG_TIMESTAMP_FORMAT) + constant.LOG_EXT
     logger = log.LoggingWrapper(
         loggerName=constant.DEFAULT_LOGGER_NAME,
-        logFineName='STYLE_' + TEST_NAME + '_' + datetime.now().strftime(constant.LOG_TIMESTAMP_FORMAT) + constant.LOG_EXT
+        logFineName=logFineName
     )
     testCache = paparazzi.WebCachingWrapper(
         cacheDir=config['cache']['dir'],
@@ -297,33 +299,7 @@ if __name__ == '__main__':
     # Html情報をpickleから取得
     tmpHtml = testCache.getHtml()
     # Text情報
-    textDOM = tmpHtml.find_all(
-        [
-            # Title
-            'h1',
-            'h2',
-            'h3',
-            'h4',
-            'h5',
-            'h6',
-            # Description
-            'article',
-            'section',
-            'div',
-            'p',
-            'span',
-            'i',
-            'a'
-        ]
-    )
-    textReport = []
-    for dom in textDOM:
-        if dom.string is not None:
-            stripDOMString = dom.string.strip()
-            if stripDOMString is not '':
-                textReport.append(stripDOMString)
-    textReport = list(set(textReport))
-    textReport = sorted(textReport, key=str.lower)
+    textParseResult = testCache.getInlineText()
     # Style解析機
     cssParser = tinycss.make_parser()
     cssParseResult = []
@@ -356,7 +332,7 @@ if __name__ == '__main__':
             inlineSelectors,
             'inline',
             {
-                'path' : 'inline'
+                'path': 'inline'
             }
         )
         cssParseResult.append(validateResult)
@@ -376,7 +352,7 @@ if __name__ == '__main__':
                 testCache.changeMultiToOneArray(cssSelectors),
                 testCache.getDispFileName(tmpCssName),
                 {
-                    'path' : tmpCssName
+                    'path': tmpCssName
                 }
             )
             cssParseResult.append(validateResult)
@@ -423,7 +399,7 @@ if __name__ == '__main__':
             DONWLOAD_PIPE_IDX = DONWLOAD_PIPE_IDX + 1
         POOL.close()
         POOL.join()
-    # Reportの素JSONを生成
+    # Report [ JSON ] 生成
     TEST_SAVED_REPORTS_DIR = os.path.sep.join(
         [
             config['report']['dir'],
@@ -435,48 +411,48 @@ if __name__ == '__main__':
         os.makedirs(TEST_SAVED_REPORTS_DIR)
     TEST_SAVED_REPORTS_DIR = TEST_SAVED_REPORTS_DIR + os.path.sep
     reportConfig = {}
-    # Title
+    # Report - Title
     reportConfig['title'] = testCache.getHtmlTitle()
-    # URL
+    # Report - URL
     reportConfig['url'] = TEST_URL
-    # Meta
+    # Report - Meta
     reportConfig['meta'] = []
     for meta in testCache.getInlineMeta():
         reportConfig['meta'].append(str(meta).replace('<', '&lt;').replace('>', '&gt;'))
     reportConfig['meta'] = constant.BR.join(reportConfig['meta'])
-    # Text
-    reportConfig['text'] = textReport
-    # JavaScript
+    # Report - Text
+    reportConfig['text'] = textParseResult
+    # Report - JavaScript
     reportConfig['script'] = {}
-    # JavaScript [ inline ]
+    # Report - JavaScript [ inline ]
     reportConfig['script']['inline'] = constant.BR.join(
         testCache.getInlineScript(constant.BR)
     )
-    # JavaScript [ ref ]
+    # Report - JavaScript [ ref ]
     reportConfig['script']['ref'] = []
     for script in testCache.getOuterScript():
         reportConfig['script']['ref'].append(
             testCache.changeAbsPathToRelPath(TEST_URL, script.get('src'))
         )
-    # Css [ inline + ref ]
+    # Report - Css [ inline + ref ]
     reportConfig['css'] = {}
     reportConfig['css']['general'] = {
-        'total' : TOTAL_RULE_NUM,
-        'ok' : {
-            'count' : TOTAL_VALID_RULE_NUM,
-            'rate' : round(((TOTAL_VALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+        'total': TOTAL_RULE_NUM,
+        'ok': {
+            'count': TOTAL_VALID_RULE_NUM,
+            'rate': round(((TOTAL_VALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
         },
-        'ng' : {
-            'count' : TOTAL_INVALID_RULE_NUM,
-            'rate' : round(((TOTAL_INVALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+        'ng': {
+            'count': TOTAL_INVALID_RULE_NUM,
+            'rate': round(((TOTAL_INVALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
         },
-        'unknown' : {
-            'count' : TOTAL_UNKNOWN_RULE_NUM,
-            'rate' : round(((TOTAL_UNKNOWN_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+        'unknown': {
+            'count': TOTAL_UNKNOWN_RULE_NUM,
+            'rate': round(((TOTAL_UNKNOWN_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
         }
     }
     reportConfig['css']['info'] = cssParseResult
-    # Image
+    # Report - Image
     tmpReportConfigForImage = []
     tmpImageInfoFiles = os.listdir(TEST_TMP_REPORTS_DIR)
     for imageInfoFile in tmpImageInfoFiles:
@@ -492,6 +468,7 @@ if __name__ == '__main__':
     )
     json.dump(reportConfig, reportConfigStream, indent=2)
     reportConfigStream.close()
+    # Report [ Html ] 生成
     REPORTS_HTML_DIR = os.path.sep.join(
         [
             config['report']['dir'],
@@ -507,172 +484,19 @@ if __name__ == '__main__':
         'w',
         'utf-8'
     )
-    refScriptInfoDOM = ''
-    for refJsInfo in reportConfig['script']['ref']:
-        refScriptInfoDOM = refScriptInfoDOM + constant.BR.join(
-            [
-                '<li class="m_section__ref_js_list__item">',
-                    '<h4 class="m_section__ref_js__file_name">{0}</h4>'.format(refJsInfo),
-                    '<p class="m_section__css_digest_detail_trigger_wrapper">',
-                        '<a class="marker" href="{0}" target="_blank">More</a>'.format(refJsInfo),
-                    '</p>',
-                '</li>'
-            ]
-        )
-    cssGeneralInfoDOM = constant.BR.join(
-        [
-            '<div class="m_content__css_digest_table__row">',
-                '<div class="m_content__css_digest_table__cell">{0}</div>'.format(
-                    reportConfig['css']['general']['total']
-                ),
-                '<div class="m_content__css_digest_table__cell">{0} ( {1} % )</div>'.format(
-                    reportConfig['css']['general']['ok']['count'],
-                    reportConfig['css']['general']['ok']['rate']
-                ),
-                '<div class="m_content__css_digest_table__cell">{0} ( {1} % )</div>'.format(
-                    reportConfig['css']['general']['ng']['count'],
-                    reportConfig['css']['general']['ng']['rate']
-                ),
-                '<div class="m_content__css_digest_table__cell">{0} ( {1} % )</div>'.format(
-                    reportConfig['css']['general']['unknown']['count'],
-                    reportConfig['css']['general']['unknown']['rate']
-                ),
-            '</div>'
-        ]
-    )
-    inlineCssInfoDOM = ''
-    refCssInfoDOM = ''
-    for cssInfo in cssParseResult:
-        if cssInfo['path'] == 'inline':
-            cssSelectorInfoDOM = ''
-            for cssSelectorInfo in cssInfo['detail']:
-                cssSelectorInfoDOM = cssSelectorInfoDOM + constant.BR.join(
-                    [
-                        '<div class="m_content__css_table__row">',
-                            '<div class="m_content__css_table__cell">{0}</div>'.format(cssSelectorInfo['selector']),
-                            '<div class="m_content__css_table__cell">{0}</div>'.format(cssSelectorInfo['count']),
-                        '</div>'
-                    ]
-                )
-            inlineCssInfoDOM = inlineCssInfoDOM + constant.BR.join(
-                [
-                    '<li class="m_section__ref_css_list__item">',
-                        '<p class="m_section__css_digest_detail_trigger_wrapper">',
-                            '<a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_css">More</a>',
-                        '</p>',
-                        '<div class="j_toggle" data-target-url="inline_css">',
-                            '<div class="m_section__css_digest_table">',
-                                '<div class="m_content__css_digest_table__row">',
-                                    '<div class="m_content__css_digest_table__cell ___head">Total</div>',
-                                    '<div class="m_content__css_digest_table__cell ___head">OK</div>',
-                                    '<div class="m_content__css_digest_table__cell ___head">NG</div>',
-                                    '<div class="m_content__css_digest_table__cell ___head">Unknown</div>',
-                                '</div>',
-                                '<div class="m_content__css_digest_table__row">',
-                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['total']),
-                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['ok']),
-                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['ng']),
-                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['unknown']),
-                                '</div>',
-                            '</div>'
-                            '<div class="m_content__css_table">',
-                                '<div class="m_content__css_table__row">',
-                                    '<div class="m_content__css_table__cell ___head">Selector Definition</div>',
-                                    '<div class="m_content__css_table__cell ___head">Matched DOM Count</div>',
-                                '</div>',
-                                cssSelectorInfoDOM,
-                            '</div>',
-                        '</div>',
-                    '</li>'
-                ]
-            )
-        else:
-            cssSelectorInfoDOM = ''
-            for cssSelectorInfo in cssInfo['detail']:
-                cssSelectorInfoDOM = cssSelectorInfoDOM + constant.BR.join(
-                    [
-                        '<div class="m_content__css_table__row">',
-                            '<div class="m_content__css_table__cell">{0}</div>'.format(cssSelectorInfo['selector']),
-                            '<div class="m_content__css_table__cell">{0}</div>'.format(cssSelectorInfo['count']),
-                        '</div>'
-                    ]
-                )
-            refCssInfoDOM = refCssInfoDOM + constant.BR.join(
-                [
-                    '<li class="m_section__ref_css_list__item">',
-                        '<h4 class="m_section__ref_css__file_name">{0}</h4>'.format(cssInfo['path']),
-                        '<p class="m_section__css_digest_detail_trigger_wrapper">',
-                            '<a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="{0}">More</a>'.format(
-                                cssInfo['path']
-                            ),
-                        '</p>',
-                        '<div class="j_toggle" data-target-url="{0}">'.format(
-                            cssInfo['path']
-                        ),
-                            '<div class="m_section__css_digest_table">',
-                                '<div class="m_content__css_digest_table__row">',
-                                    '<div class="m_content__css_digest_table__cell ___head">Total</div>',
-                                    '<div class="m_content__css_digest_table__cell ___head">OK</div>',
-                                    '<div class="m_content__css_digest_table__cell ___head">NG</div>',
-                                    '<div class="m_content__css_digest_table__cell ___head">Unknown</div>',
-                                '</div>',
-                                '<div class="m_content__css_digest_table__row">',
-                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['total']),
-                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['ok']),
-                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['ng']),
-                                    '<div class="m_content__css_digest_table__cell">{0}</div>'.format(cssInfo['digest']['unknown']),
-                                '</div>',
-                            '</div>'
-                            '<div class="m_content__css_table">',
-                                '<div class="m_content__css_table__row">',
-                                    '<div class="m_content__css_table__cell ___head">Selector Definition</div>',
-                                    '<div class="m_content__css_table__cell ___head">Matched DOM Count</div>',
-                                '</div>',
-                                cssSelectorInfoDOM,
-                            '</div>',
-                        '</div>',
-                    '</li>'
-                ]
-            )
-    imageInfoDOM = ''
-    for imageInfo in reportConfig['image']:
-        if imageInfo['status'] == 1:
-            imageDownLoadStatus = 'o'
-        elif imageInfo['status'] == 0:
-            imageDownLoadStatus = 'x'
-        else:
-            imageDownLoadStatus = '-'
-        imageInfoDOM = imageInfoDOM + constant.BR.join(
-            [
-                '<div class="m_content__image_digest_table__row">',
-                    '<div class="m_content__image_digest_table__cell">{0}</div>'.format(
-                        imageInfo['path']['raw']
-                    ),
-                    '<div class="m_content__image_digest_table__cell">{0}</div>'.format(imageDownLoadStatus),
-                    '<div class="m_content__image_digest_table__cell j_async_image_load" data-async-src="/{0}/{1}/{2}/{3}">'.format(
-                        'assets',
-                        'image',
-                        TEST_NAME,
-                        imageInfo['path']['local']
-                    ),
-                    '</div>',
-                '</div>'
-            ]
-        )
+    cssDetailInfo = doms.generateCssDetailInfo(reportConfig['css']['info'])
     for line in tmpStream:
         reportStream.write(
-            line
-                .replace('###TEST_NAME', TEST_NAME)
+            line.replace('###TEST_NAME', TEST_NAME)
                 .replace('###URL', TEST_URL)
                 .replace('###TITLE', reportConfig['title'])
                 .replace('###META', reportConfig['meta'])
-                .replace('###GENERAL_CSS_INFO', cssGeneralInfoDOM)
-                .replace('###INLINE_CSS', inlineCssInfoDOM)
-                .replace('###REF_CSS', refCssInfoDOM)
+                .replace('###GENERAL_CSS_INFO', doms.generateCssGeneralInfo(reportConfig['css']['general']))
+                .replace('###INLINE_CSS', cssDetailInfo['inlineCssInfoDOM'])
+                .replace('###REF_CSS', cssDetailInfo['refCssInfoDOM'])
                 .replace('###INLINE_JS', reportConfig['script']['inline'])
-                .replace('###REF_JS', refScriptInfoDOM)
-                .replace('###IMAGE', imageInfoDOM)
-            )
+                .replace('###REF_JS', doms.generateRefScriptInfo(reportConfig['script']['ref']))
+                .replace('###IMAGE', doms.generateImagesInfo(testName=TEST_NAME, imagesInfo=reportConfig['image'])))
     tmpStream.close()
     reportStream.close()
     # 目次ページの設定JSONを更新
@@ -681,9 +505,9 @@ if __name__ == '__main__':
     for researchResult in tmpReportInfoFiles:
         indexLinkList.append(
             {
-                'name' : researchResult.replace(constant.TEST_CASE_EXT, constant.EMPTY),
-                'path' : '/case/___' + researchResult.replace(constant.TEST_CASE_EXT, '.html'),
-                'date' : tools.getTimeFromEpoc(os.path.getctime(TEST_SAVED_REPORTS_DIR + researchResult))
+                'name': researchResult.replace(constant.TEST_CASE_EXT, constant.EMPTY),
+                'path': '/case/___' + researchResult.replace(constant.TEST_CASE_EXT, '.html'),
+                'date': tools.getTimeFromEpoc(os.path.getctime(TEST_SAVED_REPORTS_DIR + researchResult))
             }
         )
     indexLinkStream = open(
