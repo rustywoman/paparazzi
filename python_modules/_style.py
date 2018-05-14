@@ -296,35 +296,34 @@ if __name__ == '__main__':
     )
     # Html情報をpickleから取得
     tmpHtml = testCache.getHtml()
-    # # Text情報
-    # textDOM = tmpHtml.find_all(
-    #     [
-    #         # Title
-    #         'h1',
-    #         'h2',
-    #         'h3',
-    #         'h4',
-    #         'h5',
-    #         'h6',
-    #         # Description
-    #         'article',
-    #         'section',
-    #         'div',
-    #         'p',
-    #         'span',
-    #         'i',
-    #         'a'
-    #     ]
-    # )
-    # textReport = []
-    # for dom in textDOM:
-    #     if dom.string is not None:
-    #         textReport.append(
-    #             {
-    #                 'tag' : dom.name,
-    #                 'text' : dom.string
-    #             }
-    #         )
+    # Text情報
+    textDOM = tmpHtml.find_all(
+        [
+            # Title
+            'h1',
+            'h2',
+            'h3',
+            'h4',
+            'h5',
+            'h6',
+            # Description
+            'article',
+            'section',
+            'div',
+            'p',
+            'span',
+            'i',
+            'a'
+        ]
+    )
+    textReport = []
+    for dom in textDOM:
+        if dom.string is not None:
+            stripDOMString = dom.string.strip()
+            if stripDOMString is not '':
+                textReport.append(stripDOMString)
+    textReport = list(set(textReport))
+    textReport = sorted(textReport, key=str.lower)
     # Style解析機
     cssParser = tinycss.make_parser()
     cssParseResult = []
@@ -445,6 +444,8 @@ if __name__ == '__main__':
     for meta in testCache.getInlineMeta():
         reportConfig['meta'].append(str(meta).replace('<', '&lt;').replace('>', '&gt;'))
     reportConfig['meta'] = constant.BR.join(reportConfig['meta'])
+    # Text
+    reportConfig['text'] = textReport
     # JavaScript
     reportConfig['script'] = {}
     # JavaScript [ inline ]
