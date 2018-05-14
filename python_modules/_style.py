@@ -491,6 +491,7 @@ if __name__ == '__main__':
                 .replace('###URL', TEST_URL)
                 .replace('###TITLE', reportConfig['title'])
                 .replace('###META', reportConfig['meta'])
+                .replace('###TEXT', doms.generateTextsInfo(reportConfig['text']))
                 .replace('###GENERAL_CSS_INFO', doms.generateCssGeneralInfo(reportConfig['css']['general']))
                 .replace('###INLINE_CSS', cssDetailInfo['inlineCssInfoDOM'])
                 .replace('###REF_CSS', cssDetailInfo['refCssInfoDOM'])

@@ -19,7 +19,29 @@ import constant
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Function
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+def generateTextsInfo(textsInfo):
+    u'''Generate Text Information
+     @param  textsInfo - Texts Information
+     @return String DOM for Text Information
+    '''
+    textInfoDOM = ''
+    for textInfo in textsInfo:
+        textInfoDOM = textInfoDOM + constant.BR.join(
+            [
+                '<div class="m_content__css_digest_table__row">',
+                '<div class="m_content__css_digest_table__cell">{0}</div>'.format(textInfo),
+                '</div>'
+            ]
+        )
+    return textInfoDOM
+
+
 def generateImagesInfo(testName, imagesInfo):
+    u'''Generate Image Information
+     @param  testName   - Test name
+     @param  imagesInfo - Images Information
+     @return String DOM for Image Information
+    '''
     imageInfoDOM = ''
     for imageInfo in imagesInfo:
         if imageInfo['status'] == 1:
@@ -42,6 +64,10 @@ def generateImagesInfo(testName, imagesInfo):
 
 
 def generateCssGeneralInfo(cssGeneralInfo):
+    u'''Generate Css Information - [ general ]
+     @param  cssGeneralInfo - Css Information
+     @return String DOM for Css Information - [ general ]
+    '''
     return constant.BR.join(
         [
             '<div class="m_content__css_digest_table__row">',
@@ -55,6 +81,10 @@ def generateCssGeneralInfo(cssGeneralInfo):
 
 
 def generateCssDetailInfo(parseResult):
+    u'''Generate Css Information - [ detail ]
+     @param  parseResult - Css Parsed Result
+     @return String DOM for Css Information - [ detail ( inline + ref ) ]
+    '''
     inlineCssInfoDOM = ''
     refCssInfoDOM = ''
     for cssInfo in parseResult:
@@ -152,6 +182,10 @@ def generateCssDetailInfo(parseResult):
 
 
 def generateRefScriptInfo(refScriptsInfo):
+    u'''Generate Ref. Script Information
+     @param  refScriptsInfo - Script Result
+     @return String DOM for Script Information
+    '''
     refScriptInfoDOM = ''
     for refScriptInfo in refScriptsInfo:
         refScriptInfoDOM = refScriptInfoDOM + constant.BR.join(
