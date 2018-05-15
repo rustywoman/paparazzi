@@ -69,15 +69,12 @@ if __name__ == '__main__':
             'SIZE': config['browserSize'][deviceType]
         }
     )
-
     testWebDriver.access('http://localhost:9999/xxx.html')
     time.sleep(3)
-
     testWebDriver.scrollToTop()
     nextYPosition = 0
     capturedIdx = 1
     scrollFlg = True
-
     wholeHeight = testWebDriver.driver.execute_script(
         'return document.body.parentNode.scrollHeight'
     )
@@ -87,16 +84,16 @@ if __name__ == '__main__':
     viewportHeight = testWebDriver.driver.execute_script(
         'return window.innerHeight'
     )
-
     print('Whole Height : {0}'.format(wholeHeight))
     print('---')
     print('Viewport Width : {0}'.format(viewportWidth))
     print('Viewport Height : {0}'.format(viewportHeight))
-
     overScrollBuffer = 0
-
     if wholeHeight <= viewportHeight:
         print('---- SPA Page ----')
+        testWebDriver.driver.save_screenshot('___result.png')
+        tmpImg = Image.open('___result.png').resize((viewportWidth, viewportHeight), Image.LANCZOS)
+        tmpImg.save('___result.png')
     else:
         print('---- Normal Page ----')
         while scrollFlg:
@@ -106,54 +103,59 @@ if __name__ == '__main__':
                 scrollFlg = False
             else:
                 nextYPosition = nextYPosition + viewportHeight
-                print(nextYPosition)
-                testWebDriver.driver.save_screenshot('___xxx{0}.png'.format(capturedIdx))
+                testWebDriver.driver.save_screenshot('___tmp_captured_{0}.png'.format(capturedIdx))
                 capturedIdx = capturedIdx + 1
                 testWebDriver.driver.execute_script(
                     'window.scrollTo(0, {0})'.format(nextYPosition)
                 )
                 time.sleep(0.25)
-
     testWebDriver.done()
+    print('Overscroll Buffer : {0}'.format(overScrollBuffer))
 
-    # http://pillow.readthedocs.io/en/4.0.x/handbook/concepts.html#filters
-    xImg = Image.open('___xxx1.png')
-    imgResizeLanczos = xImg.resize((viewportWidth, viewportHeight), Image.LANCZOS)
-    imgResizeLanczos.save('___xxx1_resized.png')
+    ##############
 
-    xImg = Image.open('___xxx2.png')
-    imgResizeLanczos = xImg.resize((viewportWidth, viewportHeight), Image.LANCZOS)
-    imgResizeLanczos.save('___xxx2_resized.png')
+    # Collect Caches
+    tmpCacheImgs = []
+    tmpCacheImgFiles = os.listdir('.')
+    for tmpCachImgFile in tmpCacheImgFiles:
+        if tmpCachImgFile.find('___tmp') is not -1:
+            tmpCacheImgs.append(tmpCachImgFile)
+    tmpCacheImgs.sort()
 
-    xImg = Image.open('___xxx3.png')
-    imgResizeLanczos = xImg.resize((viewportWidth, viewportHeight), Image.LANCZOS)
-    imgResizeLanczos.save('___xxx3_resized.png')
-
-    # Last
-    xImg = Image.open('___xxx3_resized.png')
-    imgCroped = xImg.crop((0, overScrollBuffer, viewportWidth, viewportHeight))
-    imgCroped.save('___xxx3_croped.png')
-
-    # ---------------------------------------
-    # Test - [ Concat Images ]
-    # ---------------------------------------
-    images = [
-        '___xxx1_resized.png',
-        '___xxx2_resized.png',
-        '___xxx3_croped.png'
-    ]
+    # Resize
     parsedImages = []
-    for imageName in images:
-        tmpImg = Image.open(imageName)
-        parsedImages.append(
-            {
-                'src': imageName,
-                'ins': tmpImg,
-                'width': tmpImg.width,
-                'height': tmpImg.height
-            }
+    resizeLoopLimit = len(tmpCacheImgs)
+    resizeLoopIdx = 0
+    for tmpCacheImg in tmpCacheImgs:
+        # http://pillow.readthedocs.io/en/4.0.x/handbook/concepts.html#filters
+        tmpImg = Image.open(tmpCacheImg).resize((viewportWidth, viewportHeight), Image.LANCZOS)
+        resizeLoopIdx = resizeLoopIdx + 1
+        if resizeLoopIdx is resizeLoopLimit:
+            tmpImg = tmpImg.crop((0, overScrollBuffer, viewportWidth, viewportHeight))
+            parsedImages.append(
+                {
+                    'src': tmpCacheImg,
+                    'ins': tmpImg,
+                    'width': viewportWidth,
+                    'height': viewportHeight - overScrollBuffer
+                }
+            )
+        else:
+            parsedImages.append(
+                {
+                    'src': tmpCacheImg,
+                    'ins': tmpImg,
+                    'width': viewportWidth,
+                    'height': viewportHeight
+                }
+            )
+        # Byte化した一時画像を削除
+        os.remove(tmpCacheImg)
+
+    # Concat
+    if len(parsedImages) > 0:
+        customConcat(
+            parsedImages=parsedImages,
+            startIdx=0
         )
-    customConcat(
-        parsedImages=parsedImages,
-        startIdx=0
-    )
+
