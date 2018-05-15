@@ -157,15 +157,15 @@ class WebDriverWrapper(object):
             self.makeResultStackDir(root, name)
         return tmpStackDir + os.path.sep
 
-    def customConcat(parsedImages, startIdx=0, resultFileName='___result.png'):
-        targetImages = parsedImages[startIdx:startIdx + 2]
+    def customConcat(self, targetImages, startIdx, resultFileName):
+        tmpImages = targetImages[startIdx:startIdx + 2]
         try:
             resultImg = Image.open(resultFileName)
         except Exception as e:
             resultImg = None
-        if len(targetImages) is 2:
-            tmpImg1 = targetImages[0]
-            tmpImg2 = targetImages[1]
+        if len(tmpImages) is 2:
+            tmpImg1 = tmpImages[0]
+            tmpImg2 = tmpImages[1]
             dst = Image.new(
                 'RGB',
                 (tmpImg1['width'], tmpImg1['height'] + tmpImg2['height'])
@@ -173,13 +173,9 @@ class WebDriverWrapper(object):
             dst.paste(tmpImg1['ins'], (0, 0))
             dst.paste(tmpImg2['ins'], (0, tmpImg1['height']))
             dst.save(resultFileName)
-            customConcat(
-                parsedImages=parsedImages,
-                startIdx=startIdx + 2,
-                resultFileName=resultFileName
-            )
+            self.customConcat(targetImages, startIdx + 2, resultFileName)
         else:
-            tmpLastImg = targetImages[0]
+            tmpLastImg = tmpImages[0]
             dst = Image.new(
                 'RGB',
                 (resultImg.width, resultImg.height + tmpLastImg['height'])
@@ -263,10 +259,7 @@ class WebDriverWrapper(object):
             os.remove(tmpCacheImg)
         # Concat
         if len(parsedImages) > 0:
-            customConcat(
-                parsedImages=parsedImages,
-                startIdx=0
-            )
+            self.customConcat(parsedImages, 0, tmpImageRootDir + '___result.png')
         return True
         # root = self.screenshotDir + os.path.sep + testDir
         # totalWidth = self.driver.execute_script(
