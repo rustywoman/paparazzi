@@ -9,6 +9,7 @@ import os
 import re
 import time
 from bs4 import BeautifulSoup
+from PIL import Image
 from selenium import webdriver
 # from selenium.common.exceptions import TimeoutException
 # from selenium.webdriver.common.by import By
@@ -156,6 +157,37 @@ class WebDriverWrapper(object):
             self.makeResultStackDir(root, name)
         return tmpStackDir + os.path.sep
 
+    def customConcat(parsedImages, startIdx=0, resultFileName='___result.png'):
+        targetImages = parsedImages[startIdx:startIdx + 2]
+        try:
+            resultImg = Image.open(resultFileName)
+        except Exception as e:
+            resultImg = None
+        if len(targetImages) is 2:
+            tmpImg1 = targetImages[0]
+            tmpImg2 = targetImages[1]
+            dst = Image.new(
+                'RGB',
+                (tmpImg1['width'], tmpImg1['height'] + tmpImg2['height'])
+            )
+            dst.paste(tmpImg1['ins'], (0, 0))
+            dst.paste(tmpImg2['ins'], (0, tmpImg1['height']))
+            dst.save(resultFileName)
+            customConcat(
+                parsedImages=parsedImages,
+                startIdx=startIdx + 2,
+                resultFileName=resultFileName
+            )
+        else:
+            tmpLastImg = targetImages[0]
+            dst = Image.new(
+                'RGB',
+                (resultImg.width, resultImg.height + tmpLastImg['height'])
+            )
+            dst.paste(resultImg, (0, 0))
+            dst.paste(tmpLastImg['ins'], (0, resultImg.height))
+            dst.save(resultFileName)
+
     def takeFullScreenshot(self, testDir, imgName):
         u'''Take Screenshots
          @param  testDir - Test Case Directory
@@ -163,63 +195,137 @@ class WebDriverWrapper(object):
          @return True
         '''
         root = self.screenshotDir + os.path.sep + testDir
-        totalWidth = self.driver.execute_script(
-            'return window.innerWidth'
-        )
-        totalHeight = self.driver.execute_script(
+        nextYPosition = 0
+        capturedIdx = 1
+        scrollFlg = True
+        tmpCacheImgs = []
+        wholeHeight = self.driver.execute_script(
             'return document.body.parentNode.scrollHeight'
         )
         viewportWidth = self.driver.execute_script(
-            'return document.body.clientWidth'
+            'return window.innerWidth'
         )
         viewportHeight = self.driver.execute_script(
             'return window.innerHeight'
         )
-        rectangles = []
-        i = 0
-        while i < totalHeight:
-            ii = 0
-            topHeight = i + viewportHeight
-            if topHeight > totalHeight:
-                topHeight = totalHeight
-            while ii < totalWidth:
-                topWidth = ii + viewportWidth
-                if topWidth > totalWidth:
-                    topWidth = totalWidth
-                rectangles.append((ii, i, topWidth, topHeight))
-                ii = ii + viewportWidth
-            i = i + viewportHeight
-        previous = None
-        part = 1
-        capturedImages = []
-        for rectangle in rectangles:
-            if previous is not None:
-                self.driver.execute_script(
-                    'window.scrollTo({0},{1})'.format(
-                        rectangle[0],
-                        rectangle[1]
+        overScrollBuffer = 0
+        tmpImageRootDir = self.getResultStackDir(root, imgName)
+        if wholeHeight <= viewportHeight:
+            self.driver.save_screenshot(tmpImageRootDir + '___result.png')
+            tmpImg = Image.open(tmpImageRootDir + '___result.png').resize((viewportWidth, viewportHeight), Image.LANCZOS)
+            tmpImg.save(tmpImageRootDir + '___result.png')
+        else:
+            while scrollFlg:
+                if nextYPosition > wholeHeight:
+                    overScrollBuffer = nextYPosition - wholeHeight
+                    scrollFlg = False
+                else:
+                    nextYPosition = nextYPosition + viewportHeight
+                    tmpCapturedImgName = '{0}___tmp_captured_{1}.png'.format(tmpImageRootDir, capturedIdx)
+                    self.driver.save_screenshot(tmpCapturedImgName)
+                    tmpCacheImgs.append(tmpCapturedImgName)
+                    capturedIdx = capturedIdx + 1
+                    self.driver.execute_script(
+                        'window.scrollTo(0, {0})'.format(nextYPosition)
                     )
+                    time.sleep(0.25)
+
+        # Collect Caches
+        tmpCacheImgs.sort()
+        # Resize
+        parsedImages = []
+        resizeLoopLimit = len(tmpCacheImgs)
+        resizeLoopIdx = 0
+        for tmpCacheImg in tmpCacheImgs:
+            # http://pillow.readthedocs.io/en/4.0.x/handbook/concepts.html#filters
+            tmpImg = Image.open(tmpCacheImg).resize((viewportWidth, viewportHeight), Image.LANCZOS)
+            resizeLoopIdx = resizeLoopIdx + 1
+            if resizeLoopIdx is resizeLoopLimit:
+                tmpImg = tmpImg.crop((0, overScrollBuffer, viewportWidth, viewportHeight))
+                parsedImages.append(
+                    {
+                        'src': tmpCacheImg,
+                        'ins': tmpImg,
+                        'width': viewportWidth,
+                        'height': viewportHeight - overScrollBuffer
+                    }
                 )
-                time.sleep(0.25)
-            fileName = self.getResultStackDir(
-                root,
-                imgName
-            ) + 'captured_{0}.png'.format(part)
-            self.driver.save_screenshot(fileName)
-            capturedImages.append(fileName)
-            part = part + 1
-            previous = rectangle
-        for capturedImageIdx in range(len(capturedImages) - 1):
-            if os.path.exists(
-                capturedImages[capturedImageIdx]
-            ) and os.path.exists(
-                capturedImages[capturedImageIdx + 1]
-            ):
-                pngData1 = open(capturedImages[capturedImageIdx], 'rb').read()
-                pngData2 = open(capturedImages[capturedImageIdx + 1], 'rb').read()
-                if pngData1 == pngData2:
-                    os.remove(capturedImages[capturedImageIdx + 1])
+            else:
+                parsedImages.append(
+                    {
+                        'src': tmpCacheImg,
+                        'ins': tmpImg,
+                        'width': viewportWidth,
+                        'height': viewportHeight
+                    }
+                )
+            # Byte化した一時画像を削除
+            os.remove(tmpCacheImg)
+        # Concat
+        if len(parsedImages) > 0:
+            customConcat(
+                parsedImages=parsedImages,
+                startIdx=0
+            )
         return True
+        # root = self.screenshotDir + os.path.sep + testDir
+        # totalWidth = self.driver.execute_script(
+        #     'return window.innerWidth'
+        # )
+        # totalHeight = self.driver.execute_script(
+        #     'return document.body.parentNode.scrollHeight'
+        # )
+        # viewportWidth = self.driver.execute_script(
+        #     'return document.body.clientWidth'
+        # )
+        # viewportHeight = self.driver.execute_script(
+        #     'return window.innerHeight'
+        # )
+        # rectangles = []
+        # i = 0
+        # while i < totalHeight:
+        #     ii = 0
+        #     topHeight = i + viewportHeight
+        #     if topHeight > totalHeight:
+        #         topHeight = totalHeight
+        #     while ii < totalWidth:
+        #         topWidth = ii + viewportWidth
+        #         if topWidth > totalWidth:
+        #             topWidth = totalWidth
+        #         rectangles.append((ii, i, topWidth, topHeight))
+        #         ii = ii + viewportWidth
+        #     i = i + viewportHeight
+        # previous = None
+        # part = 1
+        # capturedImages = []
+        # for rectangle in rectangles:
+        #     if previous is not None:
+        #         self.driver.execute_script(
+        #             'window.scrollTo({0},{1})'.format(
+        #                 rectangle[0],
+        #                 rectangle[1]
+        #             )
+        #         )
+        #         time.sleep(0.25)
+        #     fileName = self.getResultStackDir(
+        #         root,
+        #         imgName
+        #     ) + 'captured_{0}.png'.format(part)
+        #     self.driver.save_screenshot(fileName)
+        #     capturedImages.append(fileName)
+        #     part = part + 1
+        #     previous = rectangle
+        # for capturedImageIdx in range(len(capturedImages) - 1):
+        #     if os.path.exists(
+        #         capturedImages[capturedImageIdx]
+        #     ) and os.path.exists(
+        #         capturedImages[capturedImageIdx + 1]
+        #     ):
+        #         pngData1 = open(capturedImages[capturedImageIdx], 'rb').read()
+        #         pngData2 = open(capturedImages[capturedImageIdx + 1], 'rb').read()
+        #         if pngData1 == pngData2:
+        #             os.remove(capturedImages[capturedImageIdx + 1])
+        # return True
 
     def getTitle(self):
         u'''Get Title
