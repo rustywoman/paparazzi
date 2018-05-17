@@ -14,6 +14,7 @@ import urllib.request
 import uuid
 from bs4 import BeautifulSoup
 from datetime import datetime as dt
+from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, urljoin
@@ -25,7 +26,7 @@ from urllib.parse import urlparse, urljoin
 class WebCachingWrapper(object):
     u'''Handler Class For Web Caching
     '''
-    def __init__(self, cacheDir, cacheName, url):
+    def __init__(self, cacheDir, cacheName, url, screenshotDir):
         u'''Constructor
          @param  cacheDir  - Directory Name
          @param  cacheName - Cache Name
@@ -57,10 +58,13 @@ class WebCachingWrapper(object):
                 executable_path=DRIVER_DIR + CHROME_DRIVER,
                 chrome_options=DRIVER_OPTIONS
             )
+            # Check - HD
+            webDriver.set_window_size(1280, 720)
             webDriver.get(url)
             # ToDo - Async Content or SPA
             time.sleep(5)
             self.rawHtml = webDriver.page_source
+            self.takeHDCapture(webDriver, screenshotDir)
             webDriver.quit()
             with open(self.cache, 'wb') as f:
                 pickle.dump(self.rawHtml, f)
@@ -197,6 +201,131 @@ class WebCachingWrapper(object):
          @return Asset's Relative Path
         '''
         return urljoin(domain, relativePath)
+
+    def customConcat(self, targetImages, startIdx, resultFileName):
+        u'''Concat Cache Images
+         @param  targetImages   - Target Images List
+         @param  startIdx       - Concat Start Index
+         @param  resultFileName - Result File Name
+        '''
+        tmpImages = targetImages[startIdx:startIdx + 2]
+        try:
+            resultImg = Image.open(resultFileName)
+        except Exception as e:
+            resultImg = None
+        if len(tmpImages) is 2:
+            if resultImg is None:
+                # 初回のみ
+                tmpImg1 = tmpImages[0]
+                tmpImg2 = tmpImages[1]
+                dst = Image.new(
+                    'RGB',
+                    (tmpImg1['width'], tmpImg1['height'] + tmpImg2['height'])
+                )
+                dst.paste(tmpImg1['ins'], (0, 0))
+                dst.paste(tmpImg2['ins'], (0, tmpImg1['height']))
+                dst.save(resultFileName)
+            else:
+                tmpImg1 = tmpImages[0]
+                tmpImg2 = tmpImages[1]
+                dst = Image.new(
+                    'RGB',
+                    (tmpImg1['width'], tmpImg1['height'] + tmpImg2['height'])
+                )
+                dst.paste(tmpImg1['ins'], (0, 0))
+                dst.paste(tmpImg2['ins'], (0, tmpImg1['height']))
+                nextDst = Image.new(
+                    'RGB',
+                    (resultImg.width, resultImg.height + dst.height)
+                )
+                nextDst.paste(resultImg, (0, 0))
+                nextDst.paste(dst, (0, resultImg.height))
+                nextDst.save(resultFileName)
+            self.customConcat(targetImages, startIdx + 2, resultFileName)
+        else:
+            tmpLastImg = tmpImages[0]
+            dst = Image.new(
+                'RGB',
+                (resultImg.width, resultImg.height + tmpLastImg['height'])
+            )
+            dst.paste(resultImg, (0, 0))
+            dst.paste(tmpLastImg['ins'], (0, resultImg.height))
+            dst.save(resultFileName)
+
+    def takeHDCapture(self, webDriver, savedDirPath):
+        u'''Take HD Capture
+         @param  webDriver    - Selenium Web Driver
+         @param  savedDirPath - Captured Images Save Directory
+         @return True
+        '''
+        nextYPosition = 0
+        capturedIdx = 1
+        scrollFlg = True
+        tmpCacheImgs = []
+        wholeHeight = webDriver.execute_script(
+            'return document.body.parentNode.scrollHeight'
+        )
+        viewportWidth = webDriver.execute_script(
+            'return window.innerWidth'
+        )
+        viewportHeight = webDriver.execute_script(
+            'return window.innerHeight'
+        )
+        overScrollBuffer = 0
+        if wholeHeight <= viewportHeight:
+            webDriver.save_screenshot(savedDirPath + '___result.png')
+            tmpImg = Image.open(savedDirPath + '___result.png').resize((viewportWidth, viewportHeight), Image.LANCZOS)
+            tmpImg.save(savedDirPath + '___result.png')
+        else:
+            while scrollFlg:
+                if nextYPosition > wholeHeight:
+                    overScrollBuffer = nextYPosition - wholeHeight
+                    scrollFlg = False
+                else:
+                    nextYPosition = nextYPosition + viewportHeight
+                    tmpCapturedImgName = '{0}___tmp_captured_{1}.png'.format(savedDirPath, capturedIdx)
+                    webDriver.save_screenshot(tmpCapturedImgName)
+                    tmpCacheImgs.append(tmpCapturedImgName)
+                    capturedIdx = capturedIdx + 1
+                    webDriver.execute_script(
+                        'window.scrollTo(0, {0})'.format(nextYPosition)
+                    )
+                    time.sleep(0.25)
+
+        # Collect Caches
+        tmpCacheImgs.sort()
+        # Resize
+        parsedImages = []
+        resizeLoopLimit = len(tmpCacheImgs)
+        resizeLoopIdx = 0
+        for tmpCacheImg in tmpCacheImgs:
+            # http://pillow.readthedocs.io/en/4.0.x/handbook/concepts.html#filters
+            tmpImg = Image.open(tmpCacheImg).resize((viewportWidth, viewportHeight), Image.LANCZOS)
+            resizeLoopIdx = resizeLoopIdx + 1
+            if resizeLoopIdx is resizeLoopLimit:
+                tmpImg = tmpImg.crop((0, overScrollBuffer, viewportWidth, viewportHeight))
+                parsedImages.append(
+                    {
+                        'src': tmpCacheImg,
+                        'ins': tmpImg,
+                        'width': viewportWidth,
+                        'height': viewportHeight - overScrollBuffer
+                    }
+                )
+            else:
+                parsedImages.append(
+                    {
+                        'src': tmpCacheImg,
+                        'ins': tmpImg,
+                        'width': viewportWidth,
+                        'height': viewportHeight
+                    }
+                )
+            # Byte化した一時画像を削除
+            os.remove(tmpCacheImg)
+        # Concat
+        if len(parsedImages) > 0:
+            self.customConcat(parsedImages, 0, savedDirPath + '___result.png')
 
     def downloadImage(self, savedDirPath, domain, assetURL):
         u'''Download Image

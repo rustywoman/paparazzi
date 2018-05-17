@@ -63,7 +63,8 @@ def multiImageDownloader(testName, testURL, savedDir, imagesGroup, downloadPipeI
     testCache = paparazzi.WebCachingWrapper(
         cacheDir=config['cache']['dir'],
         cacheName=testName,
-        url=testURL
+        url=testURL,
+        screenshotDir=savedDir
     )
     tmpDataDir = os.path.sep.join(
         [
@@ -294,7 +295,8 @@ if __name__ == '__main__':
     testCache = paparazzi.WebCachingWrapper(
         cacheDir=config['cache']['dir'],
         cacheName=TEST_NAME,
-        url=TEST_URL
+        url=TEST_URL,
+        screenshotDir=TEST_SAVED_IMAGES_DIR
     )
     # Html情報をpickleから取得
     tmpHtml = testCache.getHtml()
@@ -489,6 +491,7 @@ if __name__ == '__main__':
         reportStream.write(
             line.replace('###TEST_NAME', TEST_NAME)
                 .replace('###URL', TEST_URL)
+                .replace('###SCREENSHOT', '/assets/image/' + TEST_NAME + '/___result.png')
                 .replace('###TITLE', reportConfig['title'])
                 .replace('###META', reportConfig['meta'])
                 .replace('###TEXT', doms.generateTextsInfo(reportConfig['text']))

@@ -158,21 +158,44 @@ class WebDriverWrapper(object):
         return tmpStackDir + os.path.sep
 
     def customConcat(self, targetImages, startIdx, resultFileName):
+        u'''Concat Cache Images
+         @param  targetImages   - Target Images List
+         @param  startIdx       - Concat Start Index
+         @param  resultFileName - Result File Name
+        '''
         tmpImages = targetImages[startIdx:startIdx + 2]
         try:
             resultImg = Image.open(resultFileName)
         except Exception as e:
             resultImg = None
         if len(tmpImages) is 2:
-            tmpImg1 = tmpImages[0]
-            tmpImg2 = tmpImages[1]
-            dst = Image.new(
-                'RGB',
-                (tmpImg1['width'], tmpImg1['height'] + tmpImg2['height'])
-            )
-            dst.paste(tmpImg1['ins'], (0, 0))
-            dst.paste(tmpImg2['ins'], (0, tmpImg1['height']))
-            dst.save(resultFileName)
+            if resultImg is None:
+                # 初回のみ
+                tmpImg1 = tmpImages[0]
+                tmpImg2 = tmpImages[1]
+                dst = Image.new(
+                    'RGB',
+                    (tmpImg1['width'], tmpImg1['height'] + tmpImg2['height'])
+                )
+                dst.paste(tmpImg1['ins'], (0, 0))
+                dst.paste(tmpImg2['ins'], (0, tmpImg1['height']))
+                dst.save(resultFileName)
+            else:
+                tmpImg1 = tmpImages[0]
+                tmpImg2 = tmpImages[1]
+                dst = Image.new(
+                    'RGB',
+                    (tmpImg1['width'], tmpImg1['height'] + tmpImg2['height'])
+                )
+                dst.paste(tmpImg1['ins'], (0, 0))
+                dst.paste(tmpImg2['ins'], (0, tmpImg1['height']))
+                nextDst = Image.new(
+                    'RGB',
+                    (resultImg.width, resultImg.height + dst.height)
+                )
+                nextDst.paste(resultImg, (0, 0))
+                nextDst.paste(dst, (0, resultImg.height))
+                nextDst.save(resultFileName)
             self.customConcat(targetImages, startIdx + 2, resultFileName)
         else:
             tmpLastImg = tmpImages[0]

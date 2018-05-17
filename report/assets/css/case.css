@@ -8,6 +8,16 @@ Case
 #loading__bg{
   height: calc(100vh - 60px);
 }
+#l_content__screenshot{
+  margin: 40px 0 0;
+}
+#l_content__screenshot img{
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #222;
+  box-sizing: content-box;
+}
 .m_content__report_section{
   width: 80%;
   margin: 0 auto 60px;
