@@ -34,6 +34,7 @@ def getHSV(hexrgb):
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if __name__ == '__main__':
     resultRGB = []
+    # ToDo - Online
     img = Image.open('Octocat.png')
     pixels = list(img.convert('RGB').getdata())
     for r, g, b in pixels:
