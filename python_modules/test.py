@@ -16,6 +16,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import constant
 import config
 import colorsys
+import urllib.request
+from io import BytesIO
 from PIL import Image
 
 
@@ -33,13 +35,14 @@ def getHSV(hexrgb):
 # Main
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if __name__ == '__main__':
+    OCTOCAT_URL = 'https://assets-cdn.github.com/images/modules/logos_page/Octocat.png'
+    response = urllib.request.urlopen(OCTOCAT_URL)
+    data = response.read()
+    img = Image.open(BytesIO(data))
     resultRGB = []
-    # ToDo - Online
-    img = Image.open('Octocat.png')
     pixels = list(img.convert('RGB').getdata())
     for r, g, b in pixels:
        resultRGB.append(rgb2hex(r, g, b))
     resultRGB = list(set(resultRGB))
-    # Sort
     resultRGB.sort(key=getHSV)
     print(resultRGB)
