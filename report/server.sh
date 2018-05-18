@@ -3,4 +3,13 @@
 Local Report Web Server
 COMMENT
 
-python -m http.server 9191
+PORT=9191
+HOST=127.0.0.1
+
+echo
+echo ----------------------------------------------------------
+echo Start Report Server Process - http://${HOST}:${PORT}
+echo ----------------------------------------------------------
+echo
+
+python -m http.server ${PORT}
