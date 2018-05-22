@@ -18,6 +18,7 @@ import constant
 import config
 import doms
 import json
+import htmlmin
 import multiprocessing as multi
 import numpy as np
 import re
@@ -29,7 +30,6 @@ from datetime import datetime
 from handler import WebCachingWrapper as paparazzi
 from handler import LoggingWrapper as log
 from multiprocessing import Pool
-# from pytz import timezone
 from tqdm import tqdm
 
 
@@ -489,18 +489,22 @@ if __name__ == '__main__':
     cssDetailInfo = doms.generateCssDetailInfo(reportConfig['css']['info'])
     for line in tmpStream:
         reportStream.write(
-            line.replace('###TEST_NAME', TEST_NAME)
-                .replace('###URL', TEST_URL)
-                .replace('###SCREENSHOT', '/assets/image/' + TEST_NAME + '/___result.png')
-                .replace('###TITLE', reportConfig['title'])
-                .replace('###META', reportConfig['meta'])
-                .replace('###TEXT', doms.generateTextsInfo(reportConfig['text']))
-                .replace('###GENERAL_CSS_INFO', doms.generateCssGeneralInfo(reportConfig['css']['general']))
-                .replace('###INLINE_CSS', cssDetailInfo['inlineCssInfoDOM'])
-                .replace('###REF_CSS', cssDetailInfo['refCssInfoDOM'])
-                .replace('###INLINE_JS', reportConfig['script']['inline'])
-                .replace('###REF_JS', doms.generateRefScriptInfo(reportConfig['script']['ref']))
-                .replace('###IMAGE', doms.generateImagesInfo(testName=TEST_NAME, imagesInfo=reportConfig['image'])))
+            htmlmin.minify(
+                line.replace('###TEST_NAME', TEST_NAME)
+                    .replace('###URL', TEST_URL)
+                    .replace('###SCREENSHOT', '/assets/image/' + TEST_NAME + '/___result.png')
+                    .replace('###TITLE', reportConfig['title'])
+                    .replace('###META', reportConfig['meta'])
+                    .replace('###TEXT', doms.generateTextsInfo(reportConfig['text']))
+                    .replace('###GENERAL_CSS_INFO', doms.generateCssGeneralInfo(reportConfig['css']['general']))
+                    .replace('###INLINE_CSS', cssDetailInfo['inlineCssInfoDOM'])
+                    .replace('###REF_CSS', cssDetailInfo['refCssInfoDOM'])
+                    .replace('###INLINE_JS', reportConfig['script']['inline'])
+                    .replace('###REF_JS', doms.generateRefScriptInfo(reportConfig['script']['ref']))
+                    .replace('###IMAGE', doms.generateImagesInfo(testName=TEST_NAME, imagesInfo=reportConfig['image'])),
+                remove_empty_space=True
+            )
+        )
     tmpStream.close()
     reportStream.close()
     # 目次ページの設定JSONを更新
