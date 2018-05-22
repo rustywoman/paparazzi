@@ -28,6 +28,7 @@ import matplotlib.pyplot as plt
 def rgb2hex(r, g, b):
     return '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
+
 def getHSV(hexrgb):
     hexrgb = hexrgb.lstrip('#')
     r, g, b = (int(hexrgb[i:i + 2], 16) / 255.0 for i in range(0, 5, 2))
@@ -66,7 +67,7 @@ if __name__ == '__main__':
     resultRGB = []
     pixels = list(img.convert('RGB').getdata())
     for r, g, b in pixels:
-       resultRGB.append(rgb2hex(r, g, b))
+        resultRGB.append(rgb2hex(r, g, b))
     resultRGB = list(set(resultRGB))
     resultRGB.sort(key=getHSV)
     # print(resultRGB)
