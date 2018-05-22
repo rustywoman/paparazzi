@@ -52,6 +52,7 @@ class WebCachingWrapper(object):
         ) + os.path.sep + cacheName + '.pickle'
         try:
             with open(self.cache, 'rb') as f:
+                # print('>>> Load Pickle Cache <<<\n')
                 self.rawHtml = pickle.load(f)
         except Exception as e:
             webDriver = webdriver.Chrome(
@@ -68,6 +69,7 @@ class WebCachingWrapper(object):
             webDriver.quit()
             with open(self.cache, 'wb') as f:
                 pickle.dump(self.rawHtml, f)
+            # print('>>> Save Pickle Cache <<<\n')
         self.html = BeautifulSoup(self.rawHtml, 'lxml')
 
     def getHtml(self):

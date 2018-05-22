@@ -44,6 +44,7 @@ if __name__ == '__main__':
     response = urllib.request.urlopen(IMAGE_URL)
     data = response.read()
     img = Image.open(BytesIO(data))
+    print('--- Loaded Target Image ---')
     # Histogram
     r = np.array(img)[:, :, 0].flatten()
     g = np.array(img)[:, :, 1].flatten()
