@@ -10,3 +10,6 @@ log
 report/assets/image
 report/assets/json
 report/index.json
+
+# Node
+node_modules
