@@ -21,12 +21,19 @@
   "homepage": "https://github.com/rustywoman/paparazzi#readme",
   "devDependencies": {
     "axios": "0.18.0",
+    "body-parser": "1.18.3",
+    "cookie-parser": "1.4.3",
     "css-loader": "0.28.7",
+    "ejs": "2.6.1",
+    "express": "4.16.3",
+    "express-session": "1.15.6",
     "node-sass": "4.6.0",
     "ts-loader": "3.1.1",
     "typescript": "2.6.1",
     "webpack": "3.8.1",
+    "webpack-dev-middleware": "2.0.6",
     "webpack-dev-server": "2.9.4",
+    "webpack-hot-middleware": "2.22.2",
     "webpack-livereload-plugin": "1.0.0"
   }
 }

@@ -20,13 +20,20 @@ const path             = require('path');
 // Export
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 module.exports = {
-  entry : (function(){
-    let entries = {}
-    glob.sync(CONFIG.DEV_ROOT + CONFIG.PATH.ts + '*.ts').map(function(file){
-      entries[path.basename(file).replace('.ts', '')] = file;
-    });
-    return entries;
-  })(),
+  // entry : (function(){
+  //   let entries = {}
+  //   glob.sync(CONFIG.DEV_ROOT + CONFIG.PATH.ts + '*.ts').map(function(file){
+  //     entries[path.basename(file).replace('.ts', '')] = file;
+  //   });
+  //   console.log(entries);
+  //   return entries;
+  // })(),
+  entry : {
+    'top' : [
+      'webpack-hot-middleware/client',
+      './front_end/ts/top.ts'
+    ]
+  },
   output : {
     path     : CONFIG.ROOT + CONFIG.CONTENTS_SUB_ROOT + CONFIG.PATH.js,
     filename : '[name].js'
@@ -48,15 +55,15 @@ module.exports = {
   },
   devtool : 'inline-source-map',
   plugins : [
-    new LiveReloadPlugin(),
+    new LiveReloadPlugin(
+      {
+        port : CONFIG.SYNC_PORT
+      }
+    ),
     new webpack.HotModuleReplacementPlugin()
   ],
   devServer : {
-    hot         : true,
-    inline      : true,
-    contentBase : CONFIG.ROOT,
-    host        : CONFIG.DEV_IP,
-    port        : CONFIG.BROWSER_SYNC_PORT
+    contentBase : CONFIG.ROOT
   },
   watchOptions : {
     aggregateTimeout : CONFIG.BUILD_INTERVAL,
