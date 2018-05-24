@@ -31,7 +31,8 @@ module.exports = {
   entry : {
     'main' : [
       'webpack-hot-middleware/client',
-      './front_end/ts/main.ts'
+      './front_end/ts/main.ts',
+      './front_end/scss/main.scss'
     ]
   },
   output : {
@@ -50,6 +51,10 @@ module.exports = {
       {
         test : /\.ts$/,
         use  : 'ts-loader'
+      },
+      {
+        test    : /\.scss$/,
+        loaders : ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   },
