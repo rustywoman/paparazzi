@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "dev": "webpack-dev-server --hot --inline --colors"
+    "start:dev": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/rustywoman/paparazzi#readme",
   "devDependencies": {
+    "@types/highlight.js": "9.12.2",
     "axios": "0.18.0",
     "body-parser": "1.18.3",
     "cookie-parser": "1.4.3",
@@ -27,6 +28,7 @@
     "ejs": "2.6.1",
     "express": "4.16.3",
     "express-session": "1.15.6",
+    "highlightjs": "9.10.0",
     "node-sass": "4.6.0",
     "ts-loader": "3.1.1",
     "typescript": "2.6.1",

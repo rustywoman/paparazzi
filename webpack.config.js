@@ -29,9 +29,9 @@ module.exports = {
   //   return entries;
   // })(),
   entry : {
-    'top' : [
+    'main' : [
       'webpack-hot-middleware/client',
-      './front_end/ts/top.ts'
+      './front_end/ts/main.ts'
     ]
   },
   output : {

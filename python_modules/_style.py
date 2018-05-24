@@ -16,7 +16,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import codecs
 import constant
 import config
-import doms
 import json
 import htmlmin
 import multiprocessing as multi
@@ -420,7 +419,7 @@ if __name__ == '__main__':
     # Report - Meta
     reportConfig['meta'] = []
     for meta in testCache.getInlineMeta():
-        reportConfig['meta'].append(str(meta).replace('<', '&lt;').replace('>', '&gt;'))
+        reportConfig['meta'].append(str(meta))
     reportConfig['meta'] = constant.BR.join(reportConfig['meta'])
     # Report - Text
     reportConfig['text'] = textParseResult
@@ -470,43 +469,6 @@ if __name__ == '__main__':
     )
     json.dump(reportConfig, reportConfigStream, indent=2)
     reportConfigStream.close()
-    # Report [ Html ] 生成
-    REPORTS_HTML_DIR = os.path.sep.join(
-        [
-            config['report']['dir'],
-            'case'
-        ]
-    ) + os.path.sep
-    tmpStream = open(
-        REPORTS_HTML_DIR + 'template.html',
-        'r'
-    )
-    reportStream = codecs.open(
-        REPORTS_HTML_DIR + constant.CASE_TEST_PREFIX + TEST_NAME + '.html',
-        'w',
-        'utf-8'
-    )
-    cssDetailInfo = doms.generateCssDetailInfo(reportConfig['css']['info'])
-    for line in tmpStream:
-        reportStream.write(
-            htmlmin.minify(
-                line.replace('###TEST_NAME', TEST_NAME)
-                    .replace('###URL', TEST_URL)
-                    .replace('###SCREENSHOT', '/assets/image/' + TEST_NAME + '/___result.png')
-                    .replace('###TITLE', reportConfig['title'])
-                    .replace('###META', reportConfig['meta'])
-                    .replace('###TEXT', doms.generateTextsInfo(reportConfig['text']))
-                    .replace('###GENERAL_CSS_INFO', doms.generateCssGeneralInfo(reportConfig['css']['general']))
-                    .replace('###INLINE_CSS', cssDetailInfo['inlineCssInfoDOM'])
-                    .replace('###REF_CSS', cssDetailInfo['refCssInfoDOM'])
-                    .replace('###INLINE_JS', reportConfig['script']['inline'])
-                    .replace('###REF_JS', doms.generateRefScriptInfo(reportConfig['script']['ref']))
-                    .replace('###IMAGE', doms.generateImagesInfo(testName=TEST_NAME, imagesInfo=reportConfig['image'])),
-                remove_empty_space=True
-            )
-        )
-    tmpStream.close()
-    reportStream.close()
     # 目次ページの設定JSONを更新
     indexLinkList = []
     tmpReportInfoFiles = os.listdir(TEST_SAVED_REPORTS_DIR)
@@ -514,7 +476,7 @@ if __name__ == '__main__':
         indexLinkList.append(
             {
                 'name': researchResult.replace(constant.TEST_CASE_EXT, constant.EMPTY),
-                'path': '/case/___' + researchResult.replace(constant.TEST_CASE_EXT, '.html'),
+                'path': '/___' + researchResult.replace(constant.TEST_CASE_EXT, ''),
                 'date': tools.getTimeFromEpoc(os.path.getctime(TEST_SAVED_REPORTS_DIR + researchResult))
             }
         )
