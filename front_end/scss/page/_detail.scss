@@ -84,8 +84,7 @@ Detail
   text-align: right;
 }
 .j_toggle{
-  display: none;
-  padding: 0 0 20px 0;
+  transition: height .4s ease-in-out 0s;
 }
 .m_content__css_table{
   width: 100%;

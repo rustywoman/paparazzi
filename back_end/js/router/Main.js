@@ -23,21 +23,24 @@ class Main{
         if(tmpRequestPath.indexOf(this.reportPrefix) !== -1){
           let tmpReportName = tmpRequestPath.replace(this.reportPrefix, '');
           tmpResponse = {
-            reportName : tmpReportName,
+            reportName       : tmpReportName,
             reportDetailInfo : require(this.staticReportInfoDir + 'assets/json/' + tmpReportName + '.json'),
-            status : 1
+            status           : 1,
+            title            : ' - ' + tmpReportName
           }
         }else{
           switch(tmpRequestPath){
             case '/' :
               tmpResponse = {
                 reportList : require(this.staticReportInfoDir + 'index.json'),
-                status : 1
+                status     : 1,
+                title      : ''
               }
               break;
             default:
               tmpResponse = {
-                status : 0
+                status : 0,
+                title  : ' - Error'
               }
               break;
           }

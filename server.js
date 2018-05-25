@@ -28,9 +28,9 @@ const APP = express();
 
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
-// Services
+// Router
 // ++++++++++++++++++++++++++++++++++++++++++++++++
-const MAIN = require('./front_end/ts/router/Main');
+const MAIN = require('./back_end/js/router/Main');
 
 
 // ------------------------------------------------

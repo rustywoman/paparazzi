@@ -10,8 +10,7 @@ import MarkerHandler from 'klass/MarkerHandler';
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Load Module - Raw Library
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// ToDo : Rename 'node_modules/@types/highlight.js' ---> node_modules/@types/highlightjs
-import * as hljs from 'highlightjs';
+declare let hljs: any;
 import axios from 'axios';
 
 
@@ -87,17 +86,23 @@ class Main{
     let digestTriggerStack:any = {};
     let digestTriggers = document.querySelectorAll('.j_digest_detail_trigger');
     let digestToggleAreas = document.querySelectorAll('.j_toggle');
-    for(let i = 0, il = digestToggleAreas.length; i < il; i++){
-      digestTriggerStack[digestToggleAreas[i].getAttribute('data-target-url')] = digestToggleAreas[i];
-    }
-    for(let i = 0, il = digestTriggers.length; i < il; i++){
-      digestTriggers[i].addEventListener(
-        'click',
-        (evt:any) => {
-          digestTriggerStack[evt.currentTarget.getAttribute('data-target-url')].setAttribute('style', 'display: block;');
-        },
-        false
-      )
+    if(
+      (digestTriggers.length !== 0 && digestToggleAreas.length !== 0) &&
+      (digestTriggers.length === digestToggleAreas.length)
+    ){
+      for(let i = 0, il = digestToggleAreas.length; i < il; i++){
+        digestTriggerStack[digestToggleAreas[i].getAttribute('data-target-url')] = digestToggleAreas[i];
+        digestToggleAreas[i].setAttribute('data-hidden-height', (digestToggleAreas[i].clientHeight + 20) + 'px');
+        digestToggleAreas[i].setAttribute('style', 'height: 0px');
+        digestTriggers[i].addEventListener(
+          'click',
+          (evt:any) => {
+            let tmpToggledDOM = digestTriggerStack[evt.currentTarget.getAttribute('data-target-url')];
+            tmpToggledDOM.setAttribute('style', 'height:' + tmpToggledDOM.getAttribute('data-hidden-height'));
+          },
+          false
+        );
+      }
     }
   };
   handleAsyncImageLoader(wrapperDOM:HTMLElement){
@@ -174,8 +179,8 @@ class Main{
     if(!asyncFlg){
       this.bindPopStateEvent();
     }
-    let tmpImages = document.querySelectorAll('.j_async_image_load');
-    if(tmpImages.length > 0){
+    document.body.setAttribute('style', 'overflow: hidden !important;');
+    if(document.querySelectorAll('.j_async_image_load').length > 0){
       this.bindAsyncImageLoad(
         () => {
           this.customLoadingIns
@@ -190,6 +195,8 @@ class Main{
                   .init(100)
                   .then(
                     () => {
+                      window.scrollTo(0, 0);
+                      document.body.setAttribute('style', '');
                       this.markerHandlerIns
                         .init()
                         .then(
@@ -216,6 +223,8 @@ class Main{
               .init(100)
               .then(
                 () => {
+                  window.scrollTo(0, 0);
+                  document.body.setAttribute('style', '');
                   this.markerHandlerIns
                     .init()
                     .then(
