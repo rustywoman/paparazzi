@@ -1,0 +1,27 @@
+/*
+=================================
+Part - Header
+=================================
+*/
+#header{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  box-shadow: 1px 2px 2px -3px #222;
+  background-color: $default-color-white;
+  z-index: 10;
+}
+#l_header__title{
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%);
+}
+@include notPC(){
+  #l_header__title{
+    left: 20px;
+  }
+}

@@ -1,0 +1,48 @@
+/*
+=================================
+Part - Loading
+=================================
+*/
+#loading__bg{
+  position: fixed;
+  top: 60px;
+  left: 0;
+  background-color: $default-color-black;
+  width: 100%;
+  height: calc(100vh - 60px - 40px);
+  z-index: 100;
+  transition: transform .6s ease 0s;
+}
+#loading__bg.___loaded{
+  transform: translateX(-100%);
+}
+#loading__bg_inner_wrapper{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#loading__progress{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: $default-color-white;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 12px;
+  letter-spacing: 10px;
+}
+#loading__status{
+  font-size: 18px;
+  &:before,
+  &:after{
+    color: $default-color-white;
+    background-color: $default-color-black;
+  }
+}
+#loading__title{
+  font-size: 20px;
+  &:before,
+  &:after{
+    color: $default-color-white;
+    background-color: $default-color-black;
+  }
+}

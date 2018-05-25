@@ -12,6 +12,7 @@ import MarkerHandler from 'klass/MarkerHandler';
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // ToDo : Rename 'node_modules/@types/highlight.js' ---> node_modules/@types/highlightjs
 import * as hljs from 'highlightjs';
+import axios from 'axios';
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -20,11 +21,68 @@ import * as hljs from 'highlightjs';
 document.addEventListener(
   'DOMContentLoaded',
   () => {
+    let customLoadingIns = new LoadingHandler(
+      document.querySelector('#loading__bg'),
+      document.querySelector('#loading__status'),
+      CONSTANT.LOADED_MARKER
+    );
+    let markerHandlerIns = new MarkerHandler('marker');
+    let DOM_PARSER_INS = new DOMParser();
+    let CONTENT_ROOT = document.querySelector('#wrapper');
+    // Check Async Trigger
+    let contentTriggers = document.querySelectorAll('.j_async_content_load');
+    for(let i = 0, il = contentTriggers.length; i < il; i++){
+      contentTriggers[i].addEventListener(
+        'click',
+        (evt:any) => {
+          let contentURL = evt.currentTarget.getAttribute('data-async-href');
+          window.history.pushState(
+            {
+              name : contentURL.replace('/', '')
+            },
+            null,
+            contentURL
+          );
+          // Revive `Loading`
+          customLoadingIns.reset();
+          axios(contentURL)
+            .then(
+              (res) => {
+                let doc = DOM_PARSER_INS.parseFromString(res.data, 'text/html');
+                customLoadingIns
+                  .init(80)
+                  .then(
+                    () => {
+                      CONTENT_ROOT.innerHTML = doc.querySelector('#wrapper').innerHTML;
+                      markerHandlerIns.reset();
+                      customLoadingIns
+                        .init(100)
+                        .then(
+                          () => {
+                            markerHandlerIns
+                              .init()
+                              .then(
+                                () => {
+                                  console.warn('>>> Done <<<');
+                                }
+                              );
+                          }
+                        );
+                    }
+                  );
+              }
+            )
+        },
+        false
+      )
+    }
+
     // Check 'highlight'
     let rawCodes = document.querySelectorAll('pre code');
     for(let i = 0, il = rawCodes.length; i < il; i++){
       hljs.highlightBlock(rawCodes[i]);
     }
+
     // Check 'trigger'
     let digestTriggerStack:any = {};
     let digestTriggers = document.querySelectorAll('.j_digest_detail_trigger');
@@ -36,11 +94,12 @@ document.addEventListener(
       digestTriggers[i].addEventListener(
         'click',
         (evt:any) => {
-          digestTriggerStack[evt.target.getAttribute('data-target-url')].style = 'display: block;';
+          digestTriggerStack[evt.currentTarget.getAttribute('data-target-url')].setAttribute('style', 'display: block;');
         },
         false
       )
     }
+
     // Check Image Async-Loading
     let asyncImages = [].slice.call(document.querySelectorAll('.j_async_image_load'));
     let asyncImagesNum = asyncImages.length;
@@ -107,12 +166,14 @@ document.addEventListener(
 
     // =============================================================================
 
-    let customLoadingIns = new LoadingHandler(
-      document.querySelector('#loading__bg'),
-      document.querySelector('#loading__status'),
-      CONSTANT.LOADED_MARKER
+    window.addEventListener(
+      'popstate',
+      (evt:any) => {
+        console.dir(evt.state);
+      },
+      false
     );
-    let markerHandlerIns = new MarkerHandler('marker');
+
     customLoadingIns
       .init(80)
       .then(

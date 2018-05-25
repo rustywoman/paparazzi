@@ -1,0 +1,39 @@
+/*
+=================================
+Part - Marker
+=================================
+*/
+.marker{
+  display: inline-block;
+  position: relative;
+  padding: 0 0 8px 0;
+  transform: translateX(-5%);
+  &:before{
+    display: inline-block;
+    position: absolute;
+    bottom: 6px;
+    left: -5%;
+    content: '';
+    width: 110%;
+    height: 1px;
+    background-color: $default-color-black;
+  }
+  &:after{
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: -5%;
+    content: '';
+    width: 2px;
+    height: 2px;
+    background-color: $default-color-black;
+  }
+  span{
+    transition: opacity .25s ease-in-out 0s;
+  }
+  &:hover{
+    span{
+      opacity: .5;
+    }
+  }
+}

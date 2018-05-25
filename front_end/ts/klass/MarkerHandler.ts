@@ -19,6 +19,7 @@ export default class MarkerHandler{
     );
   };
   reset(){
+    this.overlayDOM = [];
     let markerDOM = document.querySelectorAll('.' + this.linkMarker);
     for(let i = 0, il = markerDOM.length; i < il; i++){
       let tmpOverlayDOM = document.createElement('span');

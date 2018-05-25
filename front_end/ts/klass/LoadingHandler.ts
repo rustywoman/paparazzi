@@ -10,7 +10,7 @@ export default class LoadingHandler{
     this.currentLoadingStatus = 0;
   };
   update(status:number){
-    let buffer = status * 30;
+    let buffer = status * 10;
     let visibleStatus = status + '%';
     return new Promise(
       (resolve:any, reject:any) => {
@@ -24,6 +24,13 @@ export default class LoadingHandler{
         );
       }
     );
+  };
+  reset(){
+    this.currentLoadingStatus = 0;
+    let visibleStatus = this.currentLoadingStatus + '%';
+    this.loadingStatusDOM.innerHTML = visibleStatus;
+    this.loadingStatusDOM.setAttribute('data-text', visibleStatus);
+    this.loadingDOM.classList.remove(this.loadedMarker);
   };
   init(status:number){
     let defs: Array<any> = [];

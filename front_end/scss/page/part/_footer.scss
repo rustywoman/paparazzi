@@ -1,0 +1,39 @@
+/*
+=================================
+Part - Footer
+=================================
+*/
+#footer{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  box-shadow: -2px 3px 2px 2px $default-color-border;
+}
+#l_footer__copyright{
+  font-size: 10px;
+  position: absolute;
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+}
+@include notPC(){
+  #l_footer__copyright{
+    right: 20px;
+  }
+}
+#l_footer__copyright:before{
+  content: '©';
+  display: inline-block;
+  padding: 0 4px 0 0;
+}
+#l_footer__copyright span{
+  display: inline-block;
+}
+#l_footer__publication{
+  padding: 0 4px 0 0;
+}
+#l_footer__author{
+  padding: 0;
+}
