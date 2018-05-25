@@ -8,11 +8,11 @@
   <h2 class="m_section__title">Title : <%= reportDetailInfo['title'] %></h2>
 </section>
 <section class="m_content__report_section">
-  <h2 class="m_section__title marker">Meta</h2>
+  <h2 class="m_section__title marker">Meta<span class="overlay"></span></h2>
   <div class="m_content__report_wrapper"><pre><code class="html"><%= reportDetailInfo['meta'] %></code></pre></div>
 </section>
 <section class="m_content__report_section">
-  <h2 class="m_section__title marker">Text</h2>
+  <h2 class="m_section__title marker">Text<span class="overlay"></span></h2>
   <div class="m_content__report_wrapper">
     <div class="m_content__report_inner_wrapper">
       <ul class="m_section__ref_css_list">
@@ -33,7 +33,7 @@
   </div>
 </section>
 <section class="m_content__report_section">
-  <h2 class="m_section__title marker">Css</h2>
+  <h2 class="m_section__title marker">Css<span class="overlay"></span></h2>
   <div class="m_content__report_wrapper">
     <div class="m_content__report_inner_wrapper">
       <ul class="m_section__ref_css_list">
@@ -62,7 +62,7 @@
         <% if(cssInfo['path'] === 'inline') { %>
           <li class="m_section__ref_css_list__item">
             <p class="m_section__css_digest_detail_trigger_wrapper">
-              <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_css">More</a>
+              <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_css">More<span class="overlay"></span></a>
             </p>
             <div class="j_toggle" data-target-url="inline_css">
               <div class="m_section__css_digest_table">
@@ -105,7 +105,7 @@
           <li class="m_section__ref_css_list__item">
             <h4 class="m_section__ref_css__file_name"><%= cssInfo['path'] %></h4>
             <p class="m_section__css_digest_detail_trigger_wrapper">
-              <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="<%= cssInfo['path'] %>">More</a>
+              <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="<%= cssInfo['path'] %>"><span class="overlay"></span>More</a>
             </p>
             <div class="j_toggle" data-target-url="<%= cssInfo['path'] %>">
               <div class="m_section__css_digest_table">
@@ -144,14 +144,14 @@
 </section>
 <!-- JavaScript Information Section -->
 <section class="m_content__report_section">
-  <h2 class="m_section__title marker">JavaScript</h2>
+  <h2 class="m_section__title marker">JavaScript<span class="overlay"></span></h2>
   <div class="m_content__report_wrapper">
     <div class="m_content__report_inner_wrapper">
       <h3 class="m_section__sub_title">In-line</h3>
       <ul class="m_section__ref_js_list">
         <li class="m_section__ref_js_list__item">
           <p class="m_section__css_digest_detail_trigger_wrapper">
-            <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_js">More</a>
+            <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_js">More<span class="overlay"></span></a>
           </p>
           <div class="j_toggle" data-target-url="inline_js"><pre><code class="js"><%= reportDetailInfo['script']['inline'] %></code></pre></div>
         </li>
@@ -164,7 +164,7 @@
           <li class="m_section__ref_js_list__item">
             <h4 class="m_section__ref_js__file_name"><%= refScriptInfo %></h4>
             <p class="m_section__css_digest_detail_trigger_wrapper">
-              <a class="marker" href="<%= refScriptInfo %>" target="_blank">More</a>
+              <a class="marker" href="<%= refScriptInfo %>" target="_blank">More<span class="overlay"></span></a>
             </p>
           </li>
         <% }); %>
@@ -173,7 +173,7 @@
   </div>
 </section>
 <section class="m_content__report_section">
-  <h2 class="m_section__title marker">Image</h2>
+  <h2 class="m_section__title marker">Image<span class="overlay"></span></h2>
   <div class="m_content__report_wrapper">
     <div class="m_content__report_inner_wrapper">
       <ul class="m_section__ref_image_list">

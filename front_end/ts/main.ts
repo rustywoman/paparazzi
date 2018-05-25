@@ -15,9 +15,10 @@ import * as hljs from 'highlightjs';
 import axios from 'axios';
 
 
-
-
-class XXX{
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Klass
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+class Main{
   customLoadingIns : LoadingHandler;
   markerHandlerIns : MarkerHandler;
   contentRootDOM : HTMLElement;
@@ -34,40 +35,50 @@ class XXX{
     this.ASYNC_LOOP_RATE = 30;
     this.ASYNC_LOOP_STOP_INDEX = 30;
   };
+  handleAsyncContentLoader(asyncLoadURL:string){
+    console.warn('Content URL : ' + asyncLoadURL);
+    this.ASYNC_LOOP_START_INDEX = 0;
+    this.ASYNC_LOOP_RATE = 30;
+    this.ASYNC_LOOP_STOP_INDEX = 30;
+    this.customLoadingIns.reset();
+    setTimeout(
+      () => {
+        window.history.pushState(
+          {
+            'name' : asyncLoadURL.replace('/', '')
+          },
+          null,
+          asyncLoadURL
+        );
+        axios(asyncLoadURL)
+          .then(
+            (res) => {
+              let doc = this.DOM_PARSER_INS.parseFromString(res.data, 'text/html');
+              this.contentRootDOM.innerHTML = doc.querySelector('#wrapper').innerHTML;
+              this.init(true);
+            }
+          );
+      },
+      800
+    );
+  };
   bindAsyncContentLoad(){
     let contentTriggers = document.querySelectorAll('.j_async_content_load');
     for(let i = 0, il = contentTriggers.length; i < il; i++){
-      contentTriggers[i].addEventListener(
-        'click',
-        (evt:any) => {
-          // Set Bind Marker
-          contentTriggers[i].classList.add('xxx');
-          // Revive `Loading`
-          this.customLoadingIns.reset();
-          let contentURL = evt.currentTarget.getAttribute('data-async-href');
-          window.history.pushState(
-            {
-              'name' : contentURL.replace('/', '')
-            },
-            null,
-            contentURL
-          );
-          axios(contentURL)
-            .then(
-              (res) => {
-                let doc = this.DOM_PARSER_INS.parseFromString(res.data, 'text/html');
-                this.contentRootDOM.innerHTML = doc.querySelector('#wrapper').innerHTML;
-                this.init(true);
-              }
-            )
-        },
-        false
-      )
+      if(!contentTriggers[i].classList.contains(CONSTANT.COMMON_MARKER)){
+        contentTriggers[i].classList.add(CONSTANT.COMMON_MARKER);
+        contentTriggers[i].addEventListener(
+          'click',
+          (evt:any) => {
+            this.handleAsyncContentLoader(evt.currentTarget.getAttribute('data-async-href'));
+          },
+          false
+        )
+      }
     }
   };
   bindHighlight(){
     let rawCodes = document.querySelectorAll('pre code');
-    console.info('[ highlight ] : ' + rawCodes.length);
     for(let i = 0, il = rawCodes.length; i < il; i++){
       hljs.highlightBlock(rawCodes[i]);
     }
@@ -76,7 +87,6 @@ class XXX{
     let digestTriggerStack:any = {};
     let digestTriggers = document.querySelectorAll('.j_digest_detail_trigger');
     let digestToggleAreas = document.querySelectorAll('.j_toggle');
-    console.info('[ custom toggle ] : ' + digestTriggers.length + ' - ' + digestToggleAreas.length);
     for(let i = 0, il = digestToggleAreas.length; i < il; i++){
       digestTriggerStack[digestToggleAreas[i].getAttribute('data-target-url')] = digestToggleAreas[i];
     }
@@ -109,10 +119,7 @@ class XXX{
           (evt:any) => {
             let loadedImg = evt.target;
             loadedImg.classList.add(CONSTANT.ERROR_MARKER);
-            loadedImg.setAttribute(
-              'src',
-              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEUAAAAAFx8t7DCsAAAAAXRSTlMAQObYZgAAACdJREFUSMdj+A8EDEjkqMCoADI5ClDAoImXUYHBKTAKRvPLqADRAgAGUnu9KI2EPgAAAABJRU5ErkJggg=='
-            );
+            loadedImg.setAttribute('src', CONSTANT.DUMMY_IMAGE_BASE64_SRC);
             resolve();
           },
           false
@@ -155,11 +162,10 @@ class XXX{
       )
   };
   bindPopStateEvent(){
-    // ToDo : popstate
     window.addEventListener(
       'popstate',
       (evt:any) => {
-        console.dir(evt.state);
+        this.handleAsyncContentLoader(evt.state.name);
       },
       false
     );
@@ -214,7 +220,7 @@ class XXX{
                     .init()
                     .then(
                       () => {
-                        console.warn('>>> Done [ Initial Access ] without images <<');
+                        console.warn('>>> Done [ Initial Access ] without images <<<');
                       }
                     );
                 }
@@ -226,200 +232,22 @@ class XXX{
 }
 
 
-
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Init
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-
-    let xxxIns = new XXX(
+    let mainIns = new Main(
       new LoadingHandler(
         document.querySelector('#loading__bg'),
         document.querySelector('#loading__status'),
         CONSTANT.LOADED_MARKER
       ),
-      new MarkerHandler('marker'),
+      new MarkerHandler('overlay'),
       document.querySelector('#wrapper')
     );
-    xxxIns.init(false);
-
-    // let customLoadingIns = new LoadingHandler(
-    //   document.querySelector('#loading__bg'),
-    //   document.querySelector('#loading__status'),
-    //   CONSTANT.LOADED_MARKER
-    // );
-    // let markerHandlerIns = new MarkerHandler('marker');
-    // let DOM_PARSER_INS = new DOMParser();
-    // let CONTENT_ROOT = document.querySelector('#wrapper');
-    // // Check Async Trigger
-    // let contentTriggers = document.querySelectorAll('.j_async_content_load');
-    // for(let i = 0, il = contentTriggers.length; i < il; i++){
-    //   contentTriggers[i].addEventListener(
-    //     'click',
-    //     (evt:any) => {
-    //       let contentURL = evt.currentTarget.getAttribute('data-async-href');
-    //       window.history.pushState(
-    //         {
-    //           name : contentURL.replace('/', '')
-    //         },
-    //         null,
-    //         contentURL
-    //       );
-    //       // Revive `Loading`
-    //       customLoadingIns.reset();
-    //       axios(contentURL)
-    //         .then(
-    //           (res) => {
-    //             let doc = DOM_PARSER_INS.parseFromString(res.data, 'text/html');
-    //             customLoadingIns
-    //               .init(80)
-    //               .then(
-    //                 () => {
-    //                   CONTENT_ROOT.innerHTML = doc.querySelector('#wrapper').innerHTML;
-    //                   markerHandlerIns.reset();
-    //                   customLoadingIns
-    //                     .init(100)
-    //                     .then(
-    //                       () => {
-    //                         markerHandlerIns
-    //                           .init()
-    //                           .then(
-    //                             () => {
-    //                               console.warn('>>> Done <<<');
-    //                             }
-    //                           );
-    //                       }
-    //                     );
-    //                 }
-    //               );
-    //           }
-    //         )
-    //     },
-    //     false
-    //   )
-    // }
-
-    // // Check 'highlight'
-    // let rawCodes = document.querySelectorAll('pre code');
-    // for(let i = 0, il = rawCodes.length; i < il; i++){
-    //   hljs.highlightBlock(rawCodes[i]);
-    // }
-
-    // // Check 'trigger'
-    // let digestTriggerStack:any = {};
-    // let digestTriggers = document.querySelectorAll('.j_digest_detail_trigger');
-    // let digestToggleAreas = document.querySelectorAll('.j_toggle');
-    // for(let i = 0, il = digestToggleAreas.length; i < il; i++){
-    //   digestTriggerStack[digestToggleAreas[i].getAttribute('data-target-url')] = digestToggleAreas[i];
-    // }
-    // for(let i = 0, il = digestTriggers.length; i < il; i++){
-    //   digestTriggers[i].addEventListener(
-    //     'click',
-    //     (evt:any) => {
-    //       digestTriggerStack[evt.currentTarget.getAttribute('data-target-url')].setAttribute('style', 'display: block;');
-    //     },
-    //     false
-    //   )
-    // }
-
-    // // Check Image Async-Loading
-    // let asyncImages = [].slice.call(document.querySelectorAll('.j_async_image_load'));
-    // let asyncImagesNum = asyncImages.length;
-    // let ASYNC_LOOP_START_INDEX = 0;
-    // let ASYNC_LOOP_RATE = 30;
-    // let ASYNC_LOOP_STOP_INDEX = 30;
-    // let DEFS = [];
-    // let asyncLoader = (wrapperDOM:HTMLElement) => {
-    //   return new Promise(
-    //     (resolve:any, reject:any) => {
-    //       let tmpImg = document.createElement('img');
-    //       wrapperDOM.appendChild(tmpImg);
-    //       tmpImg.addEventListener(
-    //         'load',
-    //         (evt:any) => {
-    //           let loadedImg = evt.target;
-    //           loadedImg.classList.add(CONSTANT.LOADED_MARKER);
-    //           resolve();
-    //         },
-    //         false
-    //       );
-    //       tmpImg.addEventListener(
-    //         'error',
-    //         (evt:any) => {
-    //           let loadedImg = evt.target;
-    //           loadedImg.classList.add(CONSTANT.ERROR_MARKER);
-    //           loadedImg.setAttribute(
-    //             'src',
-    //             'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEUAAAAAFx8t7DCsAAAAAXRSTlMAQObYZgAAACdJREFUSMdj+A8EDEjkqMCoADI5ClDAoImXUYHBKTAKRvPLqADRAgAGUnu9KI2EPgAAAABJRU5ErkJggg=='
-    //           );
-    //           resolve();
-    //         },
-    //         false
-    //       );
-    //       tmpImg.setAttribute('src', wrapperDOM.getAttribute('data-async-src'));
-    //     }
-    //   );
-    // }
-    // let asyncLoad = () => {
-    //   DEFS = []
-    //   let asyncLoadImages = asyncImages.slice(ASYNC_LOOP_START_INDEX, ASYNC_LOOP_STOP_INDEX);
-    //   for(var i = 0, il = asyncLoadImages.length; i < il; i++){
-    //     DEFS.push(asyncLoader(asyncLoadImages[i]));
-    //   }
-    //   Promise.all(DEFS)
-    //     .then(
-    //       () => {
-    //         ASYNC_LOOP_START_INDEX = ASYNC_LOOP_START_INDEX + ASYNC_LOOP_RATE;
-    //         ASYNC_LOOP_STOP_INDEX = ASYNC_LOOP_START_INDEX + ASYNC_LOOP_RATE;
-    //         if(ASYNC_LOOP_START_INDEX >= asyncImagesNum){
-    //           console.log('All Images Downloaded');
-    //         }else{
-    //           var asyncLoadStatus = Math.ceil((ASYNC_LOOP_START_INDEX / asyncImagesNum) * 100);
-    //           if(asyncLoadStatus >= 80){
-    //             asyncLoadStatus = 79;
-    //           }
-    //           console.log('Image Loading Status : [ ' + asyncLoadStatus + ' ]');
-    //           asyncLoad();
-    //         }
-    //       }
-    //     )
-    // }
-    // asyncLoad();
-
-    // // =============================================================================
-
-    // window.addEventListener(
-    //   'popstate',
-    //   (evt:any) => {
-    //     console.dir(evt.state);
-    //   },
-    //   false
-    // );
-
-    // customLoadingIns
-    //   .init(80)
-    //   .then(
-    //     () => {
-    //       markerHandlerIns.reset();
-    //       customLoadingIns
-    //         .init(100)
-    //         .then(
-    //           () => {
-    //             markerHandlerIns
-    //               .init()
-    //               .then(
-    //                 () => {
-    //                   console.warn('>>> Done <<<');
-    //                 }
-    //               );
-    //           }
-    //         );
-    //     }
-    //   );
-
+    mainIns.init(false);
   },
   false
 );

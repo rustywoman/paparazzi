@@ -1,8 +1,8 @@
 export default class MarkerHandler{
-  linkMarker : string;
+  overlayMarker : string;
   overlayDOM : Array<HTMLElement>;
-  constructor(linkMarker:string){
-    this.linkMarker = linkMarker;
+  constructor(overlayMarker:string){
+    this.overlayMarker = overlayMarker;
     this.overlayDOM = [];
   };
   update(markerDOM:HTMLElement, status:number){
@@ -19,15 +19,7 @@ export default class MarkerHandler{
     );
   };
   reset(){
-    this.overlayDOM = [];
-    let markerDOM = document.querySelectorAll('.' + this.linkMarker);
-    console.log(markerDOM);
-    for(let i = 0, il = markerDOM.length; i < il; i++){
-      let tmpOverlayDOM = document.createElement('span');
-      tmpOverlayDOM.classList.add('overlay');
-      this.overlayDOM.push(tmpOverlayDOM);
-      markerDOM[i].appendChild(tmpOverlayDOM);
-    }
+    this.overlayDOM = [].slice.call(document.querySelectorAll('.' + this.overlayMarker));
   };
   init(){
     let defs: Array<any> = [];
