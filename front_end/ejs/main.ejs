@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <%- include('./common/head.ejs'); %>
+    <%- include('./common/metas.ejs'); %>
+    <%- include('./common/links.ejs'); %>
+    <title>Paparazzi Report</title>
   </head>
   <body>
     <%- include('./common/header.ejs'); %>
     <div id="content">
-      <%- include('./common/loading.ejs'); %>
+      <!-- <%- include('./common/loading.ejs'); %> -->
       <div id="wrapper">
         <% if(status === 1) { %>
           <%# TOP - Report List %>
@@ -18,14 +20,31 @@
             <%- include('./page/detail.ejs'); %>
           <% } %>
         <% } else { %>
-          <%- include('./page/error.ejs'); %>
+          <!-- <%- include('./page/error.ejs'); %> -->
+          <div class="m_split_column_box">
+            <div class="m_column_box">
+              <div id="l_xxx_1">
+                <div id="l_yyy_1">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil sit, nemo, voluptatem praesentium distinctio repellat repudiandae commodi, quia qui facere consectetur libero asperiores fugiat consequuntur deserunt, culpa sed quidem voluptas!
+                  <p style="height: 2000px; background-color: #444; margin: 40px 0;">left - 1</p>
+                  <p>left - 2</p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, mollitia expedita sapiente molestias architecto temporibus magni obcaecati libero deserunt labore voluptatem eaque repellendus eum nihil voluptate nobis veniam aut! Rerum.
+                </div>
+              </div>
+            </div>
+            <div class="m_column_box">
+              <div id="l_xxx_2">
+                <div id="l_yyy_2">
+                  <img src="/assets/image/TTV-TOP/___result.png" alt="">
+                  <!-- <img src="/assets/image/LOCAL-STYLE-SAMPLE/___result.png" alt=""> -->
+                </div>
+              </div>
+            </div>
+          </div>
         <% } %>
       </div>
     </div>
     <%- include('./common/footer.ejs'); %>
-    <!-- Dev : webpack + express -->
-    <script type="text/javascript" src="http://localhost:8088/livereload.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <script type="text/javascript" src="/main.js"></script>
+    <%- include('./common/scripts.ejs'); %>
   </body>
 </html>

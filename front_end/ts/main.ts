@@ -11,6 +11,7 @@ import MarkerHandler from 'klass/MarkerHandler';
 // Load Module - Raw Library
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 declare let hljs: any;
+declare let Ps:any;
 import axios from 'axios';
 
 
@@ -247,16 +248,41 @@ class Main{
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-    let mainIns = new Main(
-      new LoadingHandler(
-        document.querySelector('#loading__bg'),
-        document.querySelector('#loading__status'),
-        CONSTANT.LOADED_MARKER
-      ),
-      new MarkerHandler('overlay'),
-      document.querySelector('#wrapper')
+    // let mainIns = new Main(
+    //   new LoadingHandler(
+    //     document.querySelector('#loading__bg'),
+    //     document.querySelector('#loading__status'),
+    //     CONSTANT.LOADED_MARKER
+    //   ),
+    //   new MarkerHandler('overlay'),
+    //   document.querySelector('#wrapper')
+    // );
+    // mainIns.init(false);
+
+    // https://github.com/utatti/perfect-scrollbar/tree/0.8.1
+    let customScrollDOM_1 = document.querySelector('#l_xxx_1');
+    let customScrollDOM_2 = document.querySelector('#l_xxx_2');
+    Ps.initialize(
+      customScrollDOM_1,
+      {
+        wheelSpeed         : 1,
+        minScrollbarLength : 10
+      }
     );
-    mainIns.init(false);
+    Ps.initialize(
+      customScrollDOM_2,
+      {
+        wheelSpeed         : 1,
+        minScrollbarLength : 10
+      }
+    );
+    // customScrollDOM.addEventListener(
+    //   'ps-scroll-y',
+    //   (evt:any) => {
+    //     console.log(evt);
+    //   }
+    // );
+
   },
   false
 );
