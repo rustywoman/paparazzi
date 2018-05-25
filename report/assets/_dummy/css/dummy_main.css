@@ -1,6 +1,6 @@
 @charset 'UTF-8';
 h1{
-  background-image: url('/assets/image/2.png');
+  background-image: url('/assets/_dummy/image/2.png');
   background-repeat: repeat;
   background-position: left center;
   background-size: 40px 40px;

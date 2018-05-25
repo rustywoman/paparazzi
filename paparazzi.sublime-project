@@ -7,16 +7,18 @@
         ".gitignore",
         "package-lock.json",
         "requirements.txt",
-        "tsconfig.json"
+        "tsconfig.json",
+        "dummy.html"
       ],
       "folder_exclude_patterns" : [
         "__pycache__",
         "___screenshot",
         "___cache",
         "___tmp",
+        "_dummy",
+        "sub",
         "driver",
         "log",
-        "test",
         "conf",
         "node_modules"
       ]

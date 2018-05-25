@@ -1,5 +1,5 @@
 @charset 'UTF-8';
-@import 'nest/imported.css';
+@import 'dummy_nest/imported.css';
 img{
   width: 20px !important;
   height: auto !important;
