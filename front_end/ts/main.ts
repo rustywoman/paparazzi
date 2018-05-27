@@ -270,31 +270,35 @@ document.addEventListener(
           minScrollbarLength : 10
         }
       );
-      psDOM[psWrapperDOM[i].getAttribute('data-handle-trigger')] = psWrapperDOM[i];
-      // psWrapperDOM[i].addEventListener(
-      //   'ps-scroll-y',
-      //   (evt:any) => {
-      //     console.log(evt);
-      //   }
-      // );
+      let tmpYRailDOM = psWrapperDOM[i].querySelector('.ps__scrollbar-y-rail');
+      let tmpYRailDOMStatus = tmpYRailDOM.clientHeight !== 0 ? 1 : 0;
+      if(tmpYRailDOMStatus === 0){
+        tmpYRailDOM.classList.add(CONSTANT.COMMON_MARKER);
+      }
+      psDOM[psWrapperDOM[i].getAttribute('data-handle-trigger')] = {
+        'wrapper' : psWrapperDOM[i],
+        'status'  : tmpYRailDOMStatus
+      };
     }
     let psTriggerDOM = document.querySelectorAll('.j_to_scroll_trigger');
     for(let i = 0, il = psTriggerDOM.length; i < il; i++){
-      psTriggerDOM[i].addEventListener(
-        'click',
-        (evt:any) => {
-          let tmpDOM = psDOM[evt.currentTarget.getAttribute('data-handle-ps-wrapper')];
-          switch(evt.currentTarget.getAttribute('data-ps-direction')){
-            case 'top':
-              tmpDOM.scrollTop = 0;
-              break;
-            case 'bottom':
-              tmpDOM.scrollTop = tmpDOM.scrollTopMax;
-              break;
-          }
-        },
-        false
-      )
+      if(psDOM[psTriggerDOM[i].getAttribute('data-handle-ps-wrapper')]['status'] === 1){
+        psTriggerDOM[i].addEventListener(
+          'click',
+          (evt:any) => {
+            let tmpDOM = psDOM[evt.currentTarget.getAttribute('data-handle-ps-wrapper')]['wrapper'];
+            switch(evt.currentTarget.getAttribute('data-ps-direction')){
+              case 'top':
+                tmpDOM.scrollTop = 0;
+                break;
+              case 'bottom':
+                tmpDOM.scrollTop = tmpDOM.scrollTopMax ? tmpDOM.scrollTopMax : tmpDOM.scrollHeight - tmpDOM.clientHeight;
+                break;
+            }
+          },
+          false
+        );
+      }
     }
   },
   false

@@ -2,6 +2,7 @@
 // Definition
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 enum CONSTANT {
+  HIDDEN_MARKER          = '___hidden',
   ERROR_MARKER           = '___error',
   LOADED_MARKER          = '___loaded',
   COMMON_MARKER          = '___marker',

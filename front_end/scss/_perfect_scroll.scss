@@ -24,24 +24,23 @@ Custom Style For perfect-scrollbar.js
 .ps.ps--active-x > .ps__scrollbar-x-rail,
 .ps.ps--active-y > .ps__scrollbar-y-rail{
   display: block;
-  // background-color: transparent;
-  background-color: #eee;
+  background-color: $custom-scrollbar-background-color;
 }
 .ps.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail{
   opacity: .9;
-  background-color: #eee;
+  background-color: $custom-scrollbar-background-color;
 }
 .ps.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail > .ps__scrollbar-x{
   height: 11px;
-  background-color: #999;
+  background-color: $custom-scrollbar-color;
 }
 .ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail{
   opacity: .9;
-  background-color: #eee;
+  background-color: $custom-scrollbar-background-color;
 }
 .ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y{
-  width: 15px;
-  background-color: #999;
+  width: 13px;
+  background-color: $custom-scrollbar-color;
 }
 .ps > .ps__scrollbar-x-rail{
   position: absolute;
@@ -68,6 +67,10 @@ Custom Style For perfect-scrollbar.js
   transition: background-color .2s linear, opacity .2s linear;
   border-left: 2px solid $default-color-border;
   box-sizing: border-box;
+  &.___marker{
+    height: 100% !important;
+    background-color: $custom-scrollbar-background-color !important;
+  }
 }
 .ps > .ps__scrollbar-y-rail > .ps__scrollbar-y{
   position: absolute;
@@ -82,19 +85,19 @@ Custom Style For perfect-scrollbar.js
 }
 .ps:hover.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail{
   opacity: .9;
-  background-color: #eee;
+  background-color: $custom-scrollbar-background-color;
 }
 .ps:hover.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail > .ps__scrollbar-x{
   height: 11px;
-  background-color: #999;
+  background-color: $custom-scrollbar-color;
 }
 .ps:hover.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail{
   opacity: .9;
-  background-color: #eee;
+  background-color: $custom-scrollbar-background-color;
 }
 .ps:hover.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y{
   width: 13px;
-  background-color: #999;
+  background-color: $custom-scrollbar-color;
 }
 .ps:hover > .ps__scrollbar-x-rail,
 .ps:hover > .ps__scrollbar-y-rail{
@@ -102,15 +105,15 @@ Custom Style For perfect-scrollbar.js
 }
 .ps:hover > .ps__scrollbar-x-rail:hover{
   opacity: .9;
-  background-color: #eee;
+  background-color: $custom-scrollbar-background-color;
 }
 .ps:hover > .ps__scrollbar-x-rail:hover > .ps__scrollbar-x{
-  background-color: #999;
+  background-color: $custom-scrollbar-color;
 }
 .ps:hover > .ps__scrollbar-y-rail:hover{
   opacity: .9;
-  background-color: #eee;
+  background-color: $custom-scrollbar-background-color;
 }
 .ps:hover > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y{
-  background-color: #999;
+  background-color: $custom-scrollbar-color;
 }

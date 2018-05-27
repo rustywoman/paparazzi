@@ -105,7 +105,7 @@ Test for new detail
     border-bottom: 2px solid $default-color-border;
     span{
       &:after{
-        border-width: 0 4px 6px 4px;
+        border-width: 0 3px 5px 3px;
         border-color: transparent transparent $default-color-border transparent;
       }
     }
@@ -115,7 +115,7 @@ Test for new detail
     border-top: 2px solid $default-color-border;
     span{
       &:after{
-        border-width: 6px 4px 0 4px;
+        border-width: 5px 3px 0 3px;
         border-color: $default-color-border transparent transparent transparent;
       }
     }
