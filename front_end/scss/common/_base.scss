@@ -12,7 +12,7 @@ body{
   height: 100%;
   position: relative;
   font-family: 'Roboto', 'Noto Sans Japanese', 'Yu Gothic', '游ゴシック', YuGothic, '游ゴシック体', 'ヒラギノ角ゴ Pro W3', 'メイリオ', sans-serif;
-  font-size: $default-font-size;
+  font-size: $default-font-size + px;
   letter-spacing: $default-letter-spacing;
 }
 ::selection{
@@ -24,7 +24,6 @@ body{
   color: $default-color-white !important;
 }
 #wrapper{
-  padding: 0 80px;
   height: 100%;
   position: relative;
   overflow: hidden;

@@ -12,7 +12,7 @@ import MarkerHandler from 'klass/MarkerHandler';
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 declare let hljs: any;
 declare let Ps:any;
-import axios from 'axios';
+declare let axios:any;
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -52,7 +52,7 @@ class Main{
         );
         axios(asyncLoadURL)
           .then(
-            (res) => {
+            (res:any) => {
               let doc = this.DOM_PARSER_INS.parseFromString(res.data, 'text/html');
               this.contentRootDOM.innerHTML = doc.querySelector('#wrapper').innerHTML;
               this.init(true);
@@ -260,29 +260,42 @@ document.addEventListener(
     // mainIns.init(false);
 
     // https://github.com/utatti/perfect-scrollbar/tree/0.8.1
-    let customScrollDOM_1 = document.querySelector('#l_xxx_1');
-    let customScrollDOM_2 = document.querySelector('#l_xxx_2');
-    Ps.initialize(
-      customScrollDOM_1,
-      {
-        wheelSpeed         : 1,
-        minScrollbarLength : 10
-      }
-    );
-    Ps.initialize(
-      customScrollDOM_2,
-      {
-        wheelSpeed         : 1,
-        minScrollbarLength : 10
-      }
-    );
-    // customScrollDOM.addEventListener(
-    //   'ps-scroll-y',
-    //   (evt:any) => {
-    //     console.log(evt);
-    //   }
-    // );
-
+    let psDOM:any = {};
+    let psWrapperDOM = document.querySelectorAll('.m_column_ps_wrapper');
+    for(let i = 0, il = psWrapperDOM.length; i < il; i++){
+      Ps.initialize(
+        psWrapperDOM[i],
+        {
+          wheelSpeed         : 1,
+          minScrollbarLength : 10
+        }
+      );
+      psDOM[psWrapperDOM[i].getAttribute('data-handle-trigger')] = psWrapperDOM[i];
+      // psWrapperDOM[i].addEventListener(
+      //   'ps-scroll-y',
+      //   (evt:any) => {
+      //     console.log(evt);
+      //   }
+      // );
+    }
+    let psTriggerDOM = document.querySelectorAll('.j_to_scroll_trigger');
+    for(let i = 0, il = psTriggerDOM.length; i < il; i++){
+      psTriggerDOM[i].addEventListener(
+        'click',
+        (evt:any) => {
+          let tmpDOM = psDOM[evt.currentTarget.getAttribute('data-handle-ps-wrapper')];
+          switch(evt.currentTarget.getAttribute('data-ps-direction')){
+            case 'top':
+              tmpDOM.scrollTop = 0;
+              break;
+            case 'bottom':
+              tmpDOM.scrollTop = tmpDOM.scrollTopMax;
+              break;
+          }
+        },
+        false
+      )
+    }
   },
   false
 );
