@@ -29,10 +29,16 @@ module.exports = {
   //   return entries;
   // })(),
   entry : {
-    'main' : [
+    'paparazzi-main-script' : [
       'webpack-hot-middleware/client',
       './front_end/ts/main.ts',
       './front_end/scss/main.scss'
+    ],
+    'paparazzi-libs-style' : [
+      './front_end/scss/libs.scss'
+    ],
+    'paparazzi-libs-script' : [
+      './front_end/ts/libs.ts'
     ]
   },
   output : {
