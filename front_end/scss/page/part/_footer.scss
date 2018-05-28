@@ -20,11 +20,6 @@ Part - Footer
   right: 40px;
   transform: translateY(-50%);
 }
-@include notPC(){
-  #l_footer__copyright{
-    right: 20px;
-  }
-}
 #l_footer__copyright:before{
   content: '©';
   display: inline-block;

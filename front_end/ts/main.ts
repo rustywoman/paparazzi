@@ -40,6 +40,7 @@ class Main{
     this.ASYNC_LOOP_START_INDEX = 0;
     this.ASYNC_LOOP_RATE = 30;
     this.ASYNC_LOOP_STOP_INDEX = 30;
+    document.querySelector('#j_raw_url').innerHTML = '';
     this.customLoadingIns.reset();
     setTimeout(
       () => {
@@ -55,6 +56,7 @@ class Main{
             (res:any) => {
               let doc = this.DOM_PARSER_INS.parseFromString(res.data, 'text/html');
               this.contentRootDOM.innerHTML = doc.querySelector('#wrapper').innerHTML;
+              document.querySelector('#j_raw_url').innerHTML = doc.querySelector('#j_raw_url').innerHTML;
               this.init(true);
             }
           );
@@ -133,6 +135,17 @@ class Main{
         tmpImg.setAttribute('src', wrapperDOM.getAttribute('data-async-src'));
       }
     );
+  };
+  bindCustom404(){
+    let errorTitleDOM = document.querySelector('#error__title');
+    if(errorTitleDOM !== null){
+      setTimeout(
+        () => {
+          this.handleAsyncContentLoader('/');
+        },
+        5000
+      )
+    }
   };
   bindCustomScrollBar(){
     let psDOM:any = {};
@@ -270,6 +283,7 @@ class Main{
                     .init()
                     .then(
                       () => {
+                        this.bindCustom404();
                         console.warn('>>> Done [ Initial Access ] without images <<<');
                       }
                     );

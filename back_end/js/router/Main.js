@@ -32,24 +32,17 @@ class Main{
           switch(tmpRequestPath){
             case '/' :
               tmpResponse = {
-                reportList : require(this.staticReportInfoDir + 'index.json'),
-                status     : 1,
-                title      : ''
+                reportList       : require(this.staticReportInfoDir + 'index.json'),
+                reportDetailInfo : null,
+                status           : 1,
+                title            : ''
               }
               break;
-            // // ToDo - Delete
-            // case '/test' :
-            //   tmpResponse = {
-            //     reportName       : 'LOCAL-STYLE-SAMPLE',
-            //     reportDetailInfo : require(this.staticReportInfoDir + 'assets/json/LOCAL-STYLE-SAMPLE.json'),
-            //     status           : 0,
-            //     title            : ' - ' + 'LOCAL-STYLE-SAMPLE'
-            //   }
-            //   break;
             default:
               tmpResponse = {
-                status : 0,
-                title  : ' - Error'
+                reportDetailInfo : null,
+                status           : 0,
+                title            : ' - Error'
               }
               break;
           }

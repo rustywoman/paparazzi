@@ -1,0 +1,26 @@
+/*
+=================================
+Error
+=================================
+*/
+#l_content__error_wrapper{
+  width: 100%;
+  background-color: $default-color-black;
+}
+#error__title{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: inline-block;
+  font-size: 40px;
+  letter-spacing: 10px;
+  color: $default-color-white;
+  background-color: $default-color-black;
+  &:before,
+  &:after{
+    color: $default-color-white;
+    background-color: $default-color-black;
+    letter-spacing: 10px;
+  }
+}

@@ -22,8 +22,13 @@ Part - Header
   left: 40px;
   transform: translateY(-50%);
 }
-@include notPC(){
-  #l_header__title{
-    left: 20px;
+#j_raw_url{
+  &:before{
+    content: '-';
+    padding: 0 10px;
+  }
+  a{
+    display: inline-block;
+    position: relative;
   }
 }

@@ -1,23 +1,35 @@
-<h2 id="l_content__description">
-  <a class="marker" href="https://github.com/rustywoman/paparazzi/blob/master/README.md" target="_blank">
-    <span>README</span>
-    <span class="overlay"></span>
-  </a>
-</h2>
-<div id="l_content__report_table">
-  <div class="m_content__report_table__row">
-    <div class="m_content__report_table__cell ___head">Project Name</div>
-    <div class="m_content__report_table__cell ___head">Date</div>
-  </div>
-  <% reportList.forEach(function(reportInfo){ %>
-  <div class="m_content__report_table__row">
-    <div class="m_content__report_table__cell">
-      <a class="marker j_async_content_load" href="javascript:void(0);" data-async-href="<%= reportInfo['path'] %>">
-        <span><%= reportInfo['name'] %></span>
-        <span class="overlay"></span>
-      </a>
+<div class="m_split_column_box">
+  <div class="m_column_box">
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_index" data-ps-direction="top">
+      <span></span>
+    </a>
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_index" data-ps-direction="bottom">
+      <span></span>
+    </a>
+    <div id="l_content__index_wrapper" class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_index">
+      <h2 id="l_content__description">
+        <a class="marker" href="https://github.com/rustywoman/paparazzi/blob/master/README.md" target="_blank">
+          <span>README @ GitHub</span>
+          <span class="overlay"></span>
+        </a>
+      </h2>
+      <div id="l_content__report_table">
+        <div class="m_content__report_table--row">
+          <div class="m_content__report_table--cell ___head">Project Name</div>
+          <div class="m_content__report_table--cell ___head">Date</div>
+        </div>
+        <% reportList.forEach(function(reportInfo){ %>
+        <div class="m_content__report_table--row">
+          <div class="m_content__report_table--cell">
+            <a class="marker j_async_content_load" href="javascript:void(0);" data-async-href="<%= reportInfo['path'] %>">
+              <span><%= reportInfo['name'] %></span>
+              <span class="overlay"></span>
+            </a>
+          </div>
+          <div class="m_content__report_table--cell"><%= reportInfo['date'] %></div>
+        </div>
+        <% }); %>
+      </div>
     </div>
-    <div class="m_content__report_table__cell"><%= reportInfo['date'] %></div>
   </div>
-  <% }); %>
 </div>
