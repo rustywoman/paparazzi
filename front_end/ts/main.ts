@@ -210,7 +210,6 @@ class Main{
             if(asyncLoadStatus >= 80){
               asyncLoadStatus = 79;
             }
-            console.log('Image Loading Status : [ ' + asyncLoadStatus + ' ]');
             this.customLoadingIns
               .init(asyncLoadStatus)
               .then(

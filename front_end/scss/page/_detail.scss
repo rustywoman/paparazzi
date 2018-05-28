@@ -30,7 +30,10 @@ Detail
 }
 .m_column_content_wrapper{
   position: relative;
-  padding: 40px;
+  padding: 40px 40px 0 40px;
+  &.___marker{
+    padding: 40px 55px 40px 40px;
+  }
   img{
     width: 100%;
     max-width: 100%;
@@ -182,9 +185,13 @@ Detail
   }
   &.j_async_image_load{
     img{
-      width: 35% !important;
-      max-width: 35% !important;
+      width: auto !important;
+      max-width: 100% !important;
       height: auto !important;
+      &.___error{
+        width: 20px !important;
+        height: 20px !important;
+      }
     }
   }
 }

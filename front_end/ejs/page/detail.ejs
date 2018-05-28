@@ -160,7 +160,7 @@
             <% reportDetailInfo['image'].forEach(function(imgInfo){ %>
               <div class="m_column_info__table--row">
                 <div class="m_column_info__table--cell ___half"><%= imgInfo['path']['raw'] %></div>
-                <div class="m_column_info__table--cell ___half ___status j_async_image_load" data-async-src="/assets/image/<%= reportName %>/<%= imgInfo['path']['local'] %>"></div>
+                <div class="m_column_info__table--cell ___half ___status j_async_image_load" data-async-src="/assets/image<%= reportName %>/<%= imgInfo['path']['local'] %>"></div>
               </div>
             <% }); %>
           </div>
@@ -176,8 +176,8 @@
       <span></span>
     </a>
     <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_img">
-      <div class="m_column_content_wrapper">
-        <img src="/assets/image/<%= reportName %>/___result.png" alt="">
+      <div class="m_column_content_wrapper ___marker">
+        <img src="/assets/image<%= reportName %>/___result.png" alt="">
       </div>
     </div>
   </div>
