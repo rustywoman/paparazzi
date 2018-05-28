@@ -32,7 +32,7 @@
               <div class="m_column_ps_wrapper" data-handle-trigger="j_to_top_trigger_for_info">
                 <div class="m_column_content_wrapper">
 
-<!--                   <section class="m_column_section">
+                  <section class="m_column_section">
                     <h2 class="m_column_info__title"><%= reportDetailInfo['title'] %></h2>
                   </section>
 
@@ -159,40 +159,43 @@
                         </section>
                       <% } %>
                     <% }); %>
-                  </section> -->
+                  </section>
 
                   <!-- Page JavaScript -->
                   <section class="m_column_section">
                     <h3 class="m_column_info__sub_title marker">JavaScript<span class="overlay"></span></h3>
-                    <!-- Inline Script Info. -->
                     <section class="m_column_section_inner_wrapper ___marker">
                       <h4 class="m_column_info__inner_title">Inline</h4>
                       <div><pre><code class="js"><%= reportDetailInfo['script']['inline'] %></code></pre></div>
                     </section>
-                    <!-- Ref Script Info. -->
                     <section class="m_column_section_inner_wrapper">
                       <h4 class="m_column_info__inner_title">Ref</h4>
-                      <ul>
+                      <ul class="m_column_info__link__list">
                         <% reportDetailInfo['script']['ref'].forEach(function(refScriptInfo){ %>
-                        <li>
-                          <h3 class="m_column_info__sub_title marker"><%= refScriptInfo %><span class="overlay"></span></h3>
-<!--                           <a class="marker" href="<%= refScriptInfo %>" target="_blank"><%= refScriptInfo %><span class="overlay"></span></a> -->
+                        <li class="m_column_info__link__list-item">
+                          <a class="marker" href="<%= refScriptInfo %>" target="_blank"><%= refScriptInfo %><span class="overlay"></span></a>
                         </li>
                         <% }); %>
                       </ul>
                     </section>
                   </section>
-
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil sit, nemo, voluptatem praesentium distinctio repellat repudiandae commodi, quia qui facere consectetur libero asperiores fugiat consequuntur deserunt, culpa sed quidem voluptas!
-                  <p style="height: 2000px; background-color: #223322; margin: 40px 0;"></p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, mollitia expedita sapiente molestias architecto temporibus magni obcaecati libero deserunt labore voluptatem eaque repellendus eum nihil voluptate nobis veniam aut! Rerum.
-                  <p style="height: 200px; background-color: #223322; margin: 20px 0;"></p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. In deserunt minus voluptatem, deleniti, ipsum quod rerum vel id quisquam officia saepe esse tempora provident dolore aut dolorem, nobis placeat? Adipisci?
+                  <section class="m_column_section">
+                    <h3 class="m_column_info__sub_title marker">Image<span class="overlay"></span></h3>
+                    <div class="m_column_info__table ___maximum">
+                      <div class="m_column_info__table--row">
+                        <div class="m_column_info__table--cell ___head ___half">Path</div>
+                        <div class="m_column_info__table--cell ___head ___half">Image</div>
+                      </div>
+                      <% reportDetailInfo['image'].forEach(function(imgInfo){ %>
+                        <div class="m_column_info__table--row">
+                          <div class="m_column_info__table--cell ___half"><%= imgInfo['path']['raw'] %></div>
+                          <div class="m_column_info__table--cell ___half ___status j_async_image_load" data-async-src="/assets/image/<%= reportName %>/<%= imgInfo['path']['local'] %>">
+                            <img src="/assets/image/<%= reportName %>/<%= imgInfo['path']['local'] %>" alt="">
+                          </div>
+                        </div>
+                      <% }); %>
+                    </div>
+                  </section>
                 </div>
               </div>
             </div>
