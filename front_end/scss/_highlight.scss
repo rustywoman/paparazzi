@@ -8,9 +8,7 @@ Custom Style For Highlight.js
 .hljs{
   display: block;
   overflow-x: auto;
-  padding: 0.5em;
   color: #333;
-  /*background: #f8f8f8;*/
 }
 .hljs-comment,
 .hljs-quote{
@@ -21,7 +19,6 @@ Custom Style For Highlight.js
 .hljs-selector-tag,
 .hljs-subst{
   color: #333;
-  font-weight: bold;
 }
 .hljs-number,
 .hljs-literal,
@@ -38,7 +35,6 @@ Custom Style For Highlight.js
 .hljs-section,
 .hljs-selector-id{
   color: #900;
-  font-weight: bold;
 }
 .hljs-subst{
   font-weight: normal;
@@ -46,7 +42,6 @@ Custom Style For Highlight.js
 .hljs-type,
 .hljs-class .hljs-title{
   color: #458;
-  font-weight: bold;
 }
 .hljs-tag,
 .hljs-name,
@@ -68,7 +63,6 @@ Custom Style For Highlight.js
 }
 .hljs-meta{
   color: #999;
-  font-weight: bold;
 }
 .hljs-deletion{
   background: #fdd;
@@ -78,7 +72,4 @@ Custom Style For Highlight.js
 }
 .hljs-emphasis{
   font-style: italic;
-}
-.hljs-strong{
-  font-weight: bold;
 }

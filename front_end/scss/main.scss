@@ -23,7 +23,6 @@ Page
 @import 'page/part/loading';
 @import 'page/top';
 @import 'page/detail';
-@import 'page/x_detail';
 
 
 /*
@@ -33,93 +32,3 @@ Custom
 */
 @import 'highlight';
 @import 'perfect_scroll';
-
-
-/*
-=================================
-Test for new detail
-=================================
-*/
-.m_split_column_box{
-  display: flex;
-}
-.m_column_box{
-  height: calc(100vh - 60px - 40px);
-  width: 100%;
-  display: flex;
-  position: relative;
-  overflow: hidden;
-  &:first-child{
-    align-items: left;
-    justify-content: left;
-    border-right: 2px solid $default-color-border;
-    box-sizing: border-box;
-  }
-  &:last-child{
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-}
-.m_column_ps_wrapper{
-  height: 100%;
-  position: relative;
-}
-.m_column_content_wrapper{
-  position: relative;
-  padding: 40px;
-  img{
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-  }
-}
-.j_to_scroll_trigger{
-  width: 15px;
-  height: 15px;
-  display: block;
-  background-color: $default-color-white;
-  position: absolute;
-  right: 0;
-  z-index: 20;
-  border-left: 2px solid $default-color-border;
-  box-sizing: border-box;
-  text-align: center;
-  span{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: block;
-    &:after{
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%);
-      display: inline-block;
-      content: '';
-      width: 0;
-      height: 0;
-      border-style: solid;
-    }
-  }
-  &[data-ps-direction="top"]{
-    top: 0;
-    border-bottom: 2px solid $default-color-border;
-    span{
-      &:after{
-        border-width: 0 3px 5px 3px;
-        border-color: transparent transparent $default-color-border transparent;
-      }
-    }
-  }
-  &[data-ps-direction="bottom"]{
-    bottom: 0;
-    border-top: 2px solid $default-color-border;
-    span{
-      &:after{
-        border-width: 5px 3px 0 3px;
-        border-color: $default-color-border transparent transparent transparent;
-      }
-    }
-  }
-}

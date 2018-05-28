@@ -1,199 +1,190 @@
-<section class="m_content__report_section">
-  <h2 class="m_section__title">URL : <%= reportDetailInfo['url'] %></h2>
-  <p id="l_content__screenshot">
-    <img src="/assets/image/<%= path.replace('___', '') %>/___result.png" alt="">
-  </p>
-</section>
-<section class="m_content__report_section">
-  <h2 class="m_section__title">Title : <%= reportDetailInfo['title'] %></h2>
-</section>
-<section class="m_content__report_section">
-  <h2 class="m_section__title marker">Meta<span class="overlay"></span></h2>
-  <div class="m_content__report_wrapper"><pre><code class="html"><%= reportDetailInfo['meta'] %></code></pre></div>
-</section>
-<section class="m_content__report_section">
-  <h2 class="m_section__title marker">Text<span class="overlay"></span></h2>
-  <div class="m_content__report_wrapper">
-    <div class="m_content__report_inner_wrapper">
-      <ul class="m_section__ref_css_list">
-        <li class="m_section__ref_css_list__item">
-          <div class="m_section__css_digest_table ___maximum">
-            <div class="m_content__css_digest_table__row">
-              <div class="m_content__css_digest_table__cell ___head">Value</div>
-            </div>
+<div class="m_split_column_box">
+  <div class="m_column_box">
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_top_trigger_for_info" data-ps-direction="top">
+      <span></span>
+    </a>
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_top_trigger_for_info" data-ps-direction="bottom">
+      <span></span>
+    </a>
+    <div class="m_column_ps_wrapper" data-handle-trigger="j_to_top_trigger_for_info">
+      <div class="m_column_content_wrapper">
+
+        <section class="m_column_section">
+          <h2 class="m_column_info__title"><%= reportDetailInfo['title'] %></h2>
+        </section>
+
+        <section class="m_column_section">
+          <h3 class="m_column_info__sub_title marker">Meta<span class="overlay"></span></h3>
+          <div><pre><code class="html"><%= reportDetailInfo['meta'] %></code></pre></div>
+        </section>
+
+        <section class="m_column_section">
+          <h3 class="m_column_info__sub_title marker">Text<span class="overlay"></span></h3>
+          <div class="m_column_info__text">
             <% reportDetailInfo['text'].forEach(function(textInfo){ %>
-              <div class="m_content__css_digest_table__row">
-                <div class="m_content__css_digest_table__cell"><%= textInfo %></div>
-              </div>
+              <span class="m_column_info__text--item"><%= textInfo %></span>
             <% }); %>
           </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
-<section class="m_content__report_section">
-  <h2 class="m_section__title marker">Css<span class="overlay"></span></h2>
-  <div class="m_content__report_wrapper">
-    <div class="m_content__report_inner_wrapper">
-      <ul class="m_section__ref_css_list">
-        <li class="m_section__ref_css_list__item">
-          <div class="m_section__css_digest_table ___maximum">
-            <div class="m_content__css_digest_table__row">
-              <div class="m_content__css_digest_table__cell ___head">Total</div>
-              <div class="m_content__css_digest_table__cell ___head">OK</div>
-              <div class="m_content__css_digest_table__cell ___head">NG</div>
-              <div class="m_content__css_digest_table__cell ___head">Unknown</div>
+        </section>
+
+        <section class="m_column_section">
+          <h3 class="m_column_info__sub_title marker">Style<span class="overlay"></span></h3>
+          <div class="m_column_info__table ___maximum">
+            <div class="m_column_info__table--row">
+              <div class="m_column_info__table--cell ___head ___quarter">Total</div>
+              <div class="m_column_info__table--cell ___head ___quarter">OK</div>
+              <div class="m_column_info__table--cell ___head ___quarter">NG</div>
+              <div class="m_column_info__table--cell ___head ___quarter">Unknown</div>
             </div>
-            <div class="m_content__css_digest_table__row">
-              <div class="m_content__css_digest_table__cell"><%= reportDetailInfo['css']['general']['total'] %></div>
-              <div class="m_content__css_digest_table__cell"><%= reportDetailInfo['css']['general']['ok']['count'] %> ( <%= reportDetailInfo['css']['general']['ok']['rate'] %> % )</div>
-              <div class="m_content__css_digest_table__cell"><%= reportDetailInfo['css']['general']['ng']['count'] %> ( <%= reportDetailInfo['css']['general']['ng']['rate'] %> % )</div>
-              <div class="m_content__css_digest_table__cell"><%= reportDetailInfo['css']['general']['unknown']['count'] %> ( <%= reportDetailInfo['css']['general']['unknown']['rate'] %> % )</div>
+            <div class="m_column_info__table--row">
+              <div class="m_column_info__table--cell ___quarter">
+                <p class="m_column_info_table--cell--count"><%= reportDetailInfo['css']['general']['total'] %></p>
+              </div>
+              <div class="m_column_info__table--cell ___quarter">
+                <p class="m_column_info_table--cell--count"><%= reportDetailInfo['css']['general']['ok']['count'] %></p>
+                <p class="m_column_info_table--cell--rate"><%= reportDetailInfo['css']['general']['ok']['rate'] %> %</p>
+              </div>
+              <div class="m_column_info__table--cell ___quarter">
+                <p class="m_column_info_table--cell--count"><%= reportDetailInfo['css']['general']['ng']['count'] %></p>
+                <p class="m_column_info_table--cell--rate"><%= reportDetailInfo['css']['general']['ng']['rate'] %> %</p>
+              </div>
+              <div class="m_column_info__table--cell ___quarter">
+                <p class="m_column_info_table--cell--count"><%= reportDetailInfo['css']['general']['unknown']['count'] %></p>
+                <p class="m_column_info_table--cell--rate"><%= reportDetailInfo['css']['general']['unknown']['rate'] %> %</p>
+              </div>
             </div>
           </div>
-        </li>
-      </ul>
-    </div>
-    <div class="m_content__report_inner_wrapper">
-      <h3 class="m_section__sub_title">In-line</h3>
-      <ul class="m_section__ref_css_list">
-      <% reportDetailInfo['css']['info'].forEach(function(cssInfo){ %>
-        <% if(cssInfo['path'] === 'inline') { %>
-          <li class="m_section__ref_css_list__item">
-            <p class="m_section__css_digest_detail_trigger_wrapper">
-              <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_css">More<span class="overlay"></span></a>
-            </p>
-            <div class="j_toggle" data-target-url="inline_css">
-              <div class="m_section__css_digest_table">
-                <div class="m_content__css_digest_table__row">
-                  <div class="m_content__css_digest_table__cell ___head">Total</div>
-                  <div class="m_content__css_digest_table__cell ___head">OK</div>
-                  <div class="m_content__css_digest_table__cell ___head">NG</div>
-                  <div class="m_content__css_digest_table__cell ___head">Unknown</div>
-                </div>
-                <div class="m_content__css_digest_table__row">
-                  <div class="m_content__css_digest_table__cell"><%= cssInfo['digest']['total'] %></div>
-                  <div class="m_content__css_digest_table__cell"><%= cssInfo['digest']['ok'] %></div>
-                  <div class="m_content__css_digest_table__cell"><%= cssInfo['digest']['ng'] %></div>
-                  <div class="m_content__css_digest_table__cell"><%= cssInfo['digest']['unknown'] %></div>
-                </div>
-              </div>
-              <div class="m_content__css_table">
-                <div class="m_content__css_table__row">
-                  <div class="m_content__css_table__cell ___head">Selector Definition</div>
-                  <div class="m_content__css_table__cell ___head">Matched DOM Count</div>
-                </div>
-                <% cssInfo['detail'].forEach(function(cssDetailInfo){ %>
-                  <div class="m_content__css_table__row">
-                    <div class="m_content__css_table__cell"><%= cssDetailInfo['selector'] %></div>
-                    <div class="m_content__css_table__cell"><%= cssDetailInfo['count'] %></div>
+          <section class="m_column_section_inner_wrapper">
+            <h4 class="m_column_info__inner_title">Inline</h4>
+            <% reportDetailInfo['css']['info'].forEach(function(cssInfo){ %>
+              <% if(cssInfo['path'] === 'inline') { %>
+                <div class="m_column_info__table ___maximum">
+                  <div class="m_column_info__table--row">
+                    <div class="m_column_info__table--cell ___head ___quarter">Total</div>
+                    <div class="m_column_info__table--cell ___head ___quarter">OK</div>
+                    <div class="m_column_info__table--cell ___head ___quarter">NG</div>
+                    <div class="m_column_info__table--cell ___head ___quarter">Unknown</div>
                   </div>
-                <% }); %>
-              </div>
-            </div>
-          </li>
-        <% } %>
-      <% }); %>
-      </ul>
-    </div>
-    <div class="m_content__report_inner_wrapper">
-      <h3 class="m_section__sub_title">Ref</h3>
-      <ul class="m_section__ref_css_list">
-      <% reportDetailInfo['css']['info'].forEach(function(cssInfo){ %>
-        <% if(cssInfo['path'] !== 'inline') { %>
-          <li class="m_section__ref_css_list__item">
-            <h4 class="m_section__ref_css__file_name"><%= cssInfo['path'] %></h4>
-            <p class="m_section__css_digest_detail_trigger_wrapper">
-              <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="<%= cssInfo['path'] %>"><span class="overlay"></span>More</a>
-            </p>
-            <div class="j_toggle" data-target-url="<%= cssInfo['path'] %>">
-              <div class="m_section__css_digest_table">
-                <div class="m_content__css_digest_table__row">
-                  <div class="m_content__css_digest_table__cell ___head">Total</div>
-                  <div class="m_content__css_digest_table__cell ___head">OK</div>
-                  <div class="m_content__css_digest_table__cell ___head">NG</div>
-                  <div class="m_content__css_digest_table__cell ___head">Unknown</div>
-                </div>
-                <div class="m_content__css_digest_table__row">
-                  <div class="m_content__css_digest_table__cell"><%= cssInfo['digest']['total'] %></div>
-                  <div class="m_content__css_digest_table__cell"><%= cssInfo['digest']['ok'] %></div>
-                  <div class="m_content__css_digest_table__cell"><%= cssInfo['digest']['ng'] %></div>
-                  <div class="m_content__css_digest_table__cell"><%= cssInfo['digest']['unknown'] %></div>
-                </div>
-              </div>
-              <div class="m_content__css_table">
-                <div class="m_content__css_table__row">
-                  <div class="m_content__css_table__cell ___head">Selector Definition</div>
-                  <div class="m_content__css_table__cell ___head">Matched DOM Count</div>
-                </div>
-                <% cssInfo['detail'].forEach(function(cssDetailInfo){ %>
-                  <div class="m_content__css_table__row">
-                    <div class="m_content__css_table__cell"><%= cssDetailInfo['selector'] %></div>
-                    <div class="m_content__css_table__cell"><%= cssDetailInfo['count'] %></div>
+                  <div class="m_column_info__table--row">
+                    <div class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= cssInfo['digest']['total'] %></p>
+                    </div>
+                    <div class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= cssInfo['digest']['ok'] %></p>
+                    </div>
+                    <div class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= cssInfo['digest']['ng'] %></p>
+                    </div>
+                    <div class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= cssInfo['digest']['unknown'] %></p>
+                    </div>
                   </div>
-                <% }); %>
-              </div>
-            </div>
-          </li>
-        <% } %>
-      <% }); %>
-      </ul>
-    </div>
-  </div>
-</section>
-<!-- JavaScript Information Section -->
-<section class="m_content__report_section">
-  <h2 class="m_section__title marker">JavaScript<span class="overlay"></span></h2>
-  <div class="m_content__report_wrapper">
-    <div class="m_content__report_inner_wrapper">
-      <h3 class="m_section__sub_title">In-line</h3>
-      <ul class="m_section__ref_js_list">
-        <li class="m_section__ref_js_list__item">
-          <p class="m_section__css_digest_detail_trigger_wrapper">
-            <a class="j_digest_detail_trigger marker" href="javascript:void(0);" data-target-url="inline_js">More<span class="overlay"></span></a>
-          </p>
-          <div class="j_toggle" data-target-url="inline_js"><pre><code class="js"><%= reportDetailInfo['script']['inline'] %></code></pre></div>
-        </li>
-      </ul>
-    </div>
-    <div class="m_content__report_inner_wrapper">
-      <h3 class="m_section__sub_title">Ref</h3>
-      <ul class="m_section__ref_js_list">
-        <% reportDetailInfo['script']['ref'].forEach(function(refScriptInfo){ %>
-          <li class="m_section__ref_js_list__item">
-            <h4 class="m_section__ref_js__file_name"><%= refScriptInfo %></h4>
-            <p class="m_section__css_digest_detail_trigger_wrapper">
-              <a class="marker" href="<%= refScriptInfo %>" target="_blank">More<span class="overlay"></span></a>
-            </p>
-          </li>
-        <% }); %>
-      </ul>
-    </div>
-  </div>
-</section>
-<section class="m_content__report_section">
-  <h2 class="m_section__title marker">Image<span class="overlay"></span></h2>
-  <div class="m_content__report_wrapper">
-    <div class="m_content__report_inner_wrapper">
-      <ul class="m_section__ref_image_list">
-        <li class="m_section__ref_image_list__item">
-          <div class="m_section__image_digest_table ___maximum">
-            <div class="m_content__image_digest_table__row">
-              <div class="m_content__image_digest_table__cell ___head">Path</div>
-              <div class="m_content__image_digest_table__cell ___head">Status</div>
-              <div class="m_content__image_digest_table__cell ___head">Image</div>
+                </div>
+                <div class="m_column_info__table ___maximum">
+                  <div class="m_column_info__table--row">
+                    <div class="m_column_info__table--cell ___head ___half">Definition</div>
+                    <div class="m_column_info__table--cell ___head ___half">Matched Count</div>
+                  </div>
+                  <% cssInfo['detail'].forEach(function(cssDetailInfo){ %>
+                    <div class="m_column_info__table--row">
+                      <div class="m_column_info__table--cell ___half"><%= cssDetailInfo['selector'] %></div>
+                      <div class="m_column_info__table--cell ___half"><%= cssDetailInfo['count'] %></div>
+                    </div>
+                  <% }); %>
+                </div>
+              <% } %>
+            <% }); %>
+          </section>
+          <% reportDetailInfo['css']['info'].forEach(function(cssInfo){ %>
+            <% if(cssInfo['path'] !== 'inline') { %>
+              <section class="m_column_section_inner_wrapper">
+                <h4 class="m_column_info__inner_title"><%= cssInfo['path'] %></h4>
+                <div class="m_column_info__table ___maximum">
+                  <div class="m_column_info__table--row">
+                    <div class="m_column_info__table--cell ___head ___quarter">Total</div>
+                    <div class="m_column_info__table--cell ___head ___quarter">OK</div>
+                    <div class="m_column_info__table--cell ___head ___quarter">NG</div>
+                    <div class="m_column_info__table--cell ___head ___quarter">Unknown</div>
+                  </div>
+                  <div class="m_column_info__table--row">
+                    <div class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= cssInfo['digest']['total'] %></p>
+                    </div>
+                    <div class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= cssInfo['digest']['ok'] %></p>
+                    </div>
+                    <div class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= cssInfo['digest']['ng'] %></p>
+                    </div>
+                    <div class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= cssInfo['digest']['unknown'] %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="m_column_info__table ___maximum">
+                  <div class="m_column_info__table--row">
+                    <div class="m_column_info__table--cell ___head ___half">Definition</div>
+                    <div class="m_column_info__table--cell ___head ___half">Matched Count</div>
+                  </div>
+                  <% cssInfo['detail'].forEach(function(cssDetailInfo){ %>
+                    <div class="m_column_info__table--row">
+                      <div class="m_column_info__table--cell ___half"><%= cssDetailInfo['selector'] %></div>
+                      <div class="m_column_info__table--cell ___half"><%= cssDetailInfo['count'] %></div>
+                    </div>
+                  <% }); %>
+                </div>
+              </section>
+            <% } %>
+          <% }); %>
+        </section>
+
+        <!-- Page JavaScript -->
+        <section class="m_column_section">
+          <h3 class="m_column_info__sub_title marker">JavaScript<span class="overlay"></span></h3>
+          <section class="m_column_section_inner_wrapper ___marker">
+            <h4 class="m_column_info__inner_title">Inline</h4>
+            <div><pre><code class="js"><%= reportDetailInfo['script']['inline'] %></code></pre></div>
+          </section>
+          <section class="m_column_section_inner_wrapper">
+            <h4 class="m_column_info__inner_title">Ref</h4>
+            <ul class="m_column_info__link__list">
+              <% reportDetailInfo['script']['ref'].forEach(function(refScriptInfo){ %>
+              <li class="m_column_info__link__list-item">
+                <a class="marker" href="<%= refScriptInfo %>" target="_blank"><span><%= refScriptInfo %></span><span class="overlay"></span></a>
+              </li>
+              <% }); %>
+            </ul>
+          </section>
+        </section>
+        <section class="m_column_section">
+          <h3 class="m_column_info__sub_title marker">Image<span class="overlay"></span></h3>
+          <div class="m_column_info__table ___maximum">
+            <div class="m_column_info__table--row">
+              <div class="m_column_info__table--cell ___head ___half">Path</div>
+              <div class="m_column_info__table--cell ___head ___half">Image</div>
             </div>
             <% reportDetailInfo['image'].forEach(function(imgInfo){ %>
-              <div class="m_content__image_digest_table__row">
-                <div class="m_content__image_digest_table__cell"><%= imgInfo['path']['raw'] %></div>
-                <div class="m_content__image_digest_table__cell"><%= imgInfo['status'] === 1 ? 'o' : 'x' %></div>
-                <div class="m_content__image_digest_table__cell j_async_image_load" data-async-src="/assets/image/<%= reportName %>/<%= imgInfo['path']['local'] %>"></div>
+              <div class="m_column_info__table--row">
+                <div class="m_column_info__table--cell ___half"><%= imgInfo['path']['raw'] %></div>
+                <div class="m_column_info__table--cell ___half ___status j_async_image_load" data-async-src="/assets/image/<%= reportName %>/<%= imgInfo['path']['local'] %>"></div>
               </div>
             <% }); %>
           </div>
-        </li>
-      </ul>
+        </section>
+      </div>
     </div>
   </div>
-</section>
+  <div class="m_column_box">
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_top_trigger_for_img" data-ps-direction="top">
+      <span></span>
+    </a>
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_top_trigger_for_img" data-ps-direction="bottom">
+      <span></span>
+    </a>
+    <div class="m_column_ps_wrapper" data-handle-trigger="j_to_top_trigger_for_img">
+      <div class="m_column_content_wrapper">
+        <img src="/assets/image/<%= reportName %>/___result.png" alt="">
+      </div>
+    </div>
+  </div>
+</div>

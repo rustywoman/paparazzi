@@ -83,29 +83,29 @@ class Main{
       hljs.highlightBlock(rawCodes[i]);
     }
   };
-  bindCustomToggle(){
-    let digestTriggerStack:any = {};
-    let digestTriggers = document.querySelectorAll('.j_digest_detail_trigger');
-    let digestToggleAreas = document.querySelectorAll('.j_toggle');
-    if(
-      (digestTriggers.length !== 0 && digestToggleAreas.length !== 0) &&
-      (digestTriggers.length === digestToggleAreas.length)
-    ){
-      for(let i = 0, il = digestToggleAreas.length; i < il; i++){
-        digestTriggerStack[digestToggleAreas[i].getAttribute('data-target-url')] = digestToggleAreas[i];
-        digestToggleAreas[i].setAttribute('data-hidden-height', (digestToggleAreas[i].clientHeight + 20) + 'px');
-        digestToggleAreas[i].setAttribute('style', 'height: 0px');
-        digestTriggers[i].addEventListener(
-          'click',
-          (evt:any) => {
-            let tmpToggledDOM = digestTriggerStack[evt.currentTarget.getAttribute('data-target-url')];
-            tmpToggledDOM.setAttribute('style', 'height:' + tmpToggledDOM.getAttribute('data-hidden-height'));
-          },
-          false
-        );
-      }
-    }
-  };
+  // bindCustomToggle(){
+  //   let digestTriggerStack:any = {};
+  //   let digestTriggers = document.querySelectorAll('.j_digest_detail_trigger');
+  //   let digestToggleAreas = document.querySelectorAll('.j_toggle');
+  //   if(
+  //     (digestTriggers.length !== 0 && digestToggleAreas.length !== 0) &&
+  //     (digestTriggers.length === digestToggleAreas.length)
+  //   ){
+  //     for(let i = 0, il = digestToggleAreas.length; i < il; i++){
+  //       digestTriggerStack[digestToggleAreas[i].getAttribute('data-target-url')] = digestToggleAreas[i];
+  //       digestToggleAreas[i].setAttribute('data-hidden-height', (digestToggleAreas[i].clientHeight + 20) + 'px');
+  //       digestToggleAreas[i].setAttribute('style', 'height: 0px');
+  //       digestTriggers[i].addEventListener(
+  //         'click',
+  //         (evt:any) => {
+  //           let tmpToggledDOM = digestTriggerStack[evt.currentTarget.getAttribute('data-target-url')];
+  //           tmpToggledDOM.setAttribute('style', 'height:' + tmpToggledDOM.getAttribute('data-hidden-height'));
+  //         },
+  //         false
+  //       );
+  //     }
+  //   }
+  // };
   handleAsyncImageLoader(wrapperDOM:HTMLElement){
     return new Promise(
       (resolve:any, reject:any) => {
@@ -133,6 +133,48 @@ class Main{
         tmpImg.setAttribute('src', wrapperDOM.getAttribute('data-async-src'));
       }
     );
+  };
+  bindCustomScrollBar(){
+    let psDOM:any = {};
+    let psWrapperDOM = document.querySelectorAll('.m_column_ps_wrapper');
+    for(let i = 0, il = psWrapperDOM.length; i < il; i++){
+      Ps.initialize(
+        psWrapperDOM[i],
+        {
+          wheelSpeed         : 1,
+          minScrollbarLength : 10
+        }
+      );
+      let tmpYRailDOM = psWrapperDOM[i].querySelector('.ps__scrollbar-y-rail');
+      let tmpYRailDOMStatus = tmpYRailDOM.clientHeight !== STATUS.NG ? STATUS.OK : STATUS.NG;
+      if(tmpYRailDOMStatus === STATUS.NG){
+        tmpYRailDOM.classList.add(CONSTANT.COMMON_MARKER);
+      }
+      psDOM[psWrapperDOM[i].getAttribute('data-handle-trigger')] = {
+        'wrapper' : psWrapperDOM[i],
+        'status'  : tmpYRailDOMStatus
+      };
+    }
+    let psTriggerDOM = document.querySelectorAll('.j_to_scroll_trigger');
+    for(let i = 0, il = psTriggerDOM.length; i < il; i++){
+      if(psDOM[psTriggerDOM[i].getAttribute('data-handle-ps-wrapper')]['status'] === 1){
+        psTriggerDOM[i].addEventListener(
+          'click',
+          (evt:any) => {
+            let tmpDOM = psDOM[evt.currentTarget.getAttribute('data-handle-ps-wrapper')]['wrapper'];
+            switch(evt.currentTarget.getAttribute('data-ps-direction')){
+              case 'top':
+                tmpDOM.scrollTop = 0;
+                break;
+              case 'bottom':
+                tmpDOM.scrollTop = tmpDOM.scrollTopMax ? tmpDOM.scrollTopMax : tmpDOM.scrollHeight - tmpDOM.clientHeight;
+                break;
+            }
+          },
+          false
+        );
+      }
+    }
   };
   bindAsyncImageLoad(callback:any){
     let asyncImages = [].slice.call(document.querySelectorAll('.j_async_image_load'));
@@ -190,13 +232,12 @@ class Main{
               () => {
                 this.bindAsyncContentLoad();
                 this.bindHighlight();
-                this.bindCustomToggle();
+                this.bindCustomScrollBar();
                 this.markerHandlerIns.reset();
                 this.customLoadingIns
                   .init(100)
                   .then(
                     () => {
-                      window.scrollTo(0, 0);
                       document.body.setAttribute('style', '');
                       this.markerHandlerIns
                         .init()
@@ -218,13 +259,12 @@ class Main{
           () => {
             this.bindAsyncContentLoad();
             this.bindHighlight();
-            this.bindCustomToggle();
+            this.bindCustomScrollBar();
             this.markerHandlerIns.reset();
             this.customLoadingIns
               .init(100)
               .then(
                 () => {
-                  window.scrollTo(0, 0);
                   document.body.setAttribute('style', '');
                   this.markerHandlerIns
                     .init()
@@ -248,58 +288,16 @@ class Main{
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-    // let mainIns = new Main(
-    //   new LoadingHandler(
-    //     document.querySelector('#loading__bg'),
-    //     document.querySelector('#loading__status'),
-    //     CONSTANT.LOADED_MARKER
-    //   ),
-    //   new MarkerHandler('overlay'),
-    //   document.querySelector('#wrapper')
-    // );
-    // mainIns.init(false);
-
-    // https://github.com/utatti/perfect-scrollbar/tree/0.8.1
-    let psDOM:any = {};
-    let psWrapperDOM = document.querySelectorAll('.m_column_ps_wrapper');
-    for(let i = 0, il = psWrapperDOM.length; i < il; i++){
-      Ps.initialize(
-        psWrapperDOM[i],
-        {
-          wheelSpeed         : 1,
-          minScrollbarLength : 10
-        }
-      );
-      let tmpYRailDOM = psWrapperDOM[i].querySelector('.ps__scrollbar-y-rail');
-      let tmpYRailDOMStatus = tmpYRailDOM.clientHeight !== 0 ? 1 : 0;
-      if(tmpYRailDOMStatus === 0){
-        tmpYRailDOM.classList.add(CONSTANT.COMMON_MARKER);
-      }
-      psDOM[psWrapperDOM[i].getAttribute('data-handle-trigger')] = {
-        'wrapper' : psWrapperDOM[i],
-        'status'  : tmpYRailDOMStatus
-      };
-    }
-    let psTriggerDOM = document.querySelectorAll('.j_to_scroll_trigger');
-    for(let i = 0, il = psTriggerDOM.length; i < il; i++){
-      if(psDOM[psTriggerDOM[i].getAttribute('data-handle-ps-wrapper')]['status'] === 1){
-        psTriggerDOM[i].addEventListener(
-          'click',
-          (evt:any) => {
-            let tmpDOM = psDOM[evt.currentTarget.getAttribute('data-handle-ps-wrapper')]['wrapper'];
-            switch(evt.currentTarget.getAttribute('data-ps-direction')){
-              case 'top':
-                tmpDOM.scrollTop = 0;
-                break;
-              case 'bottom':
-                tmpDOM.scrollTop = tmpDOM.scrollTopMax ? tmpDOM.scrollTopMax : tmpDOM.scrollHeight - tmpDOM.clientHeight;
-                break;
-            }
-          },
-          false
-        );
-      }
-    }
+    let mainIns = new Main(
+      new LoadingHandler(
+        document.querySelector('#loading__bg'),
+        document.querySelector('#loading__status'),
+        CONSTANT.LOADED_MARKER
+      ),
+      new MarkerHandler('overlay'),
+      document.querySelector('#wrapper')
+    );
+    mainIns.init(false);
   },
   false
 );
