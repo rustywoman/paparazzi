@@ -16,7 +16,7 @@ Part - Marker
     content: '';
     width: 110%;
     height: 1px;
-    background-color: $default-color-black;
+    background-color: $default-color-gray;
   }
   &:after{
     display: inline-block;
@@ -26,7 +26,7 @@ Part - Marker
     content: '';
     width: 2px;
     height: 2px;
-    background-color: $default-color-black;
+    background-color: $default-color-gray;
   }
   span{
     transition: opacity .25s ease-in-out 0s;

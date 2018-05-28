@@ -1,0 +1,128 @@
+/*
+=================================
+Detail
+=================================
+*/
+// Report Section Wrapper
+.m_column_section{
+  margin: 0 15px 40px 0;
+  position: relative;
+}
+.m_column_section_inner_wrapper{
+  margin: 15px 0 0;
+  position: relative;
+  &.___marker{
+    margin: 0;
+  }
+}
+
+// [ component ] Page Title
+.m_column_info__title{
+  font-size: $default-font-size * 1.2 + px;
+  background: $default-color-gray !important;
+  color: $default-color-white !important;
+  padding: 10px 0 10px 10px;
+}
+
+// Report Section Sub Title
+.m_column_info__sub_title{
+  display: inline-block;
+  position: relative;
+  margin: 0 0 10px 0;
+}
+
+// Report Section Inner Title
+.m_column_info__inner_title{
+  display: inline-block;
+  position: relative;
+  margin: 0 0 5px 0;
+}
+
+// [ component ] Page Text
+.m_column_info__text{}
+.m_column_info__text--item{
+  &:after{
+    display: inline-block;
+    content: ',';
+    padding: 0 5px 0 0;
+  }
+  &:last-child{
+    &:after{
+      display: none;
+    }
+  }
+}
+
+
+
+
+.m_column_info__table{
+  display: table;
+  width: 50%;
+  &.___maximum{
+    width: 100%;
+  }
+}
+.m_column_info__table--row{
+  display: table-row;
+  &:last-child{
+    .m_column_info__table--cell{
+      border-bottom: none !important;
+      &:last-child{
+        border-right: none !important;
+      }
+    }
+  }
+  &:nth-child(2n-1){
+    .m_column_info__table--cell{
+      background-color: rgba(68, 68, 68, .2);
+    }
+  }
+}
+.m_column_info__table--cell{
+  display: table-cell;
+  vertical-align: middle;
+  padding: 10px 15px;
+  border-bottom: 1px solid $default-color-white;
+  border-right: 1px solid $default-color-white;
+  box-sizing: content-box;
+  background-color: rgba(68, 68, 68, .1);
+  &.___head{
+    padding: 5px 15px;
+    background-color: $default-color-gray !important;
+    color: $default-color-white;
+    border-bottom: 1px solid $default-color-white;
+    box-sizing: content-box;
+  }
+  &.___half{
+    width: 50%;
+  }
+  &.___quarter{
+    width: 25%;
+  }
+  &:first-child{
+    border-right: 1px solid $default-color-white;
+    box-sizing: content-box;
+    word-break: break-word;
+  }
+}
+.m_column_info_table--cell--count{
+  display: inline-block;
+}
+.m_column_info_table--cell--rate{
+  display: inline-block;
+  font-size: $min-font-size + px;
+  padding: 0 0 0 4px;
+  &:before{
+    font-size: $min-font-size + px;
+    display: inline-block;
+    content: '(';
+    padding: 0 2px 0 0;
+  }
+  &:after{
+    font-size: $min-font-size + px;
+    display: inline-block;
+    content: ')';
+    padding: 0 0 0 2px;
+  }
+}
