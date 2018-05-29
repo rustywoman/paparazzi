@@ -225,7 +225,11 @@ class Main{
     window.addEventListener(
       'popstate',
       (evt:any) => {
-        this.handleAsyncContentLoader(evt.state.name);
+        if(evt.state === null){
+          this.handleAsyncContentLoader('/');
+        }else{
+          this.handleAsyncContentLoader(evt.state.name);
+        }
       },
       false
     );
