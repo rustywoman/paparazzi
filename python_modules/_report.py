@@ -358,18 +358,27 @@ if __name__ == '__main__':
             )
             cssParseResult.append(validateResult)
     logger.log('Total Rules : {0} rules'.format(TOTAL_RULE_NUM))
-    logger.log('  o       : {0} ( {1} % )'.format(
-        TOTAL_VALID_RULE_NUM,
-        ((TOTAL_VALID_RULE_NUM / TOTAL_RULE_NUM) * 100)
-    ))
-    logger.log('  x       : {0} ( {1} % )'.format(
-        TOTAL_INVALID_RULE_NUM,
-        ((TOTAL_INVALID_RULE_NUM / TOTAL_RULE_NUM) * 100)
-    ))
-    logger.log('  unknown : {0} ( {1} % )'.format(
-        TOTAL_UNKNOWN_RULE_NUM,
-        ((TOTAL_UNKNOWN_RULE_NUM / TOTAL_RULE_NUM) * 100)
-    ))
+    try:
+        logger.log('  o       : {0} ( {1} % )'.format(
+            TOTAL_VALID_RULE_NUM,
+            ((TOTAL_VALID_RULE_NUM / TOTAL_RULE_NUM) * 100)
+        ))
+    except ZeroDivisionError as e:
+        logger.log('  o       : {0} ( {1} % )'.format(TOTAL_VALID_RULE_NUM, TOTAL_VALID_RULE_NUM))
+    try:
+        logger.log('  x       : {0} ( {1} % )'.format(
+            TOTAL_INVALID_RULE_NUM,
+            ((TOTAL_INVALID_RULE_NUM / TOTAL_RULE_NUM) * 100)
+        ))
+    except ZeroDivisionError as e:
+        logger.log('  x       : {0} ( {1} % )'.format(TOTAL_INVALID_RULE_NUM, TOTAL_INVALID_RULE_NUM))
+    try:
+        logger.log('  unknown : {0} ( {1} % )'.format(
+            TOTAL_UNKNOWN_RULE_NUM,
+            ((TOTAL_UNKNOWN_RULE_NUM / TOTAL_RULE_NUM) * 100)
+        ))
+    except ZeroDivisionError as e:
+        logger.log('  unknown : {0} ( {1} % )'.format(TOTAL_UNKNOWN_RULE_NUM, TOTAL_UNKNOWN_RULE_NUM))
     # HTML, CSS内部の画像を一覧化（重複なし）後、並列ダウンロード
     downloadFlg = False
     print(constant.EMPTY)
@@ -437,19 +446,31 @@ if __name__ == '__main__':
         )
     # Report - Css [ inline + ref ]
     reportConfig['css'] = {}
+    try:
+        cssOKRate = round(((TOTAL_VALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+    except ZeroDivisionError as e:
+        cssOKRate = TOTAL_VALID_RULE_NUM
+    try:
+        cssNGRate = round(((TOTAL_INVALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+    except ZeroDivisionError as e:
+        cssNGRate = 0
+    try:
+        cssUNKNOWNRate = round(((TOTAL_UNKNOWN_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+    except ZeroDivisionError as e:
+        cssUNKNOWNRate = 0
     reportConfig['css']['general'] = {
         'total': TOTAL_RULE_NUM,
         'ok': {
             'count': TOTAL_VALID_RULE_NUM,
-            'rate': round(((TOTAL_VALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+            'rate': cssOKRate
         },
         'ng': {
             'count': TOTAL_INVALID_RULE_NUM,
-            'rate': round(((TOTAL_INVALID_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+            'rate': cssNGRate
         },
         'unknown': {
             'count': TOTAL_UNKNOWN_RULE_NUM,
-            'rate': round(((TOTAL_UNKNOWN_RULE_NUM / TOTAL_RULE_NUM) * 100), 1)
+            'rate': cssUNKNOWNRate
         }
     }
     reportConfig['css']['info'] = cssParseResult

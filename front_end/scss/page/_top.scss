@@ -6,28 +6,32 @@ Top
 #content{
   position: relative;
 }
-#l_content__index_wrapper{
-  width: 100%;
-}
 #l_content__readme{
   padding: 60px 0 0;
-  text-align: center;
+}
+#l_content__description{
+  padding: 60px 0 0;
+}
+#l_content__how_to{
+  padding: 60px 0 0;
 }
 #l_content__description_list{
-  padding: 60px 0 0;
-  text-align: center;
+  padding: 20px 0 0;
 }
 .m_content__description_list--item{
   margin: 0 0 10px 0;
   &:last-child{
     margin: 0;
   }
+  &.___marker{
+    padding: 0 0 0 20px;
+  }
 }
 #l_content__report_table{
-  width: 60%;
+  width: calc(100% - 15px);
   display: table;
   margin: 60px auto 0;
-  padding: 0 0 60px;
+  padding: 0 15px 60px 0;
 }
 .m_content__report_table--row{
   display: table-row;

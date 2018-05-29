@@ -28,6 +28,9 @@ Part - Marker
     height: 2px;
     background-color: $default-color-gray;
   }
+  &.___default{
+    cursor: default;
+  }
   span{
     transition: opacity .25s ease-in-out 0s;
   }

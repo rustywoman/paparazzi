@@ -6,38 +6,64 @@
     <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_index" data-ps-direction="bottom">
       <span></span>
     </a>
-    <div id="l_content__index_wrapper" class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_index">
-      <h2 id="l_content__readme">
-        <a class="marker" href="https://github.com/rustywoman/paparazzi/blob/master/README.md" target="_blank">
-          <span>README @ GitHub</span>
-          <span class="overlay"></span>
-        </a>
-      </h2>
-      <ul id="l_content__description_list">
-        <li class="m_content__description_list--item">Selenim による スクレイピング</li>
-        <li class="m_content__description_list--item">+</li>
-        <li class="m_content__description_list--item">全画面キャプチャ</li>
-        <li class="m_content__description_list--item">+</li>
-        <li class="m_content__description_list--item">初回アクセス時に HTML を "pickle" 化</li>
-        <li class="m_content__description_list--item">||</li>
-        <li class="m_content__description_list--item">対象サービスをやさしく "まとめ記事"</li>
-      </ul>
-      <div id="l_content__report_table">
-        <div class="m_content__report_table--row">
-          <div class="m_content__report_table--cell ___head">Target Name</div>
-          <div class="m_content__report_table--cell ___head">Date</div>
-        </div>
-        <% reportList.forEach(function(reportInfo){ %>
-        <div class="m_content__report_table--row">
-          <div class="m_content__report_table--cell">
-            <a class="marker j_async_content_load" href="javascript:void(0);" data-async-href="<%= reportInfo['path'] %>">
-              <span><%= reportInfo['name'] %></span>
-              <span class="overlay"></span>
-            </a>
+    <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_index">
+      <div class="m_column_content_wrapper">
+        <h2 id="l_content__readme">
+          <a class="marker" href="https://github.com/rustywoman/paparazzi/blob/master/README.md" target="_blank">
+            <span>1. README @ GitHub</span>
+            <span class="overlay"></span>
+          </a>
+        </h2>
+        <h3 id="l_content__description">
+          <a class="marker ___default" href="javascript:void(0);">
+            <span>2. What's `Paparazzi` ?</span>
+            <span class="overlay"></span>
+          </a>
+        </h3>
+        <ul id="l_content__description_list">
+          <li class="m_content__description_list--item">Selenim による スクレイピング</li>
+          <li class="m_content__description_list--item ___marker">+</li>
+          <li class="m_content__description_list--item">全画面キャプチャ</li>
+          <li class="m_content__description_list--item ___marker">+</li>
+          <li class="m_content__description_list--item">初回アクセス時に HTML を "pickle" 化</li>
+          <li class="m_content__description_list--item ___marker">||</li>
+          <li class="m_content__description_list--item">対象サービスをやさしく "まとめ記事" する ツール</li>
+        </ul>
+        <h3 id="l_content__how_to">
+          <a class="marker" href="javascript:void(0);">
+            <span>3. How To Start ?</span>
+            <span class="overlay"></span>
+          </a>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="m_column_box">
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_service" data-ps-direction="top">
+      <span></span>
+    </a>
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_service" data-ps-direction="bottom">
+      <span></span>
+    </a>
+    <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_service">
+      <div class="m_column_content_wrapper">
+        <div id="l_content__report_table">
+          <div class="m_content__report_table--row">
+            <div class="m_content__report_table--cell ___head">Target Name</div>
+            <div class="m_content__report_table--cell ___head">Date</div>
           </div>
-          <div class="m_content__report_table--cell"><%= reportInfo['date'] %></div>
+          <% reportList.forEach(function(reportInfo){ %>
+          <div class="m_content__report_table--row">
+            <div class="m_content__report_table--cell">
+              <a class="marker j_async_content_load" href="javascript:void(0);" data-async-href="<%= reportInfo['path'] %>">
+                <span><%= reportInfo['name'] %></span>
+                <span class="overlay"></span>
+              </a>
+            </div>
+            <div class="m_content__report_table--cell"><%= reportInfo['date'] %></div>
+          </div>
+          <% }); %>
         </div>
-        <% }); %>
       </div>
     </div>
   </div>
