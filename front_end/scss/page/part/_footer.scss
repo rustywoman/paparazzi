@@ -32,5 +32,12 @@ Part - Footer
   padding: 0 4px 0 0;
 }
 #l_footer__author{
+  padding: 0 4px 0 0;
+}
+#l_footer__version{
   padding: 0;
+  &:before{
+    display: inline-block;
+    content: 'v';
+  }
 }

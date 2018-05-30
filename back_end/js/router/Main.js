@@ -2,21 +2,30 @@
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Load Module
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const fs = require('fs');
+const path = require('path');
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Class
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 class Main{
-  constructor(app){
+  constructor(app, version){
     this.app = app;
+    this.version = version;
     this.name = 'main';
     this.reportPrefix = '___';
-    this.staticReportInfoDir = '../../../report/';
+    this.staticReportInfoDir = path.join(__dirname, '../../../report/');
   }
   render(){
     this.app.get(
       '*',
       (req, res) => {
         let baseResponse = {
-          path : req.path
+          path    : req.path,
+          version : this.version
         };
         let tmpResponse = {};
         let tmpRequestPath = req.path;
@@ -24,7 +33,12 @@ class Main{
           let tmpReportName = tmpRequestPath.replace(this.reportPrefix, '');
           tmpResponse = {
             reportName       : tmpReportName,
-            reportDetailInfo : require(this.staticReportInfoDir + 'assets/json/' + tmpReportName + '.json'),
+            reportDetailInfo : JSON.parse(
+              fs.readFileSync(
+                this.staticReportInfoDir + 'assets/json/' + tmpReportName + '.json',
+                'utf8'
+              )
+            ),
             status           : 1,
             title            : ' - ' + tmpReportName
           }
@@ -32,7 +46,12 @@ class Main{
           switch(tmpRequestPath){
             case '/' :
               tmpResponse = {
-                reportList       : require(this.staticReportInfoDir + 'index.json'),
+                reportList       : JSON.parse(
+                  fs.readFileSync(
+                    this.staticReportInfoDir + 'index.json',
+                    'utf8'
+                  )
+                ),
                 reportDetailInfo : null,
                 status           : 1,
                 title            : ''
