@@ -6,20 +6,19 @@ Top
 #content{
   position: relative;
 }
-#l_content__readme{
-  padding: 60px 0 0;
-}
+#l_content__readme{}
 #l_content__description{
-  padding: 60px 0 0;
+  padding: 40px 0 0;
 }
 #l_content__how_to{
-  padding: 60px 0 0;
+  padding: 40px 0 0;
 }
 #l_content__description_list{
   padding: 20px 0 0;
 }
 .m_content__description_list--item{
   margin: 0 0 10px 0;
+  color: $default-color-border;
   &:last-child{
     margin: 0;
   }
@@ -28,13 +27,13 @@ Top
   }
 }
 #l_content__list_title{
-  margin: 60px 0 0;
+  text-align: left;
 }
 #l_content__report_table{
   width: calc(100% - 15px);
   display: table;
   margin: 20px auto 0;
-  padding: 0 15px 60px 0;
+  padding: 0 15px 0 0;
 }
 .m_content__report_table--row{
   display: table-row;
@@ -78,6 +77,10 @@ Top
 }
 .m_content__how_to_list--item{
   margin: 0 0 10px 0;
+  color: $default-color-border;
+  &.___marker{
+    padding: 0 0 0 20px;
+  }
   &:last-child{
     margin: 0;
   }
@@ -85,4 +88,94 @@ Top
 .m_content__case_sample{
   margin: 5px 0 0;
   padding: 0 0 0 20px;
+}
+
+#l_content__direct_func{
+  width: calc(100% - 15px);
+  margin: 0 0 40px 0;
+}
+#l_content__direct_func_title{
+  text-align: left;
+}
+#l_content__direct_func_config_table{
+  display: table;
+  width: 100%;
+}
+.m_content__direct_func_config_table--row{
+  display: table-row;
+}
+.m_content__direct_func_config_table--cell{
+  display: table-cell;
+  &:first-child{
+    width: 35%;
+    text-align: left;
+    padding: 5px 5px 5px 80px;
+  }
+  &:last-child{
+    width: 65%;
+    text-align: left;
+    padding: 5px 0 5px 5px;
+  }
+  label{
+    color: $default-color-border;
+    font-size: $min-font-size + px;
+  }
+  input{
+    width: 100%;
+    position: relative;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgba($default-color-border, .25);
+    box-sizing: content-box;
+    text-align: left;
+    padding: 3px 0;
+    font-size: $min-font-size + px;
+  }
+}
+#l_content__direct_func_list{
+  margin: 20px 0 0;
+  width: 80%;
+}
+.m_content__direct_func_list__title{
+  margin: 0 0 10px 40px;
+  position: relative;
+  display: inline-block;
+  &:before{
+    content: '';
+    width: 20px;
+    height: 1px;
+    background-color: $default-color-border;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    transform: translateY(-50%);
+  }
+  &:after{
+    content: '';
+    width: 20px;
+    height: 1px;
+    background-color: $default-color-border;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    transform: translateY(-50%);
+  }
+}
+.m_content__direct_func_list__description{
+  padding: 0 0 0 80px;
+  font-size: $min-font-size + px;
+  color: $default-color-border;
+}
+.m_content__direct_func_trigger_wrapper{
+  margin: 10px 0 0;
+  text-align: right;
+}
+.m_content__direct_func_list--item{
+  margin: 0 0 20px 0;
+  text-align: left;
+  &:last-child{
+    margin: 0;
+  }
 }

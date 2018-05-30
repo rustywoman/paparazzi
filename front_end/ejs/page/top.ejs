@@ -21,34 +21,36 @@
           </a>
         </h3>
         <ul id="l_content__description_list">
-          <li class="m_content__description_list--item">Selenim による スクレイピング</li>
+          <li class="m_content__description_list--item">Scraping by Selenim via Python</li>
           <li class="m_content__description_list--item ___marker">+</li>
-          <li class="m_content__description_list--item">全画面キャプチャ</li>
+          <li class="m_content__description_list--item">Full Page Screen Capture</li>
           <li class="m_content__description_list--item ___marker">+</li>
-          <li class="m_content__description_list--item">初回アクセス時に HTML を "pickle" 化</li>
+          <li class="m_content__description_list--item">Full Cache For Target Web Page</li>
           <li class="m_content__description_list--item ___marker">||</li>
-          <li class="m_content__description_list--item">対象サービスをやさしく "まとめ記事" する ツール</li>
+          <li class="m_content__description_list--item">Sustainable, Well-mannered and Sophisticated Web Service</li>
         </ul>
         <h3 id="l_content__how_to">
-          <a class="marker" href="javascript:void(0);">
+          <a class="marker ___default" href="javascript:void(0);">
             <span>3. How To Start ?</span>
             <span class="overlay"></span>
           </a>
         </h3>
         <ul id="l_content__how_to_list">
           <li class="m_content__how_to_list--item">
-            <p>1. Create 'case/***_report.json' or Click 'Make Report Case'</p>
+            1. Create 'case/***_report.json'
             <div class="m_content__case_sample"><pre><code class="json">{
   "name" : "REPORT NAME",
   "url"  : "http://xxxxx.xx.xx"
 }</code></pre></div>
           </li>
           <li class="m_content__how_to_list--item">
-            <p>2. Execute Shell For Report</p>
+            2. Execute Shell For Report
             <div class="m_content__case_sample"><pre><code class="bash">sh report.sh</code></pre></div>
           </li>
           <li class="m_content__how_to_list--item">3. Select *** Index</li>
           <li class="m_content__how_to_list--item">4. Reload</li>
+          <li class="m_content__how_to_list--item ___marker">---</li>
+          <li class="m_content__how_to_list--item">X. See The Right Column " Direct Reporter ".</li>
         </ul>
       </div>
     </div>
@@ -62,6 +64,51 @@
     </a>
     <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_service">
       <div class="m_column_content_wrapper">
+        <h5 id="l_content__direct_func_title">
+          <a class="marker ___default" href="javascript:void(0);">
+            <span>Direct Reporter</span>
+            <span class="overlay"></span>
+          </a>
+        </h5>
+        <div id="l_content__direct_func">
+          <ul id="l_content__direct_func_list">
+            <li class="m_content__direct_func_list--item">
+              <p class="m_content__direct_func_list__title">1. Create Report Configuration</p>
+              <div id="l_content__direct_func_config_table">
+                <div class="m_content__direct_func_config_table--row">
+                  <div class="m_content__direct_func_config_table--cell">
+                    <label for="j__direct_report_name">Report Name</label>
+                  </div>
+                  <div class="m_content__direct_func_config_table--cell">
+                    <input id="j__direct_report_name" type="text" value="" placeholder="Top Page">
+                  </div>
+                </div>
+                <div class="m_content__direct_func_config_table--row">
+                  <div class="m_content__direct_func_config_table--cell">
+                    <label for="j__direct_report_url">Target URL</label>
+                  </div>
+                  <div class="m_content__direct_func_config_table--cell">
+                    <input id="j__direct_report_url" type="text" value="" placeholder="http://abc.xxx.xx.x">
+                  </div>
+                </div>
+              </div>
+              <div class="m_content__direct_func_trigger_wrapper">
+                <a id="j_api_trigger_for_creatation" class="button" href="javascript:void(0);">
+                  <span>Create</span>
+                </a>
+              </div>
+            </li>
+            <li class="m_content__direct_func_list--item">
+              <p class="m_content__direct_func_list__title">2. Execute</p>
+              <p class="m_content__direct_func_list__description">Execute shell based on the configuration created above.</p>
+              <div class="m_content__direct_func_trigger_wrapper">
+                <a id="j_api_trigger_for_execution" class="button" href="javascript:void(0)">
+                  <span>Execute</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
         <h4 id="l_content__list_title">
           <a class="marker ___default" href="javascript:void(0);">
             <span>Report List</span>
@@ -85,9 +132,6 @@
           </div>
           <% }); %>
         </div>
-        <a id="j_api_trigger_for_make" href="javascript:void(0)">
-          <span>Make Report Case</span>
-        </a>
       </div>
     </div>
   </div>

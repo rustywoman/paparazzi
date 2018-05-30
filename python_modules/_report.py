@@ -127,8 +127,11 @@ def diveCssFile(cssParser, tmpCssName, cssSelectors):
                     cssSelectors
                 )
             except Exception as e:
-                print('Selector Parse Error ---> Skip...')
-                print(e)
+                if SHELL_FLG:
+                    print(e)
+                else:
+                    print('Selector Parse Error ---> Skip...')
+                    print(e)
     diveImageInCss(rawCss)
     return cssSelectors
 
@@ -248,22 +251,46 @@ if __name__ == '__main__':
         description='Parse and Check All Css Definitions, Collecting All Images if you need.',
         epilog=''
     )
-    helper.parse_args()
-    tools.outputAsciiArt()
+    helper.add_argument('--case', '-c', type=str, help='Argument:String')
+    args = helper.parse_args()
+
+    # ------------------------------------------
+
     POOL_LIMIT = multi.cpu_count()
     TOTAL_RULE_NUM = 0
     TOTAL_VALID_RULE_NUM = 0
     TOTAL_INVALID_RULE_NUM = 0
     TOTAL_UNKNOWN_RULE_NUM = 0
     TEST_CASE_DIR = config['test']['dir']
-    TEST_CASE_STACK = tools.listUpTestCases(
-        testCaseDir=TEST_CASE_DIR,
-        execFileName=tools.getMainScriptFileName(__file__)
-    )
-    TEST_ROW_INFO = tools.selectTestCase(
-        testCaseDir=TEST_CASE_DIR,
-        testCaseStack=TEST_CASE_STACK
-    )
+    SHELL_FLG = False
+
+    if args.case is not None:
+        SHELL_FLG = True
+        TEST_CASE_DIR = config['test']['dir']
+        execFileName = tools.getMainScriptFileName(__file__)
+        for root, dirs, files in os.walk(TEST_CASE_DIR):
+            for file in files:
+                if file.replace(constant.TEST_CASE_EXT, constant.EMPTY) == args.case:
+                    TEST_ROW_INFO = json.load(
+                        open(
+                            '{0}{1}{2}'.format(
+                                TEST_CASE_DIR,
+                                os.path.sep,
+                                file
+                            ),
+                            'r'
+                        )
+                    )
+    else:
+        tools.outputAsciiArt()
+        TEST_CASE_STACK = tools.listUpTestCases(
+            testCaseDir=TEST_CASE_DIR,
+            execFileName=tools.getMainScriptFileName(__file__)
+        )
+        TEST_ROW_INFO = tools.selectTestCase(
+            testCaseDir=TEST_CASE_DIR,
+            testCaseStack=TEST_CASE_STACK
+        )
     TEST_NAME = TEST_ROW_INFO['name']
     TEST_URL = TEST_ROW_INFO['url']
     TEST_SAVED_IMAGES_DIR = os.path.sep.join(
@@ -285,7 +312,8 @@ if __name__ == '__main__':
     if not os.path.exists(TEST_TMP_REPORTS_DIR):
         os.makedirs(TEST_TMP_REPORTS_DIR)
     TEST_TMP_REPORTS_DIR = TEST_TMP_REPORTS_DIR + os.path.sep
-    START_TIME = tools.startAutoTest(TEST_NAME)
+    if not SHELL_FLG:
+        START_TIME = tools.startAutoTest(TEST_NAME)
     logFineName = 'STYLE_' + TEST_NAME + '_' + datetime.now().strftime(constant.LOG_TIMESTAMP_FORMAT) + constant.LOG_EXT
     logger = log.LoggingWrapper(
         loggerName=constant.DEFAULT_LOGGER_NAME,
@@ -324,8 +352,11 @@ if __name__ == '__main__':
                         inlineSelectors
                     )
                 except Exception as e:
-                    print('Selector Parse Error ---> Skip...')
-                    print(e)
+                    if SHELL_FLG:
+                        print(e)
+                    else:
+                        print('Selector Parse Error ---> Skip...')
+                        print(e)
     inlineSelectors = testCache.changeMultiToOneArray(inlineSelectors)
     if len(inlineSelectors) is not 0:
         validateResult = validateCssSelector(
@@ -380,13 +411,7 @@ if __name__ == '__main__':
     except ZeroDivisionError as e:
         logger.log('  unknown : {0} ( {1} % )'.format(TOTAL_UNKNOWN_RULE_NUM, TOTAL_UNKNOWN_RULE_NUM))
     # HTML, CSS内部の画像を一覧化（重複なし）後、並列ダウンロード
-    downloadFlg = False
-    print(constant.EMPTY)
-    while not downloadFlg:
-        downloadChoice = input('> Download All Images ? ( yes [y] / no [n] ) ::: ')
-        downloadFlg = True
-    if downloadChoice == 'yes' or downloadChoice == 'y':
-        print(constant.EMPTY)
+    if SHELL_FLG:
         serializedImages = []
         for tagImage in testCache.getInlineImage():
             serializedImages.append(tagImage['src'])
@@ -409,6 +434,37 @@ if __name__ == '__main__':
             DONWLOAD_PIPE_IDX = DONWLOAD_PIPE_IDX + 1
         POOL.close()
         POOL.join()
+    else:
+        downloadFlg = False
+        print(constant.EMPTY)
+        while not downloadFlg:
+            downloadChoice = input('> Download All Images ? ( yes [y] / no [n] ) ::: ')
+            downloadFlg = True
+        if downloadChoice == 'yes' or downloadChoice == 'y':
+            print(constant.EMPTY)
+            serializedImages = []
+            for tagImage in testCache.getInlineImage():
+                serializedImages.append(tagImage['src'])
+            serializedImages = list(set(serializedImages))
+            serializedImages.extend(list(set(IMAGES_IN_CSS)))
+            SPLIT_IMAGES_GROUP = np.array_split(np.array(serializedImages), POOL_LIMIT)
+            POOL = Pool(POOL_LIMIT)
+            DONWLOAD_PIPE_IDX = 1
+            for imagesGroup in SPLIT_IMAGES_GROUP:
+                POOL.apply_async(
+                    multiImageDownloader,
+                    args=(
+                        TEST_NAME,
+                        TEST_URL,
+                        TEST_SAVED_IMAGES_DIR,
+                        imagesGroup,
+                        DONWLOAD_PIPE_IDX,
+                    )
+                )
+                DONWLOAD_PIPE_IDX = DONWLOAD_PIPE_IDX + 1
+            POOL.close()
+            POOL.join()
+
     # Report [ JSON ] 生成
     TEST_SAVED_REPORTS_DIR = os.path.sep.join(
         [
@@ -512,7 +568,10 @@ if __name__ == '__main__':
     )
     json.dump(indexLinkList, indexLinkStream, indent=2)
     indexLinkStream.close()
-    tools.endAutoTest(
-        testName=TEST_NAME,
-        startTime=START_TIME
-    )
+    if not SHELL_FLG:
+        tools.endAutoTest(
+            testName=TEST_NAME,
+            startTime=START_TIME
+        )
+    else:
+        print(args.case)
