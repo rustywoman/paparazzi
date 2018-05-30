@@ -305,49 +305,72 @@ class Main{
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-    let mainIns = new Main(
-      new LoadingHandler(
-        document.querySelector('#loading__bg'),
-        document.querySelector('#loading__status'),
-        CONSTANT.LOADED_MARKER
-      ),
-      new MarkerHandler('overlay'),
-      document.querySelector('#wrapper')
+    // let mainIns = new Main(
+    //   new LoadingHandler(
+    //     document.querySelector('#loading__bg'),
+    //     document.querySelector('#loading__status'),
+    //     CONSTANT.LOADED_MARKER
+    //   ),
+    //   new MarkerHandler('overlay'),
+    //   document.querySelector('#wrapper')
+    // );
+    // mainIns.init(false);
+    document.querySelector('#j_api_trigger_for_creatation').addEventListener(
+      'click',
+      (evt:any) => {
+        let tmpElmDOM = evt.currentTarget;
+        if(!tmpElmDOM.classList.contains(CONSTANT.COMMON_MARKER)){
+          tmpElmDOM.classList.add(CONSTANT.COMMON_MARKER);
+          tmpElmDOM.innerHTML = '<span>Processing ...</span>';
+          let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
+          let tmpReportName = tmpReportNameDOM.value.trim();
+          let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
+          let tmpReportURL = tmpReportURLDOM.value.trim();
+          if(tmpReportName !== '' && tmpReportURL !== ''){
+            axios.post(
+              '/create',
+              {
+                'name' : tmpReportName,
+                'url'  : tmpReportURL
+              }
+            ).then(
+              (res:any) => {
+                setTimeout(
+                  () => {
+                    tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
+                    tmpElmDOM.innerHTML = '<span>Create</span>';
+                  },
+                  2000
+                );
+              }
+            );
+          }else{
+            console.error('>>> Invalid Input <<<');
+            tmpReportNameDOM.value = '';
+            tmpReportURLDOM.value = '';
+            tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
+            tmpElmDOM.innerHTML = '<span>Create</span>';
+          }
+        }
+      },
+      false
     );
-    mainIns.init(false);
-    // document.querySelector('#j_api_trigger_for_creatation').addEventListener(
-    //   'click',
-    //   (evt:any) => {
-    //     axios.post(
-    //       '/create',
-    //       {
-    //         'name' : (<HTMLInputElement>document.querySelector('#j_direct_report_name')).value,
-    //         'url'  : (<HTMLInputElement>document.querySelector('#j_direct_report_url')).value
-    //       }
-    //     ).then(
-    //       (res:any) => {
-    //         console.log(res.data);
-    //       }
-    //     );
-    //   },
-    //   false
-    // );
-    // document.querySelector('#j_api_trigger_for_execution').addEventListener(
-    //   'click',
-    //   (evt:any) => {
-    //     axios.post(
-    //       '/execute',
-    //       {
-    //         'name' : (<HTMLInputElement>document.querySelector('#j_direct_report_name')).value
-    //       }
-    //     ).then(
-    //       (res:any) => {
-    //         console.log(res.data);
-    //       }
-    //     );
-    //   },
-    //   false
-    // );
+    document.querySelector('#j_api_trigger_for_execution').addEventListener(
+      'click',
+      (evt:any) => {
+        axios.post(
+          '/execute',
+          {
+            'name' : (<HTMLInputElement>document.querySelector('#j_direct_report_name')).value
+          }
+        ).then(
+          (res:any) => {
+            console.log(res.data);
+          }
+        );
+      },
+      false
+    );
   },
   false
 );
