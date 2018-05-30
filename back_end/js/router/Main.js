@@ -29,7 +29,7 @@ class Main{
           if(err){
             console.log(err);
           }
-          console.log(stdout);
+          console.log('shell return : [ ' + stdout.trim() + ' ]');
           res.header('Content-Type', 'application/json; charset=utf-8');
           let caseName = req.body['name'];
           let caseURL = req.body['url'];

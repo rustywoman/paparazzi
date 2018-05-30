@@ -3,6 +3,6 @@
 Test
 COMMENT
 
-sleep 2
+# sleep 2
 
-echo $1
+python python_modules/test.py
