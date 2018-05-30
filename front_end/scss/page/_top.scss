@@ -73,3 +73,16 @@ Top
     text-align: left;
   }
 }
+#l_content__how_to_list{
+  padding: 20px 0 0;
+}
+.m_content__how_to_list--item{
+  margin: 0 0 10px 0;
+  &:last-child{
+    margin: 0;
+  }
+}
+.m_content__case_sample{
+  margin: 5px 0 0;
+  padding: 0 0 0 20px;
+}
