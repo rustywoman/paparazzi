@@ -305,16 +305,33 @@ class Main{
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-    let mainIns = new Main(
-      new LoadingHandler(
-        document.querySelector('#loading__bg'),
-        document.querySelector('#loading__status'),
-        CONSTANT.LOADED_MARKER
-      ),
-      new MarkerHandler('overlay'),
-      document.querySelector('#wrapper')
+    // let mainIns = new Main(
+    //   new LoadingHandler(
+    //     document.querySelector('#loading__bg'),
+    //     document.querySelector('#loading__status'),
+    //     CONSTANT.LOADED_MARKER
+    //   ),
+    //   new MarkerHandler('overlay'),
+    //   document.querySelector('#wrapper')
+    // );
+    // mainIns.init(false);
+    document.querySelector('#j_api_trigger_for_make').addEventListener(
+      'click',
+      (evt:any) => {
+        axios.post(
+          '/make',
+          {
+            name : 'HOGEHOGE',
+            url  : 'http://localhost.hogehoge.co.jp'
+          }
+        ).then(
+          (res:any) => {
+            console.log(res.data);
+          }
+        );
+      },
+      false
     );
-    mainIns.init(false);
   },
   false
 );
