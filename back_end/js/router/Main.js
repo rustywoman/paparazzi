@@ -13,9 +13,10 @@ const exec = require('child_process').exec;
 // Class
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 class Main{
-  constructor(app, version){
+  constructor(app, version, prodFlg){
     this.app = app;
     this.version = version;
+    this.prodFlg = prodFlg;
     this.name = 'main';
     this.reportPrefix = '___';
     this.reportSuffix = '_report';
@@ -88,7 +89,8 @@ class Main{
       (req, res) => {
         let baseResponse = {
           path    : req.path,
-          version : this.version
+          version : this.version,
+          prodFlg : this.prodFlg
         };
         let tmpResponse = {};
         let tmpRequestPath = req.path;

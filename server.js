@@ -7,6 +7,7 @@
 const CONFIG = require('./webpack.common.config');
 const WEBPACK_CUSTOM_CONFIG = require('./webpack.config');
 const PACKAGE_CONFIG = require('./package.json');
+const PROD_FLG = process.argv.slice(2)[0] === '--prod' ? 1 : 0;
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -107,7 +108,7 @@ APP.use(
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Router - Common
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-new MAIN(APP, PACKAGE_CONFIG['version']).render();
+new MAIN(APP, PACKAGE_CONFIG['version'], PROD_FLG).render();
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
