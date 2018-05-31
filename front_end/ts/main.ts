@@ -61,7 +61,7 @@ class Main{
             }
           );
       },
-      800
+      CONSTANT.DEFAULT_DELAY
     );
   };
   bindAsyncContentLoad(){
@@ -85,29 +85,6 @@ class Main{
       hljs.highlightBlock(rawCodes[i]);
     }
   };
-  // bindCustomToggle(){
-  //   let digestTriggerStack:any = {};
-  //   let digestTriggers = document.querySelectorAll('.j_digest_detail_trigger');
-  //   let digestToggleAreas = document.querySelectorAll('.j_toggle');
-  //   if(
-  //     (digestTriggers.length !== 0 && digestToggleAreas.length !== 0) &&
-  //     (digestTriggers.length === digestToggleAreas.length)
-  //   ){
-  //     for(let i = 0, il = digestToggleAreas.length; i < il; i++){
-  //       digestTriggerStack[digestToggleAreas[i].getAttribute('data-target-url')] = digestToggleAreas[i];
-  //       digestToggleAreas[i].setAttribute('data-hidden-height', (digestToggleAreas[i].clientHeight + 20) + 'px');
-  //       digestToggleAreas[i].setAttribute('style', 'height: 0px');
-  //       digestTriggers[i].addEventListener(
-  //         'click',
-  //         (evt:any) => {
-  //           let tmpToggledDOM = digestTriggerStack[evt.currentTarget.getAttribute('data-target-url')];
-  //           tmpToggledDOM.setAttribute('style', 'height:' + tmpToggledDOM.getAttribute('data-hidden-height'));
-  //         },
-  //         false
-  //       );
-  //     }
-  //   }
-  // };
   handleAsyncImageLoader(wrapperDOM:HTMLElement){
     return new Promise(
       (resolve:any, reject:any) => {
@@ -143,7 +120,7 @@ class Main{
         () => {
           this.handleAsyncContentLoader('/');
         },
-        5000
+        CONSTANT.ERROR_DELAY
       )
     }
   };
@@ -234,6 +211,133 @@ class Main{
       false
     );
   };
+  bindDynamicReporterTrigger(){
+    let dynamicResetTriggerDOM = document.querySelector('#j_api_trigger_for_reset');
+    let dynamicCreateTriggerDOM = document.querySelector('#j_api_trigger_for_creatation');
+    let dynamicExecuteTriggerDOM = document.querySelector('#j_api_trigger_for_execution');
+    if(dynamicResetTriggerDOM !== null && dynamicCreateTriggerDOM !== null && dynamicExecuteTriggerDOM !== null){
+      dynamicResetTriggerDOM.addEventListener(
+        'click',
+        (evt:any) => {
+          let tmpElmDOM = evt.currentTarget;
+          let tmpReportCreationTriggerDOM = document.querySelector('#j_api_trigger_for_creatation');
+          let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
+          let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
+          let tmpReportExecTriggerDOM = document.querySelector('#j_api_trigger_for_execution');
+          tmpReportNameDOM.value = '';
+          tmpReportURLDOM.value = '';
+          tmpReportCreationTriggerDOM.classList.remove(CONSTANT.COMMON_MARKER);
+          tmpReportCreationTriggerDOM.innerHTML = '<span>Create</span>';
+          tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
+          tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
+          tmpReportNameDOM.removeAttribute('disabled');
+          tmpReportURLDOM.removeAttribute('disabled');
+          tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
+          tmpReportExecTriggerDOM.innerHTML = '<span>Execute</span>';
+          tmpReportExecTriggerDOM.classList.add(CONSTANT.HIDDEN_MARKER);
+        },
+        false
+      );
+      dynamicCreateTriggerDOM.addEventListener(
+        'click',
+        (evt:any) => {
+          let tmpElmDOM = evt.currentTarget;
+          if(!tmpElmDOM.classList.contains(CONSTANT.COMMON_MARKER)){
+            tmpElmDOM.classList.add(CONSTANT.COMMON_MARKER);
+            tmpElmDOM.innerHTML = '<span>Processing ...</span>';
+            let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
+            let tmpReportName = tmpReportNameDOM.value.trim();
+            let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
+            let tmpReportURL = tmpReportURLDOM.value.trim();
+            let tmpReportExecTriggerDOM = document.querySelector('#j_api_trigger_for_execution');
+            if(tmpReportName !== '' && tmpReportURL !== ''){
+              axios.post(
+                '/create',
+                {
+                  'name' : tmpReportName,
+                  'url'  : tmpReportURL
+                }
+              ).then(
+                (res:any) => {
+                  setTimeout(
+                    () => {
+                      tmpReportNameDOM.setAttribute('disabled', '');
+                      tmpReportURLDOM.setAttribute('disabled', '');
+                      tmpElmDOM.innerHTML = '<span>Created</span>';
+                      tmpReportExecTriggerDOM.classList.remove(CONSTANT.HIDDEN_MARKER);
+                      tmpReportExecTriggerDOM.innerHTML = '<span>Execute [ ' + tmpReportName + ' ]</span>';
+                    },
+                    CONSTANT.DEFAULT_DELAY
+                  );
+                }
+              );
+            }else{
+              tmpReportNameDOM.value = '';
+              tmpReportURLDOM.value = '';
+              tmpElmDOM.innerHTML = '<span>Create</span>';
+              tmpReportNameDOM.classList.add(CONSTANT.ERROR_MARKER);
+              tmpReportURLDOM.classList.add(CONSTANT.ERROR_MARKER);
+              setTimeout(
+                () => {
+                  tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
+                  tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
+                  tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
+                },
+                CONSTANT.DEFAULT_DELAY
+              );
+            }
+          }
+        },
+        false
+      );
+      dynamicExecuteTriggerDOM.addEventListener(
+        'click',
+        (evt:any) => {
+          let tmpElmDOM = evt.currentTarget;
+          if(!tmpElmDOM.classList.contains(CONSTANT.COMMON_MARKER) && !tmpElmDOM.classList.contains(CONSTANT.HIDDEN_MARKER)){
+            tmpElmDOM.classList.add(CONSTANT.COMMON_MARKER);
+            tmpElmDOM.innerHTML = '<span>Processing ...</span>';
+            axios.post(
+              '/execute',
+              {
+                'name' : (<HTMLInputElement>document.querySelector('#j_direct_report_name')).value
+              }
+            ).then(
+              (res:any) => {
+                let reporterStatus = res.data['status'];
+                let reporterURL = res.data['reportURL'];
+                setTimeout(
+                  () => {
+                    let tmpReportCreationTriggerDOM = document.querySelector('#j_api_trigger_for_creatation');
+                    let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
+                    let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
+                    tmpReportNameDOM.value = '';
+                    tmpReportURLDOM.value = '';
+                    tmpReportCreationTriggerDOM.classList.remove(CONSTANT.COMMON_MARKER);
+                    tmpReportCreationTriggerDOM.innerHTML = '<span>Create</span>';
+                    tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
+                    tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
+                    tmpReportNameDOM.removeAttribute('disabled');
+                    tmpReportURLDOM.removeAttribute('disabled');
+                    tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
+                    tmpElmDOM.innerHTML = '<span>Execute</span>';
+                    tmpElmDOM.classList.add(CONSTANT.HIDDEN_MARKER);
+                    if(reporterStatus === 1){
+                      this.handleAsyncContentLoader('/' + reporterURL);
+                    }else{
+                      this.handleAsyncContentLoader('/');
+                    }
+                  },
+                  CONSTANT.DEFAULT_DELAY
+                );
+              }
+            );
+          }
+        },
+        false
+      );
+    }
+  };
   init(asyncFlg:boolean){
     if(!asyncFlg){
       this.bindPopStateEvent();
@@ -249,6 +353,7 @@ class Main{
                 this.bindAsyncContentLoad();
                 this.bindHighlight();
                 this.bindCustomScrollBar();
+                this.bindDynamicReporterTrigger();
                 this.markerHandlerIns.reset();
                 this.customLoadingIns
                   .init(100)
@@ -276,6 +381,7 @@ class Main{
             this.bindAsyncContentLoad();
             this.bindHighlight();
             this.bindCustomScrollBar();
+            this.bindDynamicReporterTrigger();
             this.markerHandlerIns.reset();
             this.customLoadingIns
               .init(100)
@@ -305,135 +411,16 @@ class Main{
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-    // let mainIns = new Main(
-    //   new LoadingHandler(
-    //     document.querySelector('#loading__bg'),
-    //     document.querySelector('#loading__status'),
-    //     CONSTANT.LOADED_MARKER
-    //   ),
-    //   new MarkerHandler('overlay'),
-    //   document.querySelector('#wrapper')
-    // );
-    // mainIns.init(false);
-
-    document.querySelector('#j_api_trigger_for_reset').addEventListener(
-      'click',
-      (evt:any) => {
-        let tmpElmDOM = evt.currentTarget;
-        // XXX
-        let tmpReportCreationTriggerDOM = document.querySelector('#j_api_trigger_for_creatation');
-        let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
-        let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
-        let tmpReportExecTriggerDOM = document.querySelector('#j_api_trigger_for_execution');
-        tmpReportNameDOM.value = '';
-        tmpReportURLDOM.value = '';
-        tmpReportCreationTriggerDOM.classList.remove(CONSTANT.COMMON_MARKER);
-        tmpReportCreationTriggerDOM.innerHTML = '<span>Create</span>';
-        tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
-        tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
-        tmpReportNameDOM.removeAttribute('disabled');
-        tmpReportURLDOM.removeAttribute('disabled');
-        tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
-        tmpReportExecTriggerDOM.innerHTML = '<span>Execute</span>';
-        tmpReportExecTriggerDOM.classList.add(CONSTANT.HIDDEN_MARKER);
-      },
-      false
+    let mainIns = new Main(
+      new LoadingHandler(
+        document.querySelector('#loading__bg'),
+        document.querySelector('#loading__status'),
+        CONSTANT.LOADED_MARKER
+      ),
+      new MarkerHandler('overlay'),
+      document.querySelector('#wrapper')
     );
-    document.querySelector('#j_api_trigger_for_creatation').addEventListener(
-      'click',
-      (evt:any) => {
-        let tmpElmDOM = evt.currentTarget;
-        if(!tmpElmDOM.classList.contains(CONSTANT.COMMON_MARKER)){
-          tmpElmDOM.classList.add(CONSTANT.COMMON_MARKER);
-          tmpElmDOM.innerHTML = '<span>Processing ...</span>';
-          let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
-          let tmpReportName = tmpReportNameDOM.value.trim();
-          let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
-          let tmpReportURL = tmpReportURLDOM.value.trim();
-          let tmpReportExecTriggerDOM = document.querySelector('#j_api_trigger_for_execution');
-          if(tmpReportName !== '' && tmpReportURL !== ''){
-            axios.post(
-              '/create',
-              {
-                'name' : tmpReportName,
-                'url'  : tmpReportURL
-              }
-            ).then(
-              (res:any) => {
-                console.dir(res.data);
-                setTimeout(
-                  () => {
-                    tmpReportNameDOM.setAttribute('disabled', '');
-                    tmpReportURLDOM.setAttribute('disabled', '');
-                    tmpElmDOM.innerHTML = '<span>Created</span>';
-                    tmpReportExecTriggerDOM.classList.remove(CONSTANT.HIDDEN_MARKER);
-                    tmpReportExecTriggerDOM.innerHTML = '<span>Execute [ ' + tmpReportName + ' ]</span>';
-                  },
-                  2000
-                );
-              }
-            );
-          }else{
-            console.error('>>> Invalid Input <<<');
-            tmpReportNameDOM.value = '';
-            tmpReportURLDOM.value = '';
-            tmpElmDOM.innerHTML = '<span>Create</span>';
-            tmpReportNameDOM.classList.add(CONSTANT.ERROR_MARKER);
-            tmpReportURLDOM.classList.add(CONSTANT.ERROR_MARKER);
-            setTimeout(
-              () => {
-                tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
-                tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
-                tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
-              },
-              800
-            );
-          }
-        }
-      },
-      false
-    );
-    // ToDo - Processing ...
-    document.querySelector('#j_api_trigger_for_execution').addEventListener(
-      'click',
-      (evt:any) => {
-        let tmpElmDOM = evt.currentTarget;
-        if(!tmpElmDOM.classList.contains(CONSTANT.COMMON_MARKER) && !tmpElmDOM.classList.contains(CONSTANT.HIDDEN_MARKER)){
-          tmpElmDOM.classList.add(CONSTANT.COMMON_MARKER);
-          tmpElmDOM.innerHTML = '<span>Processing ...</span>';
-          axios.post(
-            '/execute',
-            {
-              'name' : (<HTMLInputElement>document.querySelector('#j_direct_report_name')).value
-            }
-          ).then(
-            (res:any) => {
-              console.dir(res.data);
-              setTimeout(
-                () => {
-                  let tmpReportCreationTriggerDOM = document.querySelector('#j_api_trigger_for_creatation');
-                  let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
-                  let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
-                  tmpReportNameDOM.value = '';
-                  tmpReportURLDOM.value = '';
-                  tmpReportCreationTriggerDOM.classList.remove(CONSTANT.COMMON_MARKER);
-                  tmpReportCreationTriggerDOM.innerHTML = '<span>Create</span>';
-                  tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
-                  tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
-                  tmpReportNameDOM.removeAttribute('disabled');
-                  tmpReportURLDOM.removeAttribute('disabled');
-                  tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
-                  tmpElmDOM.innerHTML = '<span>Execute</span>';
-                  tmpElmDOM.classList.add(CONSTANT.HIDDEN_MARKER);
-                },
-                800
-              );
-            }
-          );
-        }
-      },
-      false
-    );
+    mainIns.init(false);
   },
   false
 );

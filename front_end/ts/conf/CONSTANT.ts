@@ -2,6 +2,8 @@
 // Definition
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 enum CONSTANT {
+  DEFAULT_DELAY          = 800,
+  ERROR_DELAY            = 5000,
   HIDDEN_MARKER          = '___hidden',
   ERROR_MARKER           = '___error',
   LOADED_MARKER          = '___loaded',

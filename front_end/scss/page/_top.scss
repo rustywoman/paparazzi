@@ -33,7 +33,7 @@ Top
   width: calc(100% - 15px);
   display: table;
   margin: 20px auto 0;
-  padding: 0 15px 0 0;
+  padding: 0 15px 40px 0;
 }
 .m_content__report_table--row{
   display: table-row;
@@ -121,6 +121,7 @@ Top
     font-size: $min-font-size + px;
   }
   input{
+    -webkit-appearance: none;
     width: 100%;
     position: relative;
     border: none;
@@ -131,11 +132,12 @@ Top
     padding: 3px 0;
     font-size: $min-font-size + px;
     transition: border-bottom .25s ease 0s, background-color .25s ease 0s;
+    background-color: transparent !important;
     &.___error{
       border-bottom: 1px solid $default-color-black;
     }
     &[disabled]{
-      background-color: rgba($default-color-border, .05);
+      background-color: rgba($default-color-border, .05) !important;
       border-bottom: 1px solid $default-color-border;
     }
   }

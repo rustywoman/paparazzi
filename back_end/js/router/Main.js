@@ -29,21 +29,22 @@ class Main{
         res.header('Content-Type', 'application/json; charset=utf-8');
         let caseName = req.body['name'];
         exec(
+          'sh report_via_node.sh ' + this.reportPrefix + caseName + this.reportSuffix,
           // ToDo - Test
-          // 'sh report_via_node.sh ' + this.reportPrefix + caseName + this.reportSuffix,
-          'sh report_via_node.sh local_sample_report',
+          // 'sh report_via_node.sh local_sample_report',
           (err, stdout, stderr) => {
-            console.log('shell return : [ ' + stdout.trim() + ' ]');
             if(err){
               res.send(
                 {
-                  status : 0
+                  status    : 0,
+                  reportURL : this.reportPrefix + caseName
                 }
               );
             }else{
               res.send(
                 {
-                  status : 1
+                  status    : 1,
+                  reportURL : this.reportPrefix + caseName
                 }
               );
             }
