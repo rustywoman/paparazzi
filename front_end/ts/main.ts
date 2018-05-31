@@ -315,6 +315,30 @@ document.addEventListener(
     //   document.querySelector('#wrapper')
     // );
     // mainIns.init(false);
+
+    document.querySelector('#j_api_trigger_for_reset').addEventListener(
+      'click',
+      (evt:any) => {
+        let tmpElmDOM = evt.currentTarget;
+        // XXX
+        let tmpReportCreationTriggerDOM = document.querySelector('#j_api_trigger_for_creatation');
+        let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
+        let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
+        let tmpReportExecTriggerDOM = document.querySelector('#j_api_trigger_for_execution');
+        tmpReportNameDOM.value = '';
+        tmpReportURLDOM.value = '';
+        tmpReportCreationTriggerDOM.classList.remove(CONSTANT.COMMON_MARKER);
+        tmpReportCreationTriggerDOM.innerHTML = '<span>Create</span>';
+        tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
+        tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
+        tmpReportNameDOM.removeAttribute('disabled');
+        tmpReportURLDOM.removeAttribute('disabled');
+        tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
+        tmpReportExecTriggerDOM.innerHTML = '<span>Execute</span>';
+        tmpReportExecTriggerDOM.classList.add(CONSTANT.HIDDEN_MARKER);
+      },
+      false
+    );
     document.querySelector('#j_api_trigger_for_creatation').addEventListener(
       'click',
       (evt:any) => {
@@ -326,6 +350,7 @@ document.addEventListener(
           let tmpReportName = tmpReportNameDOM.value.trim();
           let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
           let tmpReportURL = tmpReportURLDOM.value.trim();
+          let tmpReportExecTriggerDOM = document.querySelector('#j_api_trigger_for_execution');
           if(tmpReportName !== '' && tmpReportURL !== ''){
             axios.post(
               '/create',
@@ -335,10 +360,14 @@ document.addEventListener(
               }
             ).then(
               (res:any) => {
+                console.dir(res.data);
                 setTimeout(
                   () => {
-                    tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
-                    tmpElmDOM.innerHTML = '<span>Create</span>';
+                    tmpReportNameDOM.setAttribute('disabled', '');
+                    tmpReportURLDOM.setAttribute('disabled', '');
+                    tmpElmDOM.innerHTML = '<span>Created</span>';
+                    tmpReportExecTriggerDOM.classList.remove(CONSTANT.HIDDEN_MARKER);
+                    tmpReportExecTriggerDOM.innerHTML = '<span>Execute [ ' + tmpReportName + ' ]</span>';
                   },
                   2000
                 );
@@ -348,26 +377,60 @@ document.addEventListener(
             console.error('>>> Invalid Input <<<');
             tmpReportNameDOM.value = '';
             tmpReportURLDOM.value = '';
-            tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
             tmpElmDOM.innerHTML = '<span>Create</span>';
+            tmpReportNameDOM.classList.add(CONSTANT.ERROR_MARKER);
+            tmpReportURLDOM.classList.add(CONSTANT.ERROR_MARKER);
+            setTimeout(
+              () => {
+                tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
+                tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
+                tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
+              },
+              800
+            );
           }
         }
       },
       false
     );
+    // ToDo - Processing ...
     document.querySelector('#j_api_trigger_for_execution').addEventListener(
       'click',
       (evt:any) => {
-        axios.post(
-          '/execute',
-          {
-            'name' : (<HTMLInputElement>document.querySelector('#j_direct_report_name')).value
-          }
-        ).then(
-          (res:any) => {
-            console.log(res.data);
-          }
-        );
+        let tmpElmDOM = evt.currentTarget;
+        if(!tmpElmDOM.classList.contains(CONSTANT.COMMON_MARKER) && !tmpElmDOM.classList.contains(CONSTANT.HIDDEN_MARKER)){
+          tmpElmDOM.classList.add(CONSTANT.COMMON_MARKER);
+          tmpElmDOM.innerHTML = '<span>Processing ...</span>';
+          axios.post(
+            '/execute',
+            {
+              'name' : (<HTMLInputElement>document.querySelector('#j_direct_report_name')).value
+            }
+          ).then(
+            (res:any) => {
+              console.dir(res.data);
+              setTimeout(
+                () => {
+                  let tmpReportCreationTriggerDOM = document.querySelector('#j_api_trigger_for_creatation');
+                  let tmpReportNameDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_name'));
+                  let tmpReportURLDOM = (<HTMLInputElement>document.querySelector('#j_direct_report_url'));
+                  tmpReportNameDOM.value = '';
+                  tmpReportURLDOM.value = '';
+                  tmpReportCreationTriggerDOM.classList.remove(CONSTANT.COMMON_MARKER);
+                  tmpReportCreationTriggerDOM.innerHTML = '<span>Create</span>';
+                  tmpReportNameDOM.classList.remove(CONSTANT.ERROR_MARKER);
+                  tmpReportURLDOM.classList.remove(CONSTANT.ERROR_MARKER);
+                  tmpReportNameDOM.removeAttribute('disabled');
+                  tmpReportURLDOM.removeAttribute('disabled');
+                  tmpElmDOM.classList.remove(CONSTANT.COMMON_MARKER);
+                  tmpElmDOM.innerHTML = '<span>Execute</span>';
+                  tmpElmDOM.classList.add(CONSTANT.HIDDEN_MARKER);
+                },
+                800
+              );
+            }
+          );
+        }
       },
       false
     );

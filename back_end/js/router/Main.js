@@ -29,7 +29,9 @@ class Main{
         res.header('Content-Type', 'application/json; charset=utf-8');
         let caseName = req.body['name'];
         exec(
-          'sh report_via_node.sh ' + this.reportPrefix + caseName + this.reportSuffix,
+          // ToDo - Test
+          // 'sh report_via_node.sh ' + this.reportPrefix + caseName + this.reportSuffix,
+          'sh report_via_node.sh local_sample_report',
           (err, stdout, stderr) => {
             console.log('shell return : [ ' + stdout.trim() + ' ]');
             if(err){

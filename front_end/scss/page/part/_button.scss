@@ -26,12 +26,33 @@ Part - Button
     transition: left .25s ease 0s;
     z-index: -1;
   }
+  &.___marker{
+    cursor: default !important;
+    &:after{
+      left: 0 !important;
+    }
+    span{
+      color: $default-color-white !important;
+    }
+  }
   &:hover{
     &:after{
       left: 0;
     }
     span{
       color: $default-color-white;
+    }
+  }
+  &.___hidden{
+    cursor: default;
+    opacity: .25;
+    &:hover{
+      &:after{
+        left: 100% !important;
+      }
+      span{
+        color: $default-color-gray !important;
+      }
     }
   }
 }

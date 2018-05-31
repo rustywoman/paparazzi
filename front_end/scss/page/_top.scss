@@ -130,6 +130,14 @@ Top
     text-align: left;
     padding: 3px 0;
     font-size: $min-font-size + px;
+    transition: border-bottom .25s ease 0s, background-color .25s ease 0s;
+    &.___error{
+      border-bottom: 1px solid $default-color-black;
+    }
+    &[disabled]{
+      background-color: rgba($default-color-border, .05);
+      border-bottom: 1px solid $default-color-border;
+    }
   }
 }
 #l_content__direct_func_list{
@@ -171,6 +179,12 @@ Top
 .m_content__direct_func_trigger_wrapper{
   margin: 10px 0 0;
   text-align: right;
+  a{
+    margin: 0 10px 0 0;
+    &:last-child{
+      margin: 0;
+    }
+  }
 }
 .m_content__direct_func_list--item{
   margin: 0 0 20px 0;
