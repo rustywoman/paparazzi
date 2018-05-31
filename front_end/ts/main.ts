@@ -10,22 +10,55 @@ import MarkerHandler from 'klass/MarkerHandler';
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Load Module - Raw Library
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/**
+ * @author      rustywoman
+ * @description Custom Declarration - [ hljs ]
+ * @type        {any}
+ */
 declare let hljs: any;
+/**
+ * @author      rustywoman
+ * @description Custom Declarration - [ Ps ]
+ * @type        {any}
+ */
 declare let Ps:any;
+/**
+ * @author      rustywoman
+ * @description Custom Declarration - [ axios ]
+ * @type        {any}
+ */
 declare let axios:any;
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Klass
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/**
+ * @classdesc   Main
+ * @author      rustywoman
+ * @description Main SPA
+ */
 class Main{
-  customLoadingIns : LoadingHandler;
-  markerHandlerIns : MarkerHandler;
-  contentRootDOM : HTMLElement;
-  DOM_PARSER_INS : any;
+  customLoadingIns       : LoadingHandler;
+  markerHandlerIns       : MarkerHandler;
+  contentRootDOM         : HTMLElement;
+  DOM_PARSER_INS         : any;
   ASYNC_LOOP_START_INDEX : number;
-  ASYNC_LOOP_RATE : number;
-  ASYNC_LOOP_STOP_INDEX : number;
+  ASYNC_LOOP_RATE        : number;
+  ASYNC_LOOP_STOP_INDEX  : number;
+  /**
+   * @constructor Main
+   * @param    {object} customLoadingIns       - Instance Of `LoadingHandler` class
+   * @param    {object} markerHandlerIns       - Instance Of `MarkerHandler` class
+   * @param    {object} contentRootDOM         - Content Root raw DOM
+   * @property {object} customLoadingIns       - Instance Of `LoadingHandler` class
+   * @property {object} markerHandlerIns       - Instance Of `MarkerHandler` class
+   * @property {object} contentRootDOM         - Content Root raw DOM
+   * @property {object} DOM_PARSER_INS         - DOM raw Parser
+   * @property {number} ASYNC_LOOP_START_INDEX - Async Load Start Index For Image
+   * @property {number} ASYNC_LOOP_RATE        - Async Load Unit For Image
+   * @property {number} ASYNC_LOOP_STOP_INDEX  - Async Load Stop Index For Image
+   */
   constructor(customLoadingIns:LoadingHandler, markerHandlerIns:MarkerHandler, contentRootDOM:HTMLElement){
     this.customLoadingIns = customLoadingIns;
     this.markerHandlerIns = markerHandlerIns;
@@ -35,7 +68,13 @@ class Main{
     this.ASYNC_LOOP_RATE = 30;
     this.ASYNC_LOOP_STOP_INDEX = 30;
   };
-  handleAsyncContentLoader(asyncLoadURL:string){
+  /**
+   * Handler - [ Async Loader for Content ]
+   * @description Handle Async Loader for Content
+   * @param  {string} asyncLoadURL - Async URL
+   * @return {void}
+   */
+  handleAsyncContentLoader(asyncLoadURL:string):void{
     console.warn('Content URL : ' + asyncLoadURL);
     this.ASYNC_LOOP_START_INDEX = 0;
     this.ASYNC_LOOP_RATE = 30;
@@ -64,7 +103,12 @@ class Main{
       CONSTANT.DEFAULT_DELAY
     );
   };
-  bindAsyncContentLoad(){
+  /**
+   * Binder - [ Async Loader for Content ]
+   * @description Bind Async Loader for Content
+   * @return {void}
+   */
+  bindAsyncContentLoad():void{
     let contentTriggers = document.querySelectorAll('.j_async_content_load');
     for(let i = 0, il = contentTriggers.length; i < il; i++){
       if(!contentTriggers[i].classList.contains(CONSTANT.COMMON_MARKER)){
@@ -79,13 +123,24 @@ class Main{
       }
     }
   };
-  bindHighlight(){
+  /**
+   * Binder - [ HighLight ]
+   * @description Bind HighLight.js
+   * @return {void}
+   */
+  bindHighlight():void{
     let rawCodes = document.querySelectorAll('pre code');
     for(let i = 0, il = rawCodes.length; i < il; i++){
       hljs.highlightBlock(rawCodes[i]);
     }
   };
-  handleAsyncImageLoader(wrapperDOM:HTMLElement){
+  /**
+   * Handler - [ Async Loader for Image ]
+   * @description Handle Async Loader for Image with Promise
+   * @param  {object} wrapperDOM - Image Wrapper raw DOM
+   * @return {any}
+   */
+  handleAsyncImageLoader(wrapperDOM:HTMLElement):any{
     return new Promise(
       (resolve:any, reject:any) => {
         let tmpImg = document.createElement('img');
@@ -113,7 +168,12 @@ class Main{
       }
     );
   };
-  bindCustom404(){
+  /**
+   * Binder - [ Custom Error ]
+   * @description Bind Custom Error with redirect `/`
+   * @return {void}
+   */
+  bindCustom404():void{
     let errorTitleDOM = document.querySelector('#error__title');
     if(errorTitleDOM !== null){
       setTimeout(
@@ -124,7 +184,12 @@ class Main{
       )
     }
   };
-  bindCustomScrollBar(){
+  /**
+   * Binder - [ Custom Scroll ]
+   * @description Bind Custom Scroll
+   * @return {void}
+   */
+  bindCustomScrollBar():void{
     let psDOM:any = {};
     let psWrapperDOM = document.querySelectorAll('.m_column_ps_wrapper');
     for(let i = 0, il = psWrapperDOM.length; i < il; i++){
@@ -166,7 +231,13 @@ class Main{
       }
     }
   };
-  bindAsyncImageLoad(callback:any){
+  /**
+   * Binder - [ Async Loader for Image ]
+   * @description Bind Async Loader for Image with Promise
+   * @param  {object} callback - Last Callback Function
+   * @return {void}
+   */
+  bindAsyncImageLoad(callback:any):void{
     let asyncImages = [].slice.call(document.querySelectorAll('.j_async_image_load'));
     let asyncImagesNum = asyncImages.length;
     let DEFS = [];
@@ -198,7 +269,12 @@ class Main{
         }
       )
   };
-  bindPopStateEvent(){
+  /**
+   * Binder - [ `popstate` ]
+   * @description Bind `History Back` and `History Forward` Action
+   * @return {void}
+   */
+  bindPopStateEvent():void{
     window.addEventListener(
       'popstate',
       (evt:any) => {
@@ -211,7 +287,12 @@ class Main{
       false
     );
   };
-  bindDynamicReporterTrigger(){
+  /**
+   * Binder - [ Trigger for Dynamic Reporter ]
+   * @description Bind Trigger for Dynamic Reporter
+   * @return {void}
+   */
+  bindDynamicReporterTrigger():void{
     let dynamicResetTriggerDOM = document.querySelector('#j_api_trigger_for_reset');
     let dynamicCreateTriggerDOM = document.querySelector('#j_api_trigger_for_creatation');
     let dynamicExecuteTriggerDOM = document.querySelector('#j_api_trigger_for_execution');
@@ -338,7 +419,13 @@ class Main{
       );
     }
   };
-  init(asyncFlg:boolean){
+  /**
+   * Init
+   * @description Initialize
+   * @param  {boolean} asyncFlg - Async or First Access
+   * @return {void}
+   */
+  init(asyncFlg:boolean):void{
     if(!asyncFlg){
       this.bindPopStateEvent();
     }
@@ -401,8 +488,8 @@ class Main{
           }
         );
     }
-  }
-}
+  };
+};
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

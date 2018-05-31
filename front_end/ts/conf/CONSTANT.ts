@@ -1,6 +1,18 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Definition
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/**
+ * @author      rustywoman
+ * @description Constant - [ delay, marker, base64ed image ]
+ * @type        {enum}
+   @property    {number} DEFAULT_DELAY          - Default Delay for `setTimeout`
+   @property    {number} ERROR_DELAY            - Error Delay for `setTimeout`
+   @property    {string} HIDDEN_MARKER          - Hidden Marker for DOM and SCSS
+   @property    {string} ERROR_MARKER           - Error Marker for DOM and SCSS
+   @property    {string} LOADED_MARKER          - Loaded Marker for DOM and SCSS
+   @property    {string} COMMON_MARKER          - Common Marker for DOM and SCSS
+   @property    {string} DUMMY_IMAGE_BASE64_SRC - Custom 404 Image
+ */
 enum CONSTANT {
   DEFAULT_DELAY          = 800,
   ERROR_DELAY            = 5000,

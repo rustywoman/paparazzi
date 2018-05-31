@@ -1,11 +1,29 @@
+/**
+ * @classdesc   MarkerHandler
+ * @author      rustywoman
+ * @description Handle Custom Marker Layer
+ */
 export default class MarkerHandler{
   overlayMarker : string;
-  overlayDOM : Array<HTMLElement>;
+  overlayDOM    : Array<HTMLElement>;
+  /**
+   * @constructor MarkerHandler
+   * @param    {string} overlayMarker - Overlayed Marker
+   * @property {string} overlayMarker - Overlayed Marker
+   * @property {object} overlayDOM    - Array of raw DOM
+   */
   constructor(overlayMarker:string){
     this.overlayMarker = overlayMarker;
     this.overlayDOM = [];
   };
-  update(markerDOM:HTMLElement, status:number){
+  /**
+   * Update
+   * @description Update Marker raw DOM with Promise
+   * @param  {object} markerDOM - Target raw DOM
+   * @param  {number} status    - Target raw DOM Index
+   * @return {any} Promise
+   */
+  update(markerDOM:HTMLElement, status:number):any{
     return new Promise(
       (resolve:any, reject:any) => {
         setTimeout(
@@ -18,10 +36,20 @@ export default class MarkerHandler{
       }
     );
   };
-  reset(){
+  /**
+   * Reset
+   * @description Reset Array of Target raw DOM
+   * @return {void}
+   */
+  reset():void{
     this.overlayDOM = [].slice.call(document.querySelectorAll('.' + this.overlayMarker));
   };
-  init(){
+  /**
+   * Init
+   * @description Initialize Marker with Promise
+   * @return {any} Promise
+   */
+  init():any{
     let defs: Array<any> = [];
     for(let i = 1, il = this.overlayDOM.length; i <= il; i++){
       defs.push(this.update(this.overlayDOM[i - 1], i));
@@ -36,5 +64,5 @@ export default class MarkerHandler{
           )
       }
     );
-  }
-}
+  };
+};
