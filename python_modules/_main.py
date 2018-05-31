@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import constant
 import config
+import shutil
 import tools
 from datetime import datetime
 from handler import LoggingWrapper as log
@@ -25,6 +26,24 @@ from handler import LoggingWrapper as log
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if __name__ == '__main__':
     tools.outputAsciiArt()
+    TEST_TMP_REPORTS_DIR = os.path.sep.join(
+        [
+            config['report']['tmp-dir']
+        ]
+    )
+    if not os.path.exists(TEST_TMP_REPORTS_DIR):
+        os.makedirs(TEST_TMP_REPORTS_DIR)
+    TEST_TMP_REPORTS_DIR = TEST_TMP_REPORTS_DIR + os.path.sep
+    TEST_SAVED_REPORTS_DIR = os.path.sep.join(
+        [
+            config['report']['dir'],
+            'assets',
+            'json'
+        ]
+    )
+    if not os.path.exists(TEST_SAVED_REPORTS_DIR):
+        os.makedirs(TEST_SAVED_REPORTS_DIR)
+    TEST_SAVED_REPORTS_DIR = TEST_SAVED_REPORTS_DIR + os.path.sep
     TEST_CASE_DIR = config['test']['dir']
     TEST_CASE_STACK = tools.listUpTestCases(
         testCaseDir=TEST_CASE_DIR,
@@ -52,6 +71,13 @@ if __name__ == '__main__':
         browserName=BROWSER_NAME,
         deviceType=DEVICE_TYPE
     )
+    tmpResultInfoFiles = os.listdir(TEST_TMP_REPORTS_DIR)
+    for resultInfoFile in tmpResultInfoFiles:
+        if resultInfoFile.replace(constant.TEST_CASE_EXT, '') == TEST_NAME:
+            shutil.copyfile(
+                TEST_TMP_REPORTS_DIR + resultInfoFile,
+                TEST_SAVED_REPORTS_DIR + resultInfoFile
+            )
     tools.endAutoTest(
         testName=TEST_NAME,
         startTime=START_TIME

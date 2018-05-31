@@ -8,7 +8,9 @@
         "package-lock.json",
         "requirements.txt",
         "tsconfig.json",
-        "dummy.html"
+        "dummy.html",
+        "test.py",
+        "webpack.build.config.js"
       ],
       "folder_exclude_patterns" : [
         "__pycache__",
@@ -20,7 +22,8 @@
         "driver",
         "log",
         "conf",
-        "node_modules"
+        "node_modules",
+        "report/assets"
       ]
     }
   ]

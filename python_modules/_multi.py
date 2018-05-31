@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import constant
 import config
+import json
 import tools
 import multiprocessing as multi
 import numpy as np
@@ -65,6 +66,24 @@ if __name__ == '__main__':
     )
     helper.parse_args()
     tools.outputAsciiArt()
+    TEST_TMP_REPORTS_DIR = os.path.sep.join(
+        [
+            config['report']['tmp-dir']
+        ]
+    )
+    if not os.path.exists(TEST_TMP_REPORTS_DIR):
+        os.makedirs(TEST_TMP_REPORTS_DIR)
+    TEST_TMP_REPORTS_DIR = TEST_TMP_REPORTS_DIR + os.path.sep
+    TEST_SAVED_REPORTS_DIR = os.path.sep.join(
+        [
+            config['report']['dir'],
+            'assets',
+            'json'
+        ]
+    )
+    if not os.path.exists(TEST_SAVED_REPORTS_DIR):
+        os.makedirs(TEST_SAVED_REPORTS_DIR)
+    TEST_SAVED_REPORTS_DIR = TEST_SAVED_REPORTS_DIR + os.path.sep
     TEST_CASE_DIR = config['test']['dir']
     TEST_CASE_DIR = config['test']['dir']
     TEST_CASE_STACK = tools.listUpTestCases(
@@ -98,6 +117,27 @@ if __name__ == '__main__':
     POOL.close()
     START_TIME = tools.startAutoTest(TEST_NAME)
     POOL.join()
+    tools.endAutoTest(
+        testName=TEST_NAME,
+        startTime=START_TIME
+    )
+    multiReportResult = {
+        'name' : TEST_NAME,
+        'pool' : POOL_LIMIT,
+        'detail' : []
+    }
+    tmpResultInfoFiles = os.listdir(TEST_TMP_REPORTS_DIR)
+    for resultInfoFile in tmpResultInfoFiles:
+        if resultInfoFile.find(TEST_NAME) is not -1:
+            tmpStream = open(TEST_TMP_REPORTS_DIR + resultInfoFile, 'r')
+            multiInfo = json.load(tmpStream)
+            multiReportResult['detail'].append(multiInfo)
+    multiReportStream = open(
+        TEST_SAVED_REPORTS_DIR + TEST_NAME + constant.TEST_CASE_EXT,
+        'w'
+    )
+    json.dump(multiReportResult, multiReportStream, indent=2)
+    multiReportStream.close()
     tools.endAutoTest(
         testName=TEST_NAME,
         startTime=START_TIME

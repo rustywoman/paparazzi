@@ -220,8 +220,30 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
             'SIZE': config['browserSize'][deviceType]
         }
     )
+    tmpDataDir = os.path.sep.join(
+        [
+            config['report']['tmp-dir']
+        ]
+    ) + os.path.sep
+    reportConfigStream = open(
+        tmpDataDir + testName + constant.TEST_CASE_EXT,
+        'w'
+    )
+    testResult = {
+        'name' : testName,
+        'general' : {
+            'browser' : browserName,
+            'device' : deviceType,
+            'ua' : config['browserUA'][deviceType]
+        },
+        'detail' : []
+    }
     with tqdm(total=len(testCaseInfo), desc=testName) as pbar:
         for testCase in testCaseInfo:
+            tmpTestResult = {
+                'url' : testCase['url'],
+                'actions' : []
+            }
             testWebDriver.access(testCase['url'])
             for action in testCase['action']:
                 if not action.find(constant.PHOTO_ACTION_NAME) == -1:
@@ -235,8 +257,22 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                         testDir=testName,
                         imgName=imgName
                     )
+                    tmpTestResult['actions'].append(
+                        {
+                            'name' : constant.PHOTO_ACTION_NAME.lower(),
+                            'status' : 1,
+                            'data' : imgName
+                        }
+                    )
                 elif action == constant.WAIT_ACTION_NAME:
                     testWebDriver.wait()
+                    tmpTestResult['actions'].append(
+                        {
+                            'name' : constant.WAIT_ACTION_NAME.lower(),
+                            'status' : 1,
+                            'data' : ''
+                        }
+                    )
                 elif not action.find(constant.SEARCH_ACTION_NAME) == -1:
                     actionInfo = action.split(constant.ACTION_SPLIT_ID)
                     if len(actionInfo) == 3:
@@ -324,17 +360,50 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                             value=tmpOption,
                             loopFlg=loopFlg
                         )
+                        tmpTestResult['actions'].append(
+                            {
+                                'name' : constant.INPUT_ACTION.lower(),
+                                'status' : 1,
+                                'data' : {
+                                    'target' : tmpSelector,
+                                    'value' : tmpOption
+                                }
+                            }
+                        )
                     if tmpEvent == constant.ENTER_ACTION:
                         testWebDriver.enter(
                             dom=targetDom,
                             loopFlg=loopFlg
+                        )
+                        tmpTestResult['actions'].append(
+                            {
+                                'name' : constant.ENTER_ACTION.lower(),
+                                'status' : 1,
+                                'data' : {
+                                    'target' : tmpSelector,
+                                    'value' : ''
+                                }
+                            }
                         )
                     if tmpEvent == constant.CLICK_ACTION:
                         testWebDriver.click(
                             dom=targetDom,
                             loopFlg=loopFlg
                         )
+                        tmpTestResult['actions'].append(
+                            {
+                                'name' : constant.CLICK_ACTION.lower(),
+                                'status' : 1,
+                                'data' : {
+                                    'target' : tmpSelector,
+                                    'value' : ''
+                                }
+                            }
+                        )
+            testResult['detail'].append(tmpTestResult)
             pbar.update(1)
+    json.dump(testResult, reportConfigStream, indent=2)
+    reportConfigStream.close()
     testWebDriver.done()
 
 
