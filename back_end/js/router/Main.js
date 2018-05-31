@@ -38,14 +38,16 @@ class Main{
               res.send(
                 {
                   status    : 0,
-                  reportURL : this.reportPrefix + caseName
+                  reportURL : this.reportPrefix + caseName,
+                  error     : err
                 }
               );
             }else{
               res.send(
                 {
                   status    : 1,
-                  reportURL : this.reportPrefix + caseName
+                  reportURL : this.reportPrefix + caseName,
+                  error     : ''
                 }
               );
             }
