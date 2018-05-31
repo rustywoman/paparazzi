@@ -7,8 +7,10 @@ log
 *.sublime-workspace
 
 # Dynamic
-report/assets/image
-report/assets/json
+report/assets/image/**
+report/assets/json/**
+report/assets/css/**
+report/assets/js/**
 report/index.json
 
 # Node

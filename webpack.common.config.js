@@ -14,7 +14,16 @@ const path          = require('path');
 const BASE_DIR    = __dirname;
 const BASE_DEV_IP = 'localhost';
 const BANNER      = [
+  '',
   'Paparazzi Report',
+  '',
+  'Scraping by Selenim via Python 3',
+  '   +',
+  'Full Page Screen Capture',
+  '   +',
+  'Full Cache For Target Web Page',
+  '   ||',
+  'Sustainable, Well-mannered and Sophisticated Web Service',
   ''
 ].join('\n');
 
@@ -33,10 +42,11 @@ module.exports = {
   DEV_ROOT          : BASE_DIR + path.sep + 'front_end' + path.sep,
   CONTENTS_SUB_ROOT : 'assets' + path.sep,
   PATH              : {
-    ts   : 'ts' + path.sep,
-    js   : 'js' + path.sep,
-    css  : 'css' + path.sep,
-    scss : 'style' + path.sep
+    ts    : 'ts' + path.sep,
+    js    : 'js' + path.sep,
+    css   : 'css' + path.sep,
+    scss  : 'scss' + path.sep,
+    chunk :'___chunk' + path.sep
   },
   BANNER            : BANNER
 };

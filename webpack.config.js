@@ -12,7 +12,6 @@ const CONFIG = require('./webpack.common.config');
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const webpack          = require('webpack');
-const glob             = require('glob');
 const path             = require('path');
 
 
@@ -20,14 +19,6 @@ const path             = require('path');
 // Export
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 module.exports = {
-  // entry : (function(){
-  //   let entries = {}
-  //   glob.sync(CONFIG.DEV_ROOT + CONFIG.PATH.ts + '*.ts').map(function(file){
-  //     entries[path.basename(file).replace('.ts', '')] = file;
-  //   });
-  //   console.log(entries);
-  //   return entries;
-  // })(),
   entry : {
     'paparazzi-main-script' : [
       'webpack-hot-middleware/client',
