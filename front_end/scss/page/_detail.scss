@@ -93,6 +93,9 @@ Detail
 .m_column_section{
   margin: 0 15px 40px 0;
   position: relative;
+  &.___marker{
+    margin: 0 15px 20px 0;
+  }
 }
 .m_column_section_inner_wrapper{
   margin: 20px 0 0;

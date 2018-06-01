@@ -1,0 +1,126 @@
+<% var photoResult = []; %>
+<% var photoIndex = 0; %>
+<div class="m_split_column_box">
+  <div class="m_column_box">
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_info" data-ps-direction="top">
+      <span></span>
+    </a>
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_info" data-ps-direction="bottom">
+      <span></span>
+    </a>
+    <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_info">
+      <div class="m_column_content_wrapper">
+        <% reportDetailInfo['detail'].forEach(function(detailInfo, idx){ %>
+          <section class="m_column_section ___marker">
+            <p>
+              <h3 class="m_column_info__sub_title marker">Pipeline - <%= (idx + 1) %><span class="overlay"></span></h3>
+            </p>
+            <h3 class="m_column_info__sub_title">Test User Environment</h3>
+            <div class="m_column_info__table ___half">
+              <div class="m_column_info__table--row">
+                <div class="m_column_info__table--cell ___half">
+                  <p class="m_column_info_table--cell--count">Browser Type</p>
+                </div>
+                <div class="m_column_info__table--cell ___half">
+                  <p class="m_column_info_table--cell--count"><%= detailInfo['general']['browser'] %></p>
+                </div>
+              </div>
+              <div class="m_column_info__table--row">
+                <div class="m_column_info__table--cell ___half">
+                  <p class="m_column_info_table--cell--count">Device Type</p>
+                </div>
+                <div class="m_column_info__table--cell ___half">
+                  <p class="m_column_info_table--cell--count"><%= detailInfo['general']['device'] %></p>
+                </div>
+              </div>
+              <div class="m_column_info__table--row">
+                <div class="m_column_info__table--cell ___half">
+                  <p class="m_column_info_table--cell--count">User Agent</p>
+                </div>
+                <div class="m_column_info__table--cell ___half">
+                  <p class="m_column_info_table--cell--count"><%= detailInfo['general']['ua'] %></p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="m_column_section">
+            <h3 class="m_column_info__sub_title">Case Result</h3>
+            <% detailInfo['detail'].forEach(function(innerDetailInfo, idx){ %>
+              <% if(idx === 0) { %>
+              <section class="m_column_section_inner_wrapper ___marker">
+              <% } else { %>
+              <section class="m_column_section_inner_wrapper">
+              <% } %>
+                <h2 class="m_column_info__title ___marker">Target : <a href="<%= innerDetailInfo['url'] %>" target="_blank"><%= innerDetailInfo['url'] %></a></h2>
+                <table class="m_column_info__table ___maximum">
+                  <tr class="m_column_info__table--row">
+                    <td class="m_column_info__table--cell ___head ___quarter">Action Name</td>
+                    <td class="m_column_info__table--cell ___head ___quarter">Status</td>
+                    <td class="m_column_info__table--cell ___head ___quarter">Target</td>
+                    <td class="m_column_info__table--cell ___head ___quarter">Value</td>
+                  </tr>
+                  <% innerDetailInfo['actions'].forEach(function(actionInfo){ %>
+                    <tr class="m_column_info__table--row">
+                      <td class="m_column_info__table--cell ___quarter">
+                        <p class="m_column_info_table--cell--count"><%= actionInfo['name'].toUpperCase() %></p>
+                      </td>
+                      <td class="m_column_info__table--cell ___quarter">
+                        <p class="m_column_info_table--cell--count"><%= actionInfo['status'] %></p>
+                      </td>
+                      <% if(actionInfo['name'] === 'photo'){ %>
+                        <% photoIndex++; %>
+                        <% photoResult.push( { 'path' : detailInfo['name'] + '/' + actionInfo['data'], 'idx' : photoIndex } ); %>
+                        <td class="m_column_info__table--cell ___marker" colspan="2">
+                          <p class="m_column_info_table--cell--count">
+                            [ <%= photoIndex %> ] : <%= actionInfo['data'] %>
+                          </p>
+                        </td>
+                      <% } else { %>
+                        <% if(actionInfo['data']['target'] && actionInfo['data']['value']) { %>
+                          <td class="m_column_info__table--cell ___quarter">
+                            <p class="m_column_info_table--cell--count"><%= actionInfo['data']['target'] %></p>
+                          </td>
+                          <td class="m_column_info__table--cell ___quarter">
+                            <p class="m_column_info_table--cell--count"><%= actionInfo['data']['value'] %></p>
+                          </td>
+                        <% } else { %>
+                          <td class="m_column_info__table--cell ___quarter">
+                            <p class="m_column_info_table--cell--count"></p>
+                          </td>
+                          <td class="m_column_info__table--cell ___quarter">
+                            <p class="m_column_info_table--cell--count"></p>
+                          </td>
+                        <% } %>
+                      <% } %>
+                    </tr>
+                  <% }); %>
+                </table>
+              </section>
+            <% }); %>
+          </section>
+
+        <% }); %>
+      </div>
+    </div>
+  </div>
+  <div class="m_column_box">
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_img" data-ps-direction="top">
+      <span></span>
+    </a>
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_img" data-ps-direction="bottom">
+      <span></span>
+    </a>
+    <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_img">
+      <div class="m_column_content_wrapper">
+        <% photoResult.forEach(function(photoInfo, idx){ %>
+          <section class="m_column_section">
+            <h3 class="m_column_info__sub_title marker">[ <%= photoInfo['idx'] %> ] : <%= photoInfo['path'] %><span class="overlay"></span></h3>
+            <section class="m_column_section_inner_wrapper">
+              <div class="j_async_image_load" data-async-src="/assets/image/<%= photoInfo['path'] %>/___result.png"></div>
+            </section>
+          </section>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
