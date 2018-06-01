@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import constant
 import config
+import json
 import shutil
 import tools
 from datetime import datetime
@@ -78,6 +79,27 @@ if __name__ == '__main__':
                 TEST_TMP_REPORTS_DIR + resultInfoFile,
                 TEST_SAVED_REPORTS_DIR + resultInfoFile
             )
+    indexLinkList = []
+    tmpReportInfoFiles = os.listdir(TEST_SAVED_REPORTS_DIR)
+    for researchResult in tmpReportInfoFiles:
+        indexLinkList.append(
+            {
+                'name': researchResult.replace(constant.TEST_CASE_EXT, constant.EMPTY),
+                'path': '/___' + researchResult.replace(constant.TEST_CASE_EXT, ''),
+                'date': tools.getTimeFromEpoc(os.path.getctime(TEST_SAVED_REPORTS_DIR + researchResult))
+            }
+        )
+    indexLinkStream = open(
+        os.path.sep.join(
+            [
+                config['report']['dir'],
+                'index' + constant.TEST_CASE_EXT
+            ]
+        ),
+        'w'
+    )
+    json.dump(indexLinkList, indexLinkStream, indent=2)
+    indexLinkStream.close()
     tools.endAutoTest(
         testName=TEST_NAME,
         startTime=START_TIME

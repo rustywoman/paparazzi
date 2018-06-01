@@ -106,6 +106,13 @@ Detail
   background: $default-color-gray !important;
   color: $default-color-white !important;
   padding: 10px 0 10px 10px;
+  &.___marker{
+    border-bottom: 1px solid $default-color-white;
+    box-sizing: border-box;
+  }
+  a{
+    color: $default-color-white !important;
+  }
 }
 .m_column_info__sub_title{
   display: inline-block;
@@ -178,6 +185,9 @@ Detail
   }
   &.___quarter{
     width: 25%;
+  }
+  &.___marker{
+    text-align: center;
   }
   &:first-child{
     border-right: 1px solid $default-color-white;

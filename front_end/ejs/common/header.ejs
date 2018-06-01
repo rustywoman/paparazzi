@@ -5,6 +5,8 @@
       <span id="j_raw_url">
       <% if(reportDetailInfo && reportDetailInfo['url']) { %>
         <a href="<%= reportDetailInfo['url'] %>" target="_blank"><%= reportDetailInfo['url'] %></a>
+      <% } else if(reportDetailInfo && reportDetailInfo['name']){ %>
+        main.sh [ ./case/<%= reportDetailInfo['name'] %>.json ]
       <% } else { %>
         Index
       <% } %>

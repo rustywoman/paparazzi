@@ -6,10 +6,10 @@
       "name" : "google_search_by_xpath",
       "action" : [
         "input---xpath---//*[@id='lst-ib']---hogehogehoge",
-        "PHOTO---google_xpath_top",
+        "PHOTO---google_xpath__top",
         "enter---xpath---//*[@id='lst-ib']",
         "WAIT",
-        "PHOTO---google_xpath_result"
+        "PHOTO---google_xpath__result"
       ]
     },
     {
@@ -17,10 +17,10 @@
       "name" : "google_search_by_selector__id",
       "action" : [
         "input---id---lst-ib---hogehogehoge",
-        "PHOTO---google_id_top",
+        "PHOTO---google_id__top",
         "enter---id---lst-ib",
         "WAIT",
-        "PHOTO---google_id_result"
+        "PHOTO---google_id__result"
       ]
     }
   ]

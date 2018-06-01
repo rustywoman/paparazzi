@@ -20,6 +20,7 @@ class Main{
     this.name = 'main';
     this.reportPrefix = '___';
     this.reportSuffix = '_report';
+    this.mainSuffix = '_main';
     this.staticReportInfoDir = path.join(__dirname, '../../../report/');
     this.caseInfoDir = path.join(__dirname, '../../../case/');
   }
@@ -29,12 +30,14 @@ class Main{
       (req, res) => {
         res.header('Content-Type', 'application/json; charset=utf-8');
         let caseName = req.body['name'];
+        console.info('=== [ API : execute ] - ' + caseName + ' - start ===');
         exec(
           'sh report_via_node.sh ' + this.reportPrefix + caseName + this.reportSuffix,
           // ToDo - Test
           // 'sh report_via_node.sh local_sample_report',
           (err, stdout, stderr) => {
             if(err){
+              console.error('=== [ API : execute ] - ' + caseName + ' - ng end ===');
               res.send(
                 {
                   status    : 0,
@@ -43,6 +46,7 @@ class Main{
                 }
               );
             }else{
+              console.error('=== [ API : execute ] - ' + caseName + ' - ok end ===');
               res.send(
                 {
                   status    : 1,
@@ -65,17 +69,20 @@ class Main{
           'name' : caseName,
           'url'  : caseURL
         };
+        console.info('=== [ API : create ] - ' + caseName + ' - start ===');
         fs.writeFile(
           this.caseInfoDir + this.reportPrefix + caseName + this.reportSuffix + '.json',
           JSON.stringify(caseDetail),
           (err) => {
             if(err){
+              console.error('=== [ API : create ] - ' + caseName + ' - ng end ===');
               res.send(
                 {
                   status : 0
                 }
               );
             }else{
+              console.info('=== [ API : create ] - ' + caseName + ' - ok end ===');
               res.send(
                 {
                   status : 1
@@ -99,6 +106,14 @@ class Main{
         if(tmpRequestPath.indexOf(this.reportPrefix) !== -1){
           try{
             let tmpReportName = tmpRequestPath.replace(this.reportPrefix, '');
+            let tmpTemplateType = '';
+            // "***_report"
+            if(tmpRequestPath.indexOf(this.reportSuffix) !== -1){
+              tmpTemplateType = 'report';
+            }
+            if(tmpRequestPath.indexOf(this.mainSuffix) !== -1){
+              tmpTemplateType = 'main';
+            }
             tmpResponse = {
               reportName       : tmpReportName,
               reportDetailInfo : JSON.parse(
@@ -108,7 +123,8 @@ class Main{
                 )
               ),
               status           : 1,
-              title            : ' - ' + tmpReportName
+              title            : ' - ' + tmpReportName,
+              templateType     : tmpTemplateType
             }
           }catch(ex){
             tmpResponse = {
