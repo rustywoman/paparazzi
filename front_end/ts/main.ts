@@ -69,6 +69,15 @@ class Main{
     this.ASYNC_LOOP_STOP_INDEX = 30;
   };
   /**
+   * Handler - [ Body Style ]
+   * @description Handle Body Style
+   * @param  {boolean} availableFlg - Available Flg
+   * @return {void}
+   */
+  handleBodyStyle(availableFlg:boolean):void{
+    document.body.setAttribute('style', availableFlg ? '' : 'overflow: hidden !important;');
+  };
+  /**
    * Handler - [ Async Loader for Content ]
    * @description Handle Async Loader for Content
    * @param  {string} asyncLoadURL - Async URL
@@ -429,7 +438,7 @@ class Main{
     if(!asyncFlg){
       this.bindPopStateEvent();
     }
-    document.body.setAttribute('style', 'overflow: hidden !important;');
+    this.handleBodyStyle(false);
     if(document.querySelectorAll('.j_async_image_load').length > 0){
       this.bindAsyncImageLoad(
         () => {
@@ -446,7 +455,7 @@ class Main{
                   .init(100)
                   .then(
                     () => {
-                      document.body.setAttribute('style', '');
+                      this.handleBodyStyle(true);
                       this.markerHandlerIns
                         .init()
                         .then(
@@ -474,7 +483,7 @@ class Main{
               .init(100)
               .then(
                 () => {
-                  document.body.setAttribute('style', '');
+                  this.handleBodyStyle(true);
                   this.markerHandlerIns
                     .init()
                     .then(

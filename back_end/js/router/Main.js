@@ -97,17 +97,25 @@ class Main{
         let tmpResponse = {};
         let tmpRequestPath = req.path;
         if(tmpRequestPath.indexOf(this.reportPrefix) !== -1){
-          let tmpReportName = tmpRequestPath.replace(this.reportPrefix, '');
-          tmpResponse = {
-            reportName       : tmpReportName,
-            reportDetailInfo : JSON.parse(
-              fs.readFileSync(
-                this.staticReportInfoDir + 'assets/json/' + tmpReportName + '.json',
-                'utf8'
-              )
-            ),
-            status           : 1,
-            title            : ' - ' + tmpReportName
+          try{
+            let tmpReportName = tmpRequestPath.replace(this.reportPrefix, '');
+            tmpResponse = {
+              reportName       : tmpReportName,
+              reportDetailInfo : JSON.parse(
+                fs.readFileSync(
+                  this.staticReportInfoDir + 'assets/json/' + tmpReportName + '.json',
+                  'utf8'
+                )
+              ),
+              status           : 1,
+              title            : ' - ' + tmpReportName
+            }
+          }catch(ex){
+            tmpResponse = {
+              reportDetailInfo : null,
+              status           : 0,
+              title            : ' - Error'
+            }
           }
         }else{
           switch(tmpRequestPath){
