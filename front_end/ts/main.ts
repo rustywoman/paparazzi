@@ -434,6 +434,26 @@ class Main{
     }
   };
   /**
+   * Binder - [ Sync Scroll for Screenshot ]
+   * @description Bind Trigger for Screenshot Link
+   * @return {void}
+   */
+  bindSyncScroll():void{
+    let hoverTriggers = document.querySelectorAll('.j_hover');
+    for(let i = 0, il = hoverTriggers.length; i < il; i++){
+      hoverTriggers[i].addEventListener(
+        'click',
+        (evt:any) => {
+          let tmpTriggerDOM = evt.currentTarget;
+          let syncScrollWrapperDOM = document.querySelector('#j_sync_scroll');
+          let syncScrollTargetDOM = (<HTMLElement>document.querySelector('#' + tmpTriggerDOM.getAttribute('data-scroll-pos')));
+          syncScrollWrapperDOM.scrollTop = syncScrollTargetDOM.offsetTop - CONSTANT.DOM_DEFAULT_BUFFER;
+        },
+        false
+      );
+    }
+  };
+  /**
    * Init
    * @description Initialize
    * @param  {boolean} asyncFlg - Async or First Access
@@ -455,6 +475,7 @@ class Main{
                 this.bindHighlight();
                 this.bindCustomScrollBar();
                 this.bindDynamicReporterTrigger();
+                this.bindSyncScroll();
                 this.markerHandlerIns.reset();
                 this.customLoadingIns
                   .init(100)
@@ -483,6 +504,7 @@ class Main{
             this.bindHighlight();
             this.bindCustomScrollBar();
             this.bindDynamicReporterTrigger();
+            this.bindSyncScroll();
             this.markerHandlerIns.reset();
             this.customLoadingIns
               .init(100)

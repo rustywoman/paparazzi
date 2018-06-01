@@ -36,18 +36,20 @@ const MAIN = require('./back_end/js/router/Main');
 
 
 // ------------------------------------------------
-// Webpack Hot Loread
+// Webpack Hot Loread  -only `dev`
 // ------------------------------------------------
-APP.use(
-  webpackDevMiddleware(
-    WEBPACK_COMPILER,
-    {
-      noInfo     : true,
-      publicPath : '/'
-    }
-  )
-);
-APP.use(webpackHotMiddleware(WEBPACK_COMPILER));
+if(PROD_FLG === 0){
+  APP.use(
+    webpackDevMiddleware(
+      WEBPACK_COMPILER,
+      {
+        noInfo     : true,
+        publicPath : '/'
+      }
+    )
+  );
+  APP.use(webpackHotMiddleware(WEBPACK_COMPILER));
+}
 
 
 // ------------------------------------------------

@@ -13,7 +13,7 @@
         <% reportDetailInfo['detail'].forEach(function(detailInfo, idx){ %>
           <section class="m_column_section ___marker">
             <p>
-              <h3 class="m_column_info__sub_title marker">Pipeline - <%= (idx + 1) %><span class="overlay"></span></h3>
+              <h3 class="m_column_info__sub_title marker">Pipeline - <%= detailInfo['name'] %><span class="overlay"></span></h3>
             </p>
             <h3 class="m_column_info__sub_title">Test User Environment</h3>
             <div class="m_column_info__table ___half">
@@ -65,14 +65,20 @@
                         <p class="m_column_info_table--cell--count"><%= actionInfo['name'].toUpperCase() %></p>
                       </td>
                       <td class="m_column_info__table--cell ___quarter">
-                        <p class="m_column_info_table--cell--count"><%= actionInfo['status'] %></p>
+                        <p class="m_column_info_table--cell--count">
+                          <% if(actionInfo['status'] === 1){ %>
+                            o
+                          <% } else { %>
+                            x
+                          <% } %>
+                        </p>
                       </td>
                       <% if(actionInfo['name'] === 'photo'){ %>
                         <% photoIndex++; %>
-                        <% photoResult.push( { 'path' : detailInfo['name'] + '/' + actionInfo['data'], 'idx' : photoIndex } ); %>
+                        <% photoResult.push( { 'name' : detailInfo['name'], 'path' : actionInfo['data'], 'idx' : photoIndex } ); %>
                         <td class="m_column_info__table--cell ___marker" colspan="2">
                           <p class="m_column_info_table--cell--count">
-                            [ <%= photoIndex %> ] : <%= actionInfo['data'] %>
+                            <a class="j_hover" href="javascript:void(0);" data-scroll-pos="sync_scroll_<%= detailInfo['name'] %>_<%= actionInfo['data'] %>"><%= detailInfo['name'] + '/' + actionInfo['data'] %></a>
                           </p>
                         </td>
                       <% } else { %>
@@ -110,13 +116,13 @@
     <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_img" data-ps-direction="bottom">
       <span></span>
     </a>
-    <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_img">
+    <div id="j_sync_scroll" class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_img">
       <div class="m_column_content_wrapper">
         <% photoResult.forEach(function(photoInfo, idx){ %>
-          <section class="m_column_section">
-            <h3 class="m_column_info__sub_title marker">[ <%= photoInfo['idx'] %> ] : <%= photoInfo['path'] %><span class="overlay"></span></h3>
+          <section id="sync_scroll_<%= photoInfo['name'] %>_<%= photoInfo['path'] %>" class="m_column_section">
+            <h3 class="m_column_info__sub_title marker"><%= photoInfo['name'] %> / <%= photoInfo['path'] %><span class="overlay"></span></h3>
             <section class="m_column_section_inner_wrapper">
-              <div class="j_async_image_load" data-async-src="/assets/image/<%= photoInfo['path'] %>/___result.png"></div>
+              <a class="j_async_image_load zoom" data-async-src="/assets/image/<%= photoInfo['name'] %>/<%= photoInfo['path'] %>/___result.png" href="/assets/image/<%= photoInfo['name'] %>/<%= photoInfo['path'] %>/___result.png" target="_blank"></a>
             </section>
           </section>
         <% }); %>

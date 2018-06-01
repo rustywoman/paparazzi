@@ -245,14 +245,17 @@ class WebCachingWrapper(object):
                 nextDst.save(resultFileName)
             self.customConcat(targetImages, startIdx + 2, resultFileName)
         else:
-            tmpLastImg = tmpImages[0]
-            dst = Image.new(
-                'RGB',
-                (resultImg.width, resultImg.height + tmpLastImg['height'])
-            )
-            dst.paste(resultImg, (0, 0))
-            dst.paste(tmpLastImg['ins'], (0, resultImg.height))
-            dst.save(resultFileName)
+            try:
+                tmpLastImg = tmpImages[0]
+                dst = Image.new(
+                    'RGB',
+                    (resultImg.width, resultImg.height + tmpLastImg['height'])
+                )
+                dst.paste(resultImg, (0, 0))
+                dst.paste(tmpLastImg['ins'], (0, resultImg.height))
+                dst.save(resultFileName)
+            except Exception as e:
+                return False
 
     def takeHDCapture(self, webDriver, savedDirPath):
         u'''Take HD Capture

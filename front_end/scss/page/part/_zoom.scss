@@ -1,0 +1,19 @@
+/*
+=================================
+Part - Zoom
+=================================
+*/
+.zoom{
+  display: inline-block;
+  cursor: zoom-in !important;
+  img{
+    transition: transform .25s ease 0s, opacity .25s ease 0s;
+    opacity: 1;
+  }
+  &:hover{
+    img{
+      transform: scale(.97);
+      opacity: .75;
+    }
+  }
+}

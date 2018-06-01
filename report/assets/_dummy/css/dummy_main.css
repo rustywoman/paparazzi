@@ -9,3 +9,9 @@ h1{
 a:hover{
   text-decoration: underline;
 }
+#buffer{
+  width: 80%;
+  height: 1000px;
+  margin: 100px auto 0;
+  background-color: #eee;
+}

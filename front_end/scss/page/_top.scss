@@ -10,7 +10,7 @@ Top
 #l_content__description{
   padding: 40px 0 0;
 }
-#l_content__how_to{
+#l_content__introduction{
   padding: 40px 0 0;
 }
 #l_content__description_list{
@@ -72,17 +72,22 @@ Top
     text-align: left;
   }
 }
-#l_content__how_to_list{
+#l_content__introduction_list{
   padding: 20px 0 0;
 }
-.m_content__how_to_list--item{
-  margin: 0 0 10px 0;
+.m_content__introduction_list--item{
+  margin: 0 0 15px 0;
   color: $default-color-border;
   &.___marker{
     padding: 0 0 0 20px;
   }
   &:last-child{
     margin: 0;
+  }
+  p{
+    margin: 5px 0 0;
+    padding: 0 0 0 20px;
+    font-size: $min-font-size + px;
   }
 }
 .m_content__case_sample{
