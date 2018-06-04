@@ -23,6 +23,7 @@ class Main{
     this.mainSuffix = '_main';
     this.multiSuffix = '_multi';
     this.scanSuffix = '_scan';
+    this.searchSuffix = '_search';
     this.staticReportInfoDir = path.join(__dirname, '../../../report/');
     this.caseInfoDir = path.join(__dirname, '../../../case/');
   }
@@ -124,6 +125,10 @@ class Main{
             // "***_scan"
             if(tmpRequestPath.indexOf(this.scanSuffix) !== -1){
               tmpTemplateType = 'scan';
+            }
+            // "***_search"
+            if(tmpRequestPath.indexOf(this.searchSuffix) !== -1){
+              tmpTemplateType = 'search';
             }
             tmpResponse = {
               reportName       : tmpReportName,
