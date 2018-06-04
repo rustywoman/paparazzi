@@ -277,15 +277,18 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                     actionInfo = action.split(constant.ACTION_SPLIT_ID)
                     if len(actionInfo) == 3:
                         restrictKeyword = actionInfo[1]
-                        searchKeyword = actionInfo[2]
+                        tmpSearchKeyword = actionInfo[2].split(',')
+                        if len(tmpSearchKeyword) is 1:
+                            searchKeyword = [actionInfo[2]]
+                        else:
+                            searchKeyword = tmpSearchKeyword
+                        tmpTestResult['restrict'] = restrictKeyword
+                        tmpTestResult['keyword'] = searchKeyword
                     else:
                         restrictKeyword = None
                         searchKeyword = None
                     diveWebServiceKeyword(
-                        searchLogger=log.LoggingWrapper(
-                            loggerName=constant.DEFAULT_LOGGER_NAME,
-                            logFineName='SEARCH_' + testName + constant.LOG_EXT
-                        ),
+                        searchLogger=logger,
                         testWebDriver=testWebDriver,
                         testCaseName=testCase['name'],
                         extractedLinks=testWebDriver.getLinksInfo(
@@ -293,7 +296,8 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                             restrictKeyword
                         ),
                         restrictKeyword=restrictKeyword,
-                        searchKeyword=searchKeyword
+                        searchKeyword=searchKeyword,
+                        testResult=tmpTestResult
                     )
                 elif not action.find(constant.SCAN_ACTION_NAME) == -1:
                     global SERVICE_TMP_ID
@@ -462,13 +466,14 @@ def checkIsDivedLink(targetLink):
         return False
 
 
-def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLinks, restrictKeyword, searchKeyword):
+def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLinks, restrictKeyword, searchKeyword, testResult):
     u'''Recursive Diving - word
      @param  testWebDriver   - Web Driver
      @param  testCaseName    - Test Case Name
      @param  extractedLinks  - Extracted Links
      @param  restrictKeyword - Search Limit
      @param  searchKeyword   - Search Keywords
+     @param  testResult      - Test Result
      @return void
     '''
     global SERVICE_TMP_ID
@@ -479,6 +484,13 @@ def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLi
                 testWebDriver.access(currentTmpLink)
                 pickUpResult = testWebDriver.pickUpKeywords(currentTmpLink, searchKeyword)
                 searchLogger.log(pickUpResult)
+                testResult['actions'].append(
+                    {
+                        'name' : constant.SEARCH_ACTION_NAME.lower(),
+                        'status' : 1,
+                        'data' : pickUpResult
+                    }
+                )
                 SERVICE_TMP_ID = SERVICE_TMP_ID + 1
                 diveWebServiceKeyword(
                     searchLogger=searchLogger,
@@ -489,7 +501,8 @@ def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLi
                         restrictKeyword
                     ),
                     restrictKeyword=restrictKeyword,
-                    searchKeyword=searchKeyword
+                    searchKeyword=searchKeyword,
+                    testResult=testResult
                 )
             except Exception as e:
                 print('=====================================')

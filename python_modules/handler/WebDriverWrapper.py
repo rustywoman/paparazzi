@@ -390,7 +390,8 @@ class WebDriverWrapper(object):
 
     def pickUpKeywords(self, targetUrl, keywords):
         u'''Pick Up Keywords
-         @param keywords - URL
+         @param targetUrl - Target URL
+         @param keywords  - Search Keywords
          @return Matched Result
         '''
         result = {
