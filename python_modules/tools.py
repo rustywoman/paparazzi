@@ -300,12 +300,23 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                     actionInfo = action.split(constant.ACTION_SPLIT_ID)
                     if len(actionInfo) == 2:
                         restrictKeyword = actionInfo[1]
+                        tmpTestResult['restrict'] = restrictKeyword
                     else:
                         restrictKeyword = None
                     SERVICE_LINKS.append(testCase['url'])
                     testWebDriver.takeFullScreenshot(
                         testDir=testCase['name'],
-                        imgName=str(SERVICE_TMP_ID) + '_' + testWebDriver.getTitle()
+                        imgName=str(SERVICE_TMP_ID)
+                    )
+                    tmpTestResult['actions'].append(
+                        {
+                            'name' : constant.SCAN_ACTION_NAME.lower(),
+                            'status' : 1,
+                            'data' : {
+                                'target' : testCase['url'],
+                                'value' : str(SERVICE_TMP_ID)
+                            }
+                        }
                     )
                     SERVICE_TMP_ID = SERVICE_TMP_ID + 1
                     diveWebServiceLink(
@@ -315,7 +326,8 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                             testCase['url'],
                             restrictKeyword
                         ),
-                        restrictKeyword=restrictKeyword
+                        restrictKeyword=restrictKeyword,
+                        testResult=tmpTestResult
                     )
                     writeScanLog(
                         logger,
@@ -489,12 +501,13 @@ def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLi
             DUPLICATED_SERVICE_LINKS.append(currentTmpLink)
 
 
-def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyword):
+def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyword, testResult):
     u'''Recursive Diving - link
      @param  testWebDriver   - Web Driver
      @param  testCaseName    - Test Case Name
      @param  extractedLinks  - Extracted Links
      @param  restrictKeyword - Search Limit
+     @param  testResult      - Test Result
      @return void
     '''
     global SERVICE_TMP_ID
@@ -505,12 +518,19 @@ def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyw
                 testWebDriver.access(currentTmpLink)
                 testWebDriver.takeFullScreenshot(
                     testDir=testCaseName,
-                    imgName=str(SERVICE_TMP_ID) + '_' + testWebDriver.getTitle()
+                    imgName=str(SERVICE_TMP_ID)
+                )
+                testResult['actions'].append(
+                    {
+                        'name' : constant.SCAN_ACTION_NAME.lower(),
+                        'status' : 1,
+                        'data' : {
+                            'target' : currentTmpLink,
+                            'value' : str(SERVICE_TMP_ID)
+                        }
+                    }
                 )
                 SERVICE_TMP_ID = SERVICE_TMP_ID + 1
-                # ------------------------------------------
-                # ToDo - Infinite Scan
-                # ------------------------------------------
                 diveWebServiceLink(
                     testWebDriver=testWebDriver,
                     testCaseName=testCaseName,
@@ -518,7 +538,8 @@ def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyw
                         currentTmpLink,
                         restrictKeyword
                     ),
-                    restrictKeyword=restrictKeyword
+                    restrictKeyword=restrictKeyword,
+                    testResult=testResult
                 )
             except Exception as e:
                 print('=====================================')

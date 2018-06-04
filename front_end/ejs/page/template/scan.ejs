@@ -1,0 +1,108 @@
+<% var photoResult = []; %>
+<% var photoIndex = 0; %>
+<div class="m_split_column_box">
+  <div class="m_column_box">
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_info" data-ps-direction="top">
+      <span></span>
+    </a>
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_info" data-ps-direction="bottom">
+      <span></span>
+    </a>
+    <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_info">
+      <div class="m_column_content_wrapper">
+        <section class="m_column_section">
+          <h3 class="m_column_info__sub_title marker">Test User Environment<span class="overlay"></span></h3>
+          <div class="m_column_info__table ___half">
+            <div class="m_column_info__table--row">
+              <div class="m_column_info__table--cell ___half">
+                <p class="m_column_info_table--cell--count">Browser Type</p>
+              </div>
+              <div class="m_column_info__table--cell ___half">
+                <p class="m_column_info_table--cell--count"><%= reportDetailInfo['general']['browser'] %></p>
+              </div>
+            </div>
+            <div class="m_column_info__table--row">
+              <div class="m_column_info__table--cell ___half">
+                <p class="m_column_info_table--cell--count">Device Type</p>
+              </div>
+              <div class="m_column_info__table--cell ___half">
+                <p class="m_column_info_table--cell--count"><%= reportDetailInfo['general']['device'] %></p>
+              </div>
+            </div>
+            <div class="m_column_info__table--row">
+              <div class="m_column_info__table--cell ___half">
+                <p class="m_column_info_table--cell--count">User Agent</p>
+              </div>
+              <div class="m_column_info__table--cell ___half">
+                <p class="m_column_info_table--cell--count"><%= reportDetailInfo['general']['ua'] %></p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="m_column_section">
+          <h3 class="m_column_info__sub_title marker">Case Result<span class="overlay"></span></h3>
+          <% reportDetailInfo['detail'].forEach(function(detailInfo, idx){ %>
+            <% if(idx === 0) { %>
+            <section class="m_column_section_inner_wrapper ___marker">
+            <% } else { %>
+            <section class="m_column_section_inner_wrapper">
+            <% } %>
+              <h2 class="m_column_info__title ___marker">Target : <a href="<%= detailInfo['url'] %>" target="_blank"><%= detailInfo['url'] %></a><% if(detailInfo['restrict']) { %><span>restrict : <%= detailInfo['restrict'] %><% } %></span></h2>
+              <table class="m_column_info__table ___maximum">
+                <tr class="m_column_info__table--row">
+                  <td class="m_column_info__table--cell ___head ___quarter">Action Name</td>
+                  <td class="m_column_info__table--cell ___head ___quarter">Status</td>
+                  <td class="m_column_info__table--cell ___head ___quarter">Target</td>
+                  <td class="m_column_info__table--cell ___head ___quarter">Value</td>
+                </tr>
+                <% detailInfo['actions'].forEach(function(actionInfo){ %>
+                  <tr class="m_column_info__table--row">
+                    <td class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count"><%= actionInfo['name'].toUpperCase() %></p>
+                    </td>
+                    <td class="m_column_info__table--cell ___quarter">
+                      <p class="m_column_info_table--cell--count">
+                        <% if(actionInfo['status'] === 1){ %>
+                          o
+                        <% } else { %>
+                          x
+                        <% } %>
+                      </p>
+                    </td>
+                    <% photoIndex++; %>
+                    <% photoResult.push( { 'path' : actionInfo['data']['value'], 'url' : actionInfo['data']['target'] , 'idx' : photoIndex } ); %>
+                    <td class="m_column_info__table--cell ___marker" colspan="2">
+                      <p class="m_column_info_table--cell--count">
+                        <a class="j_hover" href="javascript:void(0);" data-scroll-pos="sync_scroll_<%= photoIndex %>_<%= actionInfo['data']['value'] %>">[ <%= photoIndex %> ] : <%= actionInfo['data']['target'] %></a>
+                      </p>
+                    </td>
+                  </tr>
+                <% }); %>
+              </table>
+            </section>
+          <% }); %>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="m_column_box">
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_img" data-ps-direction="top">
+      <span></span>
+    </a>
+    <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_img" data-ps-direction="bottom">
+      <span></span>
+    </a>
+    <div id="j_sync_scroll" class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_img">
+      <div class="m_column_content_wrapper">
+        <% photoResult.forEach(function(photoInfo, idx){ %>
+          <section id="sync_scroll_<%= photoInfo['idx'] %>_<%= photoInfo['path'] %>" class="m_column_section">
+            <h3 class="m_column_info__sub_title marker">[ <%= photoInfo['idx'] %> ] : <%= photoInfo['url'] %><span class="overlay"></span></h3>
+            <section class="m_column_section_inner_wrapper">
+              <a class="j_async_image_load zoom" data-async-src="/assets/image/<%= reportDetailInfo['name'] %>/<%= photoInfo['path'] %>/___result.png" href="/assets/image/<%= reportDetailInfo['name'] %>/<%= photoInfo['path'] %>/___result.png" target="_blank"></a>
+            </section>
+          </section>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</div>

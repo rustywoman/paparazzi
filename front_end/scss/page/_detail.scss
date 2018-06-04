@@ -116,6 +116,14 @@ Detail
   a{
     color: $default-color-white !important;
   }
+  span{
+    display: inline-block;
+    font-size: $min-font-size + px;
+    &:before{
+      content: '-';
+      padding: 0 10px;
+    }
+  }
 }
 .m_column_info__sub_title{
   display: inline-block;

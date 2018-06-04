@@ -1,11 +1,11 @@
 {
-  "name" : "LOCAL-SCAN-SAMPLE",
+  "name" : "local_sample_scan",
   "case" : [
     {
       "url"  : "http://localhost:3088/dummy.html",
-      "name" : "local_web_page",
+      "name" : "local_sample_scan",
       "action" : [
-        "SCAN---A"
+        "SCAN---localhost:3088"
       ]
     }
   ]
