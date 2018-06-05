@@ -122,9 +122,9 @@ if __name__ == '__main__':
         startTime=START_TIME
     )
     multiReportResult = {
-        'name' : TEST_NAME,
-        'pool' : POOL_LIMIT,
-        'detail' : []
+        'name': TEST_NAME,
+        'pool': POOL_LIMIT,
+        'detail': []
     }
     tmpResultInfoFiles = os.listdir(TEST_TMP_REPORTS_DIR)
     for resultInfoFile in tmpResultInfoFiles:

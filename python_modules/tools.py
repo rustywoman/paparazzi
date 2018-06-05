@@ -230,19 +230,19 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
         'w'
     )
     testResult = {
-        'name' : testName,
-        'general' : {
-            'browser' : browserName,
-            'device' : deviceType,
-            'ua' : config['browserUA'][deviceType]
+        'name': testName,
+        'general': {
+            'browser': browserName,
+            'device': deviceType,
+            'ua': config['browserUA'][deviceType]
         },
-        'detail' : []
+        'detail': []
     }
     with tqdm(total=len(testCaseInfo), desc=testName) as pbar:
         for testCase in testCaseInfo:
             tmpTestResult = {
-                'url' : testCase['url'],
-                'actions' : []
+                'url': testCase['url'],
+                'actions': []
             }
             testWebDriver.access(testCase['url'])
             for action in testCase['action']:
@@ -259,18 +259,18 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                     )
                     tmpTestResult['actions'].append(
                         {
-                            'name' : constant.PHOTO_ACTION_NAME.lower(),
-                            'status' : 1,
-                            'data' : imgName
+                            'name': constant.PHOTO_ACTION_NAME.lower(),
+                            'status': 1,
+                            'data': imgName
                         }
                     )
                 elif action == constant.WAIT_ACTION_NAME:
                     testWebDriver.wait()
                     tmpTestResult['actions'].append(
                         {
-                            'name' : constant.WAIT_ACTION_NAME.lower(),
-                            'status' : 1,
-                            'data' : ''
+                            'name': constant.WAIT_ACTION_NAME.lower(),
+                            'status': 1,
+                            'data': ''
                         }
                     )
                 elif not action.find(constant.SEARCH_ACTION_NAME) == -1:
@@ -314,11 +314,11 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                     )
                     tmpTestResult['actions'].append(
                         {
-                            'name' : constant.SCAN_ACTION_NAME.lower(),
-                            'status' : 1,
-                            'data' : {
-                                'target' : testCase['url'],
-                                'value' : str(SERVICE_TMP_ID)
+                            'name': constant.SCAN_ACTION_NAME.lower(),
+                            'status': 1,
+                            'data': {
+                                'target': testCase['url'],
+                                'value': str(SERVICE_TMP_ID)
                             }
                         }
                     )
@@ -378,11 +378,11 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                         )
                         tmpTestResult['actions'].append(
                             {
-                                'name' : constant.INPUT_ACTION.lower(),
-                                'status' : 1,
-                                'data' : {
-                                    'target' : tmpSelector,
-                                    'value' : tmpOption
+                                'name': constant.INPUT_ACTION.lower(),
+                                'status': 1,
+                                'data': {
+                                    'target': tmpSelector,
+                                    'value': tmpOption
                                 }
                             }
                         )
@@ -393,11 +393,11 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                         )
                         tmpTestResult['actions'].append(
                             {
-                                'name' : constant.ENTER_ACTION.lower(),
-                                'status' : 1,
-                                'data' : {
-                                    'target' : tmpSelector,
-                                    'value' : ''
+                                'name': constant.ENTER_ACTION.lower(),
+                                'status': 1,
+                                'data': {
+                                    'target': tmpSelector,
+                                    'value': ''
                                 }
                             }
                         )
@@ -408,11 +408,11 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                         )
                         tmpTestResult['actions'].append(
                             {
-                                'name' : constant.CLICK_ACTION.lower(),
-                                'status' : 1,
-                                'data' : {
-                                    'target' : tmpSelector,
-                                    'value' : ''
+                                'name': constant.CLICK_ACTION.lower(),
+                                'status': 1,
+                                'data': {
+                                    'target': tmpSelector,
+                                    'value': ''
                                 }
                             }
                         )
@@ -491,9 +491,9 @@ def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLi
                 )
                 testResult['actions'].append(
                     {
-                        'name' : constant.SEARCH_ACTION_NAME.lower(),
-                        'status' : 1,
-                        'data' : pickUpResult
+                        'name': constant.SEARCH_ACTION_NAME.lower(),
+                        'status': 1,
+                        'data': pickUpResult
                     }
                 )
                 SERVICE_TMP_ID = SERVICE_TMP_ID + 1
@@ -540,11 +540,11 @@ def diveWebServiceLink(testWebDriver, testCaseName, extractedLinks, restrictKeyw
                 )
                 testResult['actions'].append(
                     {
-                        'name' : constant.SCAN_ACTION_NAME.lower(),
-                        'status' : 1,
-                        'data' : {
-                            'target' : currentTmpLink,
-                            'value' : str(SERVICE_TMP_ID)
+                        'name': constant.SCAN_ACTION_NAME.lower(),
+                        'status': 1,
+                        'data': {
+                            'target': currentTmpLink,
+                            'value': str(SERVICE_TMP_ID)
                         }
                     }
                 )
