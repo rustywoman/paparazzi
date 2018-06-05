@@ -23,7 +23,8 @@
         "log",
         "conf",
         "node_modules",
-        "report/assets"
+        "report/assets",
+        "front_end/ts/lib"
       ]
     }
   ]
