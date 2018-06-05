@@ -23,7 +23,7 @@ const BANNER      = [
   '   +',
   'Full Cache For Target Web Page',
   '   ||',
-  'Sustainable, Well-mannered and Sophisticated Web Service',
+  'Sustainable and Well-mannered Auto-Testing Service',
   ''
 ].join('\n');
 
