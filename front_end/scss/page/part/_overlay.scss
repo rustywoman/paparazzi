@@ -19,7 +19,7 @@ Part - Overlay
     top: 0;
     left: 0;
     z-index: 200;
-    transition: all .4s ease 0s;
+    transition: width $default-duration $default-easing $default-delay;
   }
   &.___visible{
     &:before{

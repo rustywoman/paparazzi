@@ -7,7 +7,7 @@ Part - Zoom
   display: inline-block;
   cursor: zoom-in !important;
   img{
-    transition: transform .25s ease 0s, opacity .25s ease 0s;
+    transition: transform $default-duration $default-easing $default-delay, opacity $default-duration $default-easing $default-delay;
     opacity: 1;
   }
   &:hover{

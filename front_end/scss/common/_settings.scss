@@ -3,9 +3,9 @@
 Setting - Font
 =================================
 */
-$default-font-size      : 12;
-$min-font-size          : 11;
-$default-letter-spacing : 1.4px;
+$default-font-size                 : 12;
+$min-font-size                     : 11;
+$default-letter-spacing            : 1.4px;
 
 /*
 =================================
@@ -18,3 +18,12 @@ $default-color-gray                : #444;
 $default-color-border              : #222;
 $custom-scrollbar-color            : #999;
 $custom-scrollbar-background-color : #eee;
+
+/*
+=================================
+Setting - Transition
+=================================
+*/
+$default-duration                  : .25s;
+$default-easing                    : cubic-bezier(.165, .84, .44, 1);
+$default-delay                     : 0s;

@@ -11,7 +11,7 @@ Part - Loading
   width: 100%;
   height: calc(100vh - 60px - 40px);
   z-index: 100;
-  transition: transform .6s ease 0s;
+  transition: transform $default-duration $default-easing $default-delay;
 }
 #loading__bg.___loaded{
   transform: translateX(-100%);

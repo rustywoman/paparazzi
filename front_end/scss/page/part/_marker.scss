@@ -32,7 +32,7 @@ Part - Marker
     cursor: default;
   }
   span{
-    transition: opacity .25s ease-in-out 0s;
+    transition: opacity $default-duration $default-easing $default-delay;
   }
   &:hover{
     span{

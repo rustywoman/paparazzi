@@ -13,7 +13,7 @@ Part - Button
   span{
     color: $default-color-gray;
     font-size: $min-font-size + px;
-    transition: color .15s ease 0s;
+    transition: color $default-duration $default-easing $default-delay;
   }
   &:after{
     content: '';
@@ -23,7 +23,7 @@ Part - Button
     position: absolute;
     top: 0;
     left: 100%;
-    transition: left .25s ease 0s;
+    transition: left $default-duration $default-easing $default-delay;
     z-index: -1;
   }
   &.___marker{

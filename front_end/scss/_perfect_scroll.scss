@@ -47,14 +47,14 @@ Custom Style For perfect-scrollbar.js
   bottom: 0;
   display: none;
   height: 15px;
-  transition: background-color .2s linear, opacity .2s linear;
+  transition: background-color $default-duration $default-easing, opacity $default-duration $default-easing;
   opacity: 0;
 }
 .ps > .ps__scrollbar-x-rail > .ps__scrollbar-x{
   position: absolute;
   bottom: 2px;
   height: 6px;
-  transition: background-color .2s linear, height .2s linear, width .2s ease-in-out;
+  transition: background-color $default-duration $default-easing, height $default-duration $default-easing, width $default-duration ease-in-out;
   background-color: #aaa;
 }
 .ps > .ps__scrollbar-x-rail:hover > .ps__scrollbar-x, .ps > .ps__scrollbar-x-rail:active > .ps__scrollbar-x{
@@ -64,7 +64,7 @@ Custom Style For perfect-scrollbar.js
   position: absolute;
   right: 0;
   width: 15px;
-  transition: background-color .2s linear, opacity .2s linear;
+  transition: background-color $default-duration $default-easing, opacity $default-duration $default-easing;
   border-left: 2px solid $default-color-border;
   box-sizing: border-box;
   &.___marker{
@@ -76,7 +76,7 @@ Custom Style For perfect-scrollbar.js
   position: absolute;
   right: 0;
   width: 13px;
-  transition: background-color .2s linear, height .2s linear, width .2s ease-in-out;
+  transition: background-color $default-duration $default-easing, height $default-duration $default-easing, width $default-duration ease-in-out;
   background-color: #aaa;
 }
 .ps > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y,

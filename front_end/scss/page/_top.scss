@@ -136,7 +136,7 @@ Top
     text-align: left;
     padding: 3px 0;
     font-size: $min-font-size + px;
-    transition: border-bottom .25s ease 0s, background-color .25s ease 0s;
+    transition: border-bottom $default-duration $default-easing $default-delay, background-color $default-duration $default-easing $default-delay;
     background-color: transparent !important;
     &.___error{
       border-bottom: 1px solid $default-color-black;
