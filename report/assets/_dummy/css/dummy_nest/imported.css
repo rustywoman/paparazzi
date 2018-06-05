@@ -1,6 +1,6 @@
 @charset 'UTF-8';
 img{
-  border: 1px solid #f00;
+  border: 1px solid #000;
   box-sizing: content-box;
   vertical-align: bottom;
 }
