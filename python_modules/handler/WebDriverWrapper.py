@@ -397,7 +397,7 @@ class WebDriverWrapper(object):
         result = {
             'url': targetUrl,
             'matched': {},
-            'status': False
+            'status': 0
         }
         tmpHtml = self.driver.page_source
         for keyword in keywords:
@@ -406,7 +406,7 @@ class WebDriverWrapper(object):
                 result['matched'][keyword] = 0
             else:
                 result['matched'][keyword] = matchedCnt
-                result['status'] = True
+                result['status'] = 1
         return result
 
     def getLinksInfo(self, targetUrl, restrictKeyword):

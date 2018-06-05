@@ -69,12 +69,28 @@
                         <% } %>
                       </p>
                     </td>
-                    <% photoIndex++; %>
-                    <% photoResult.push( { 'path' : actionInfo['data']['value'], 'url' : actionInfo['data']['target'] , 'idx' : photoIndex } ); %>
-                    <td class="m_column_info__table--cell ___marker" colspan="2">
+                    <td class="m_column_info__table--cell ___quarter">
                       <p class="m_column_info_table--cell--count">
-                        <a class="j_hover" href="javascript:void(0);" data-scroll-pos="sync_scroll_<%= photoIndex %>_<%= actionInfo['data']['value'] %>">[ <%= photoIndex %> ] : <%= actionInfo['data']['target'].replace(detailInfo['restrict'], '').replace('http://', '').replace('https://', '') %></a>
+                        <% photoIndex++; %>
+                        <% photoResult.push( { 'path' : actionInfo['data']['value'], 'url' : actionInfo['data']['url'] , 'idx' : photoIndex } ); %>
+                        <a class="j_hover" href="javascript:void(0);" data-scroll-pos="sync_scroll_<%= photoIndex %>_<%= actionInfo['data']['value'] %>">[ <%= photoIndex %> ] :
+                          <% if(detailInfo['restrict']) { %>
+                            <%= actionInfo['data']['url'].replace(detailInfo['restrict'], '').replace('http://', '').replace('https://', '') %>
+                          <% } else { %>
+                            <%= actionInfo['data']['url'] %>
+                          <% } %>
+                        </a>
                       </p>
+                    </td>
+                    <td class="m_column_info__table--cell ___quarter">
+                      <div class="m_column_info__inner_table">
+                        <% detailInfo['keyword'].forEach(function(keywordInfo){ %>
+                          <div class="m_column_info__inner_table--row">
+                            <div class="m_column_info__inner_table--cell"><%= keywordInfo %></div>
+                            <div class="m_column_info__inner_table--cell"><%= actionInfo['data']['matched'][keywordInfo] %></div>
+                          </div>
+                        <% }); %>
+                      </div>
                     </td>
                   </tr>
                 <% }); %>

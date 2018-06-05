@@ -283,7 +283,7 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                         else:
                             searchKeyword = tmpSearchKeyword
                         tmpTestResult['restrict'] = restrictKeyword
-                        tmpTestResult['keyword'] = searchKeyword
+                        tmpTestResult['keyword'] = searchKeyword.sort()
                     else:
                         restrictKeyword = None
                         searchKeyword = None
@@ -483,7 +483,12 @@ def diveWebServiceKeyword(searchLogger, testWebDriver, testCaseName, extractedLi
             try:
                 testWebDriver.access(currentTmpLink)
                 pickUpResult = testWebDriver.pickUpKeywords(currentTmpLink, searchKeyword)
+                pickUpResult['value'] = str(SERVICE_TMP_ID)
                 searchLogger.log(pickUpResult)
+                testWebDriver.takeFullScreenshot(
+                    testDir=testCaseName,
+                    imgName=str(SERVICE_TMP_ID)
+                )
                 testResult['actions'].append(
                     {
                         'name' : constant.SEARCH_ACTION_NAME.lower(),
