@@ -10,7 +10,17 @@
         "tsconfig.json",
         "dummy.html",
         "test.py",
-        "webpack.build.config.js"
+        "webpack.build.config.js",
+        "webpack.common.config.js",
+        "server.js",
+        "lint.sh",
+        "main.sh",
+        "multi.sh",
+        "report.sh",
+        "report_via_node.sh",
+        "scan.sh",
+        "search.sh",
+        "reset.sh"
       ],
       "folder_exclude_patterns" : [
         "__pycache__",
