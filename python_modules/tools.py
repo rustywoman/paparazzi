@@ -283,7 +283,7 @@ def executeAutoTest(logger, testName, testCaseInfo, browserName, deviceType):
                         else:
                             searchKeyword = tmpSearchKeyword
                         tmpTestResult['restrict'] = restrictKeyword
-                        tmpTestResult['keyword'] = searchKeyword.sort()
+                        tmpTestResult['keyword'] = actionInfo[2]
                     else:
                         restrictKeyword = None
                         searchKeyword = None

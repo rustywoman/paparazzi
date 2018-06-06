@@ -40,11 +40,12 @@ class Main{
           // 'sh report_via_node.sh local_sample_report',
           (err, stdout, stderr) => {
             if(err){
+              console.log(err);
               console.error('=== [ API : execute ] - ' + caseName + ' - ng end ===');
               res.send(
                 {
                   status    : 0,
-                  reportURL : this.reportPrefix + caseName,
+                  reportURL : this.reportPrefix + caseName + this.reportSuffix,
                   error     : err
                 }
               );
@@ -53,7 +54,7 @@ class Main{
               res.send(
                 {
                   status    : 1,
-                  reportURL : this.reportPrefix + caseName,
+                  reportURL : this.reportPrefix + caseName + this.reportSuffix,
                   error     : ''
                 }
               );
@@ -69,7 +70,7 @@ class Main{
         let caseName = req.body['name'];
         let caseURL = req.body['url'];
         let caseDetail = {
-          'name' : caseName,
+          'name' : caseName + this.reportSuffix,
           'url'  : caseURL
         };
         console.info('=== [ API : create ] - ' + caseName + ' - start ===');

@@ -84,7 +84,7 @@
                     </td>
                     <td class="m_column_info__table--cell ___quarter">
                       <div class="m_column_info__inner_table">
-                        <% detailInfo['keyword'].forEach(function(keywordInfo){ %>
+                        <% detailInfo['keyword'].split(',').forEach(function(keywordInfo){ %>
                           <div class="m_column_info__inner_table--row">
                             <div class="m_column_info__inner_table--cell"><%= keywordInfo %></div>
                             <div class="m_column_info__inner_table--cell"><%= actionInfo['data']['matched'][keywordInfo] %></div>
