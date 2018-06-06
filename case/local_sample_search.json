@@ -5,7 +5,7 @@
       "url"  : "http://localhost:3088/dummy.html",
       "name" : "local_sample_search",
       "action" : [
-        "SEARCH---localhost:3088---maxime, local"
+        "SEARCH---localhost:3088---maxime,local,無料"
       ]
     }
   ]

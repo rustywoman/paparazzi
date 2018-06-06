@@ -180,11 +180,13 @@ def selectTestCase(testCaseDir, testCaseStack):
                         os.path.sep,
                         testCaseStack[int(testCaseIdx) - 1]
                     ),
-                    'r'
+                    'r',
+                    encoding='utf-8'
                 )
             )
             testInfoJsonFlg = True
         except Exception as e:
+            print(e)
             testInfoJsonFlg = False
             console.error(constant.TAB + 'Warning - Test Case Index is required. Re-Input, please.')
     return testRowInfo
