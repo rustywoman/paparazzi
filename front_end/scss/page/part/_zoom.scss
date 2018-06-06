@@ -6,14 +6,4 @@ Part - Zoom
 .zoom{
   display: inline-block;
   cursor: zoom-in !important;
-  img{
-    transition: transform $default-duration $default-easing $default-delay, opacity $default-duration $default-easing $default-delay;
-    opacity: 1;
-  }
-  &:hover{
-    img{
-      transform: scale(.97);
-      opacity: .75;
-    }
-  }
 }
