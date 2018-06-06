@@ -1,4 +1,4 @@
 {
   "name" : "local_sample_report",
-  "url"  : "http://localhost:3088"
+  "url"  : "http://localhost:3088/dummy.html"
 }
