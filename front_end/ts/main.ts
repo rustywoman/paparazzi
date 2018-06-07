@@ -558,7 +558,6 @@ document.addEventListener(
         let maxLabelLength = 0;
         let selectedNode = null;
         let panSpeed = 200;
-        let panBoundary = 20;
         let panTimer:any = null;
         let i = 0;
         let duration = 750;
@@ -608,7 +607,7 @@ document.addEventListener(
           let speed = panSpeed;
           if(panTimer){
             clearTimeout(panTimer);
-            let translateCoords = d3.transform(svgGroup.attr("transform"));
+            let translateCoords = d3.transform(svgGroup.attr('transform'));
             let translateX = 0;
             let translateY = 0;
             if(direction == 'left' || direction == 'right'){
@@ -621,8 +620,8 @@ document.addEventListener(
             let scaleX = translateCoords.scale[0];
             let scaleY = translateCoords.scale[1];
             let scale = zoomListener.scale();
-            svgGroup.transition().attr("transform", "translate(" + translateX + "," + translateY + ")scale(" + scale + ")");
-            d3.select(domNode).select('g.node').attr("transform", "translate(" + translateX + "," + translateY + ")");
+            svgGroup.transition().attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')');
+            d3.select(domNode).select('g.node').attr('transform', 'translate(' + translateX + ',' + translateY + ')');
             zoomListener.scale(zoomListener.scale());
             zoomListener.translate([translateX, translateY]);
             panTimer = setTimeout(function() {
@@ -631,17 +630,17 @@ document.addEventListener(
           }
         };
         function zoom(){
-          svgGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+          svgGroup.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
         };
-        let zoomListener = d3.behavior.zoom().scaleExtent([1, 3.8]).on("zoom", zoom);
+        let zoomListener = d3.behavior.zoom().scaleExtent([1, 3.8]).on('zoom', zoom);
 
 
         let baseSvg = d3
-          .select("#tree-container")
-          .append("svg")
-          .attr("id", "xxx")
-          .attr("width", viewerWidth)
-          .attr("height", viewerHeight)
+          .select('#tree-container')
+          .append('svg')
+          .attr('id', 'xxx')
+          .attr('width', viewerWidth)
+          .attr('height', viewerHeight)
           .call(zoomListener);
 
         function centerNode(source:any){
@@ -652,7 +651,7 @@ document.addEventListener(
           y = y * scale + viewerHeight / 2;
           d3.select('g').transition()
             .duration(duration)
-            .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
+            .attr('transform', 'translate(' + x + ',' + y + ')scale(' + scale + ')');
           zoomListener.scale(scale);
           zoomListener.translate([x, y]);
         };
@@ -695,44 +694,44 @@ document.addEventListener(
               d.y = (d.depth * (maxLabelLength * 10));
             }
           );
-          let node = svgGroup.selectAll("g.node")
+          let node = svgGroup.selectAll('g.node')
             .data(
               nodes,
               (d:any) => {
                 return d.id || (d.id = ++i);
               }
             );
-          let nodeEnter = node.enter().append("g")
-            .attr("class", "node")
+          let nodeEnter = node.enter().append('g')
+            .attr('class', 'node')
             .attr(
-              "transform",
+              'transform',
               (d:any) => {
-                return "translate(" + source.y0 + "," + source.x0 + ")";
+                return 'translate(' + source.y0 + ',' + source.x0 + ')';
               }
             )
             .on('click', click);
-          nodeEnter.append("circle")
+          nodeEnter.append('circle')
             .attr('class', 'nodeCircle')
-            .attr("r", 0)
+            .attr('r', 0)
             .style(
-              "fill",
+              'fill',
               (d:any) => {
-                return d._children ? "lightsteelblue" : "#fff";
+                return d._children ? 'lightsteelblue' : '#fff';
               }
             );
-          nodeEnter.append("text")
+          nodeEnter.append('text')
             .attr(
-              "x",
+              'x',
               (d:any) => {
                 return d.children || d._children ? -10 : 10;
               }
             )
-            .attr("dy", ".35em")
+            .attr('dy', '.35em')
             .attr('class', 'nodeText')
             .attr(
-              "text-anchor",
+              'text-anchor',
               (d:any) => {
-                return d.children || d._children ? "end" : "start";
+                return d.children || d._children ? 'end' : 'start';
               }
             )
             .text(
@@ -740,18 +739,18 @@ document.addEventListener(
                 return d.name;
               }
             )
-            .style("fill-opacity", 0);
+            .style('fill-opacity', 0);
           node.select('text')
             .attr(
-              "x",
+              'x',
               (d:any) => {
                 return d.children || d._children ? -10 : 10;
               }
             )
             .attr(
-              "text-anchor",
+              'text-anchor',
               (d:any) => {
-                return d.children || d._children ? "end" : "start";
+                return d.children || d._children ? 'end' : 'start';
               }
             )
             .text(
@@ -759,45 +758,45 @@ document.addEventListener(
                 return d.name;
               }
             );
-          node.select("circle.nodeCircle")
-            .attr("r", 4.5)
+          node.select('circle.nodeCircle')
+            .attr('r', 4.5)
             .style(
-              "fill",
+              'fill',
               (d:any) => {
-                return d._children ? "lightsteelblue" : "#fff";
+                return d._children ? 'lightsteelblue' : '#fff';
               }
             );
           let nodeUpdate = node.transition()
             .duration(duration)
             .attr(
-              "transform",
+              'transform',
               (d:any) => {
-                return "translate(" + d.y + "," + d.x + ")";
+                return 'translate(' + d.y + ',' + d.x + ')';
               }
             );
-          nodeUpdate.select("text").style("fill-opacity", 1);
+          nodeUpdate.select('text').style('fill-opacity', 1);
           let nodeExit = node.exit().transition()
             .duration(duration)
             .attr(
-              "transform",
+              'transform',
               (d:any) => {
-                return "translate(" + source.y + "," + source.x + ")";
+                return 'translate(' + source.y + ',' + source.x + ')';
               }
             )
             .remove();
-          nodeExit.select("circle").attr("r", 0);
-          nodeExit.select("text").style("fill-opacity", 0);
-          let link = svgGroup.selectAll("path.link")
+          nodeExit.select('circle').attr('r', 0);
+          nodeExit.select('text').style('fill-opacity', 0);
+          let link = svgGroup.selectAll('path.link')
             .data(
               links,
               (d:any) => {
                 return d.target.id;
               }
             );
-          link.enter().insert("path", "g")
-            .attr("class", "link")
+          link.enter().insert('path', 'g')
+            .attr('class', 'link')
             .attr(
-              "d",
+              'd',
               (d:any) => {
                 let o = {
                   x: source.x0,
@@ -813,11 +812,11 @@ document.addEventListener(
             );
           link.transition()
             .duration(duration)
-            .attr("d", diagonal);
+            .attr('d', diagonal);
           link.exit().transition()
             .duration(duration)
             .attr(
-              "d",
+              'd',
               (d:any) => {
                 let o = {
                   x: source.x,
@@ -839,7 +838,7 @@ document.addEventListener(
             }
           );
         };
-        let svgGroup = baseSvg.append("g");
+        let svgGroup = baseSvg.append('g');
         root = treeData;
         root.x0 = viewerHeight / 2;
         root.y0 = 0;
