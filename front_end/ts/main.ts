@@ -534,16 +534,19 @@ class Main{
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-    let mainIns = new Main(
-      new LoadingHandler(
-        document.querySelector('#loading__bg'),
-        document.querySelector('#loading__status'),
-        CONSTANT.LOADED_MARKER
-      ),
-      new MarkerHandler('overlay'),
-      document.querySelector('#wrapper')
-    );
-    mainIns.init(false);
+    // let mainIns = new Main(
+    //   new LoadingHandler(
+    //     document.querySelector('#loading__bg'),
+    //     document.querySelector('#loading__status'),
+    //     CONSTANT.LOADED_MARKER
+    //   ),
+    //   new MarkerHandler('overlay'),
+    //   document.querySelector('#wrapper')
+    // );
+    // mainIns.init(false);
+
+
+
   },
   false
 );

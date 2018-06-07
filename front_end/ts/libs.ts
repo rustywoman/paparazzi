@@ -27,3 +27,9 @@ declare function require(x: string): any;
  * @type        {any}
  */
 (<any>window).axios = require('lib/axios.min.js');
+/**
+ * @author      rustywoman
+ * @description Window Library - [ d3 ]
+ * @type        {any}
+ */
+(<any>window).d3 = require('lib/d3.v3.min.js');

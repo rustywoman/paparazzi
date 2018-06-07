@@ -8,7 +8,7 @@
   <body>
     <%- include('./common/header.ejs'); %>
     <div id="content">
-      <%- include('./common/loading.ejs'); %>
+      <!-- <%- include('./common/loading.ejs'); %> -->
       <div id="wrapper">
         <% if(status === 1) { %>
           <%# TOP - Report List %>
@@ -20,11 +20,43 @@
             <%- include('./page/detail.ejs'); %>
           <% } %>
         <% } else { %>
-          <%- include('./page/error.ejs'); %>
+          <!-- <%- include('./page/error.ejs'); %> -->
+          <%- include('./page/tree.ejs'); %>
         <% } %>
       </div>
     </div>
     <%- include('./common/footer.ejs'); %>
     <%- include('./common/scripts.ejs'); %>
+    <style type="text/css">
+      .node {
+        cursor: pointer;
+      }
+      .node circle {
+        fill: #fff;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+      }
+      .node text {
+        font-size:10px;
+        font-family:sans-serif;
+      }
+      .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 1.5px;
+      }
+      .templink {
+        fill: none;
+        stroke: red;
+        stroke-width: 3px;
+      }
+      .ghostCircle.show{
+        display:block;
+      }
+      .ghostCircle, .activeDrag .ghostCircle{
+        display: none;
+      }
+    </style>
+    <script type="text/javascript" src="/assets/js/tree_sample.js"></script>
   </body>
 </html>
