@@ -1,0 +1,21 @@
+/*
+=================================
+Part - SVG Tree
+=================================
+*/
+.m_svg_dependency__node{
+  cursor: pointer;
+}
+.m_svg_dependency__circle{
+  fill: #fff;
+  stroke: #444;
+  stroke-width: 1px;
+}
+.m_svg_dependency__text{
+  font-size: 12px;
+}
+.m_svg_dependency__link{
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+}

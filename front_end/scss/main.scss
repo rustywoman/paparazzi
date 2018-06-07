@@ -23,6 +23,7 @@ Page
 @import 'page/part/loading';
 @import 'page/part/button';
 @import 'page/part/zoom';
+@import 'page/part/tree';
 @import 'page/top';
 @import 'page/detail';
 @import 'page/error';
@@ -35,26 +36,3 @@ Custom
 */
 @import 'highlight';
 @import 'perfect_scroll';
-
-
-/*
-=================================
-Test
-=================================
-*/
-.node{
-  cursor: pointer;
-}
-.node circle{
-  fill: #fff;
-  stroke: #444;
-  stroke-width: 1px;
-}
-.node text{
-  font-size: 12px;
-}
-.link{
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1px;
-}
