@@ -35,3 +35,29 @@ Custom
 */
 @import 'highlight';
 @import 'perfect_scroll';
+
+
+#l_content__tree_detail_wrapper{
+  width: 48%;
+  height: calc(100% - 40px - 60px);
+  background-color: $default-color-white;
+  border-left: 2px solid $default-color-border;
+  box-sizing: content-box;
+  position: fixed;
+  top: 60px;
+  right: 2px;
+  box-shadow: 2px -8px 4px 4px rgba($default-color-border, .25);
+  transform: translateX(50%);
+  transition: transform $default-duration * 2 $default-easing $default-duration;
+  &.___marker{
+    transform: translateX(0%);
+  }
+}
+#l_content__tree_detail_inner_wrapper{
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+#l_content__tree_dynamic_wrapper{
+  padding: 40px 40px 40px 28px;
+}

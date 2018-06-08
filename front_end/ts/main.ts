@@ -508,6 +508,7 @@ class Main{
     if(tmpTreeDOM){
       this.dependencyTreeIns.init(
         '#l_content__tree_container',
+        '#l_content__tree_detail_wrapper',
         '/assets/json/' + tmpTreeDOM.getAttribute('data-tree-dependency')
       ).then(
         () => {

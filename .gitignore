@@ -9,6 +9,8 @@ log
 # Dynamic
 report/assets/image/**
 report/assets/json/**
+report/assets/json/**
+!report/assets/json/*_tree.json
 report/assets/css/**
 report/assets/js/**
 report/index.json

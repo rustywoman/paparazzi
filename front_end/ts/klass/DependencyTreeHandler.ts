@@ -21,6 +21,7 @@ export default class DependencyTreeHandler{
   zoomListener   : any;
   baseSvg        : any;
   svgGroup       : any;
+  detailDOM      : any;
   constructor(){
     this.totalNodes = 0;
     this.maxLabelLength = 0;
@@ -32,7 +33,7 @@ export default class DependencyTreeHandler{
     this.root = null;
     this.treeJSON = null;
     this.viewerWidth = window.innerWidth - 15;
-    this.viewerHeight = window.innerHeight - 60 - 40;
+    this.viewerHeight = window.innerHeight - 60 - 40 - 4;
     this.tree = d3.layout.tree().size([this.viewerHeight, this.viewerWidth]);
     this.diagonal = d3.svg.diagonal().projection(
       (d:any) => {
@@ -42,6 +43,7 @@ export default class DependencyTreeHandler{
     this.zoomListener = null;
     this.baseSvg = null;
     this.svgGroup = null;
+    this.detailDOM = null;
   };
   traceBranch(parent:any, traceBranchFn:any, childrenFn:any){
     if(!parent){
@@ -97,7 +99,7 @@ export default class DependencyTreeHandler{
     let scale = this.zoomListener.scale();
     let x = -source.y0;
     let y = -source.x0;
-    x = x * scale + this.viewerWidth / 2;
+    x = x * scale + (this.viewerWidth / 4);
     y = y * scale + this.viewerHeight / 2;
     d3.select('g')
       .transition()
@@ -124,6 +126,7 @@ export default class DependencyTreeHandler{
     let tmpNodes = this.toggleChildren(d);
     this.update(tmpNodes);
     this.centerNode(tmpNodes);
+    this.detailDOM.classList.add('___marker');
   };
   update(source:any){
     let levelWidth = [1];
@@ -294,8 +297,9 @@ export default class DependencyTreeHandler{
       }
     );
   };
-  init(wrapperDOMSelector:string, treeDependencyData:string){
+  init(wrapperDOMSelector:string, detailDOMSelector:string, treeDependencyData:string){
     let treeDOM = document.querySelector(wrapperDOMSelector);
+    this.detailDOM = document.querySelector(detailDOMSelector);
     return new Promise(
       (resolve:any, reject:any) => {
         this.treeJSON = d3.json(
