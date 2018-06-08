@@ -32,4 +32,4 @@ declare function require(x: string): any;
  * @description Window Library - [ d3 ]
  * @type        {any}
  */
-(<any>window).d3 = require('lib/d3.v3.min.js');
+(<any>window).d3 = require('lib/d3.min.js');

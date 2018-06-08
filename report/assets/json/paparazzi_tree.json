@@ -1,0 +1,303 @@
+{
+  "name": "Paparazzi Report",
+  "children": [
+    {
+      "name": "Shell",
+      "children": [
+        {
+          "name": "lint.sh"
+        },
+        {
+          "name": "main.sh"
+        },
+        {
+          "name": "multi.sh"
+        },
+        {
+          "name": "report.sh"
+        },
+        {
+          "name": "report_via_node.sh"
+        },
+        {
+          "name": "reset.sh"
+        },
+        {
+          "name": "scan.sh"
+        },
+        {
+          "name": "search.sh"
+        }
+      ]
+    },
+    {
+      "name": "Front-End",
+      "children": [
+        {
+          "name": "HTML",
+          "children": [
+            {
+              "name": "EJS",
+              "children": [
+                {
+                  "name": "main.ejs"
+                },
+                {
+                  "name": "common",
+                  "children": [
+                    {
+                      "name": "footer.ejs"
+                    },
+                    {
+                      "name": "header.ejs"
+                    },
+                    {
+                      "name": "links.ejs"
+                    },
+                    {
+                      "name": "loading.ejs"
+                    },
+                    {
+                      "name": "metas.ejs"
+                    },
+                    {
+                      "name": "scripts.ejs"
+                    }
+                  ]
+                },
+                {
+                  "name": "page",
+                  "children": [
+                    {
+                      "name": "template",
+                      "children": [
+                        {
+                          "name": "main.ejs"
+                        },
+                        {
+                          "name": "multi.ejs"
+                        },
+                        {
+                          "name": "report.ejs"
+                        },
+                        {
+                          "name": "scan.ejs"
+                        },
+                        {
+                          "name": "search.ejs"
+                        },
+                        {
+                          "name": "tree.ejs"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "detail.ejs"
+                    },
+                    {
+                      "name": "error.ejs"
+                    },
+                    {
+                      "name": "top.ejs"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "CSS",
+          "children": [
+            {
+              "name": "SCSS",
+              "children": [
+                {
+                  "name": "main.scss",
+                  "children": [
+                    {
+                      "name": "common",
+                      "children": [
+                        {
+                          "name": "_settings.scss"
+                        },
+                        {
+                          "name": "_mixin.scss"
+                        },
+                        {
+                          "name": "_keyframes.scss"
+                        },
+                        {
+                          "name": "_reset.scss"
+                        },
+                        {
+                          "name": "_base.scss"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "page",
+                      "children": [
+                        {
+                          "name": "part",
+                          "children": [
+                            {
+                              "name": "_header.scss"
+                            },
+                            {
+                              "name": "_footer.scss"
+                            },
+                            {
+                              "name": "_marker.scss"
+                            },
+                            {
+                              "name": "_overlay.scss"
+                            },
+                            {
+                              "name": "_loading.scss"
+                            },
+                            {
+                              "name": "_button.scss"
+                            },
+                            {
+                              "name": "_zoom.scss"
+                            },
+                            {
+                              "name": "_tree.scss"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "_top.scss"
+                        },
+                        {
+                          "name": "_detail.scss"
+                        },
+                        {
+                          "name": "_error.scss"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "_highlight.scss"
+                    },
+                    {
+                      "name": "_perfect_scroll.scss"
+                    }
+                  ]
+                },
+                {
+                  "name": "libs",
+                  "children": [
+                    {
+                      "name": "lib",
+                      "children": [
+                        {
+                          "name": "_web_font_notosans.scss"
+                        },
+                        {
+                          "name": "_web_font_roboto.scss"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "TypeScript",
+          "children": [
+            {
+              "name": "conf",
+              "children": [
+                {
+                  "name": "CONSTANT.ts"
+                },
+                {
+                  "name": "STATUS.ts"
+                }
+              ]
+            },
+            {
+              "name": "klass",
+              "children": [
+                {
+                  "name": "DependencyTreeHandler.ts"
+                },
+                {
+                  "name": "LoadingHandler.ts"
+                },
+                {
+                  "name": "MarkerHandler.ts"
+                }
+              ]
+            },
+            {
+              "name": "libs.ts",
+              "children": [
+                {
+                  "name": "lib",
+                  "children": [
+                    {
+                      "name": "axios.min.js"
+                    },
+                    {
+                      "name": "d3.min.js"
+                    },
+                    {
+                      "name": "highlight.min.js"
+                    },
+                    {
+                      "name": "perfect-scrollbar.min.js"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "main.ts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Back-End",
+      "children": [
+        {
+          "name": "JavaScript",
+          "children": [
+            {
+              "name": "server.js",
+              "children": [
+                {
+                  "name": "express"
+                },
+                {
+                  "name": "cookie-parser"
+                },
+                {
+                  "name": "body-parser"
+                },
+                {
+                  "name": "express-session"
+                },
+                {
+                  "name": "webpack"
+                },
+                {
+                  "name": "webpack-dev-middleware"
+                },
+                {
+                  "name": "webpack-hot-middleware"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

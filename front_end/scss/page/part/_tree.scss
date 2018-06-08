@@ -13,14 +13,14 @@ Part - SVG Tree
     transition: transform $default-duration $default-easing $default-delay;
     &.___marker{
       fill: $default-color-red;
-      transform: scale(1.4);
+      transform: scale(1.3);
       &:hover{
-        transform: scale(1.4) !important;
+        transform: scale(1.3) !important;
         transition: none;
       }
     }
     &:hover{
-      transform: scale(1.2);
+      transform: scale(1.1);
     }
   }
 }
@@ -36,4 +36,64 @@ Part - SVG Tree
   fill: none;
   stroke: rgba($default-color-border, .1);
   stroke-width: 1px;
+  &.___marker{
+    stroke: rgba($default-color-border, .5);
+    stroke-width: 2px;
+  }
+}
+#l_content__tree_detail_wrapper{
+  width: 48%;
+  height: calc(100% - 40px - 60px);
+  background-color: $default-color-white;
+  border-left: 2px solid $default-color-border;
+  box-sizing: content-box;
+  position: fixed;
+  top: 60px;
+  right: 2px;
+  box-shadow: 2px -8px 4px 4px rgba($default-color-border, .25);
+  transition: transform $default-duration * 2 $default-easing $default-duration;
+}
+#l_content__tree_detail_inner_wrapper{
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+#l_content__tree_dynamic_wrapper{
+  padding: 40px 40px 40px 28px;
+}
+.m_content__tree_info_wrapper{
+  margin: 30px 0 0 0;
+  text-align: left;
+  &:first-child{
+    margin: 15px 0 0;
+  }
+}
+.m_content__tree_sub_title{
+  background-color: $default-color-gray;
+  color: $default-color-white;
+  padding: 5px 10px;
+  margin: 0 0 15px 0;
+}
+.m_content__tree_sub_wrapper{
+  padding: 0 20px;
+}
+#l_tree_target{
+  text-align: left;
+}
+#l_tree_ancestor__list{
+  @include clearfix();
+}
+.m_tree_ancestor__list--item{
+  display: inline-block;
+  float: left;
+  &:after{
+    content: '>';
+    display: inline-block;
+    padding: 0 10px;
+  }
+  &:last-child{
+    &:after{
+      display: none;
+    }
+  }
 }

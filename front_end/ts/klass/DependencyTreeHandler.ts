@@ -12,6 +12,7 @@ export default class DependencyTreeHandler{
   panTimer       : any;
   idx            : number;
   duration       : number;
+  nodeBuffer     : number;
   root           : any;
   treeJSON       : any;
   viewerWidth    : number;
@@ -31,6 +32,7 @@ export default class DependencyTreeHandler{
     this.panTimer = null;
     this.idx = 0;
     this.duration = 750;
+    this.nodeBuffer = 85;
     this.root = null;
     this.treeJSON = null;
     this.viewerWidth = window.innerWidth - 15;
@@ -120,12 +122,17 @@ export default class DependencyTreeHandler{
     }
     return d;
   };
-  traceAncestor(d:any, result:any[]){
-    result.push(d['parent']['name']);
+  traceAncestor(d:any, ancestorResult:any[], relatedIdResult:any[]){
+    ancestorResult.push(d['parent']['name']);
+    relatedIdResult.push(d['id']);
+    relatedIdResult.push(d['parent']['id']);
     if(d['parent']['parent']){
-      this.traceAncestor(d['parent'], result);
+      this.traceAncestor(d['parent'], ancestorResult, relatedIdResult);
     }
-    return result.reverse();
+    return {
+      'ancestorResult' : ancestorResult,
+      'relatedResult'  : relatedIdResult
+    };
   };
   handleClick(d:any){
     if(d3.event.defaultPrevented){
@@ -137,7 +144,19 @@ export default class DependencyTreeHandler{
     this.centerNode(tmpNodes);
     // Dynamic Info. - ToDo
     document.querySelector('#l_tree_target').innerHTML = d.name;
-    let tmpAncestor = this.traceAncestor(d, []);
+    let tmpAncestorInfo = this.traceAncestor(d, [], []);
+    let tmpRelatedPathIds = tmpAncestorInfo['relatedResult'];
+    let allVisibleLinks = document.querySelectorAll('.m_svg_dependency__link');
+    for(let i = 0, il = allVisibleLinks.length; i < il; i++){
+      allVisibleLinks[i].classList.remove('___marker');
+    }
+    for(let i = 0, il = tmpRelatedPathIds.length; i < il; i++){
+      let tmpPath = document.querySelector('#l_path_' + tmpRelatedPathIds[i]);
+      if(tmpPath){
+        tmpPath.classList.add('___marker');
+      }
+    }
+    let tmpAncestor = tmpAncestorInfo['ancestorResult'].reverse();
     let tmpAncestorListDOM = [];
     for(let i = 0, il = tmpAncestor.length; i < il; i++){
       tmpAncestorListDOM.push('<li class="m_tree_ancestor__list--item">' + tmpAncestor[i] + '</li>');
@@ -160,13 +179,13 @@ export default class DependencyTreeHandler{
       }
     };
     childCount(0, this.root);
-    let newHeight = d3.max(levelWidth) * 25;
+    let newHeight = d3.max(levelWidth) * this.nodeBuffer;
     this.tree = this.tree.size([newHeight, this.viewerWidth]);
     let nodes = this.tree.nodes(this.root).reverse();
     let links = this.tree.links(nodes);
     nodes.forEach(
       (d:any) => {
-        d.y = (d.depth * (this.maxLabelLength * 10));
+        d.y = (d.depth * (this.maxLabelLength * 15));
       }
     );
     let node = this.svgGroup.selectAll('g.m_svg_dependency__node')
@@ -196,17 +215,22 @@ export default class DependencyTreeHandler{
       );
     nodeEnter.append('text')
       .attr(
-        'x',
+        'dx',
         (d:any) => {
-          return d.children || d._children ? -10 : 10;
+          return d.children || d._children ? '' : '.7em';
         }
       )
-      .attr('dy', '.35em')
+      .attr(
+        'dy',
+        (d:any) => {
+          return d.children || d._children ? '1.5em' : '.35em';
+        }
+      )
       .attr('class', 'm_svg_dependency__text')
       .attr(
         'text-anchor',
         (d:any) => {
-          return d.children || d._children ? 'end' : 'start';
+          return d.children || d._children ? 'middle' : 'start';
         }
       )
       .text(
@@ -223,15 +247,10 @@ export default class DependencyTreeHandler{
         }
       )
       .attr(
-        'x',
-        (d:any) => {
-          return d.children || d._children ? -10 : 10;
-        }
-      )
-      .attr(
         'text-anchor',
         (d:any) => {
-          return d.children || d._children ? 'end' : 'start';
+          return d.children || d._children ? 'middle' : 'start';
+          // return 'middle';
         }
       )
       .text(
@@ -276,6 +295,12 @@ export default class DependencyTreeHandler{
       );
     link.enter().insert('path', 'g')
       .attr('class', 'm_svg_dependency__link')
+      .attr(
+        'id',
+        (d:any) => {
+          return 'l_path_' + d.target.id;
+        }
+      )
       .attr(
         'd',
         (d:any) => {
