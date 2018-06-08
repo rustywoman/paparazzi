@@ -8,10 +8,18 @@ Part - SVG Tree
 }
 .m_svg_dependency__node{
   cursor: pointer !important;
+  text{
+    fill: $default-color-gray;
+    transition: transform $default-duration $default-easing $default-delay;
+    &.___marker{
+      fill: $default-color-red;
+      transform: scale(1.4);
+    }
+  }
 }
 .m_svg_dependency__circle{
-  fill: #fff;
-  stroke: #444;
+  fill: $default-color-white;
+  stroke: $default-color-gray;
   stroke-width: 1px;
 }
 .m_svg_dependency__text{
@@ -19,6 +27,6 @@ Part - SVG Tree
 }
 .m_svg_dependency__link{
   fill: none;
-  stroke: #ccc;
+  stroke: rgba($default-color-border, .1);
   stroke-width: 1px;
 }

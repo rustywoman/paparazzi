@@ -47,11 +47,7 @@ Custom
   top: 60px;
   right: 2px;
   box-shadow: 2px -8px 4px 4px rgba($default-color-border, .25);
-  transform: translateX(50%);
   transition: transform $default-duration * 2 $default-easing $default-duration;
-  &.___marker{
-    transform: translateX(0%);
-  }
 }
 #l_content__tree_detail_inner_wrapper{
   position: relative;
@@ -60,4 +56,39 @@ Custom
 }
 #l_content__tree_dynamic_wrapper{
   padding: 40px 40px 40px 28px;
+}
+
+
+.m_content__tree_info_wrapper{
+  margin: 15px 0 0 0;
+  text-align: left;
+}
+.m_content__tree_sub_title{
+  background-color: $default-color-gray;
+  color: $default-color-white;
+  padding: 5px 10px;
+  margin: 0 0 15px 0;
+}
+.m_content__tree_sub_wrapper{
+  padding: 0 20px;
+}
+#l_tree_target{
+  text-align: left;
+}
+#l_tree_ancestor__list{
+  @include clearfix();
+}
+.m_tree_ancestor__list--item{
+  display: inline-block;
+  float: left;
+  &:after{
+    content: '>';
+    display: inline-block;
+    padding: 0 10px;
+  }
+  &:last-child{
+    &:after{
+      display: none;
+    }
+  }
 }

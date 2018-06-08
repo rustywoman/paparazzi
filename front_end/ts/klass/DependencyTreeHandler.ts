@@ -22,6 +22,7 @@ export default class DependencyTreeHandler{
   baseSvg        : any;
   svgGroup       : any;
   detailDOM      : any;
+  selectedId     : number;
   constructor(){
     this.totalNodes = 0;
     this.maxLabelLength = 0;
@@ -44,6 +45,7 @@ export default class DependencyTreeHandler{
     this.baseSvg = null;
     this.svgGroup = null;
     this.detailDOM = null;
+    this.selectedId = 0;
   };
   traceBranch(parent:any, traceBranchFn:any, childrenFn:any){
     if(!parent){
@@ -118,15 +120,29 @@ export default class DependencyTreeHandler{
     }
     return d;
   };
+  traceAncestor(d:any, result:any[]){
+    result.push(d['parent']['name']);
+    if(d['parent']['parent']){
+      this.traceAncestor(d['parent'], result);
+    }
+    return result.reverse();
+  };
   handleClick(d:any){
     if(d3.event.defaultPrevented){
       return;
     }
-    console.dir(d);
+    this.selectedId = d.id;
     let tmpNodes = this.toggleChildren(d);
     this.update(tmpNodes);
     this.centerNode(tmpNodes);
-    this.detailDOM.classList.add('___marker');
+    // Dynamic Info. - ToDo
+    document.querySelector('#l_tree_target').innerHTML = d.name;
+    let tmpAncestor = this.traceAncestor(d, []);
+    let tmpAncestorListDOM = [];
+    for(let i = 0, il = tmpAncestor.length; i < il; i++){
+      tmpAncestorListDOM.push('<li class="m_tree_ancestor__list--item">' + tmpAncestor[i] + '</li>');
+    }
+    document.querySelector('#l_tree_ancestor__list').innerHTML = tmpAncestorListDOM.join('');
   };
   update(source:any){
     let levelWidth = [1];
@@ -200,6 +216,12 @@ export default class DependencyTreeHandler{
       )
       .style('fill-opacity', 0);
     node.select('text')
+      .attr(
+        'class',
+        (d:any) => {
+          return d.id === this.selectedId ? '___marker' : '';
+        }
+      )
       .attr(
         'x',
         (d:any) => {
@@ -316,7 +338,7 @@ export default class DependencyTreeHandler{
               }
             );
             this.sortTree();
-            this.zoomListener = d3.behavior.zoom().scaleExtent([1, 3.8]).on('zoom', this.handleZoom.bind(this));
+            this.zoomListener = d3.behavior.zoom().scaleExtent([1, 2.4]).on('zoom', this.handleZoom.bind(this));
             this.baseSvg = d3
               .select(wrapperDOMSelector)
               .append('svg')
