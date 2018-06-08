@@ -14,6 +14,13 @@ Part - SVG Tree
     &.___marker{
       fill: $default-color-red;
       transform: scale(1.4);
+      &:hover{
+        transform: scale(1.4) !important;
+        transition: none;
+      }
+    }
+    &:hover{
+      transform: scale(1.2);
     }
   }
 }

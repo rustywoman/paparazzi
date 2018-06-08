@@ -60,8 +60,11 @@ Custom
 
 
 .m_content__tree_info_wrapper{
-  margin: 15px 0 0 0;
+  margin: 30px 0 0 0;
   text-align: left;
+  &:first-child{
+    margin: 15px 0 0;
+  }
 }
 .m_content__tree_sub_title{
   background-color: $default-color-gray;
