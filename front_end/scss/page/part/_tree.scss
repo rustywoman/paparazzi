@@ -3,8 +3,11 @@
 Part - SVG Tree
 =================================
 */
+#l_content__tree_container{
+  cursor: all-scroll;
+}
 .m_svg_dependency__node{
-  cursor: pointer;
+  cursor: pointer !important;
 }
 .m_svg_dependency__circle{
   fill: #fff;

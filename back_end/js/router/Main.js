@@ -24,6 +24,7 @@ class Main{
     this.multiSuffix = '_multi';
     this.scanSuffix = '_scan';
     this.searchSuffix = '_search';
+    this.treeSuffix = '_tree';
     this.staticReportInfoDir = path.join(__dirname, '../../../report/');
     this.caseInfoDir = path.join(__dirname, '../../../case/');
   }
@@ -111,36 +112,47 @@ class Main{
           try{
             let tmpReportName = tmpRequestPath.replace(this.reportPrefix, '');
             let tmpTemplateType = '';
+            let tmpTemplateTitle = '';
             // "***_report"
             if(tmpRequestPath.indexOf(this.reportSuffix) !== -1){
               tmpTemplateType = 'report';
+              tmpTemplateTitle = ' - ' + tmpReportName;
             }
             // "***_main"
             if(tmpRequestPath.indexOf(this.mainSuffix) !== -1){
               tmpTemplateType = 'main';
+              tmpTemplateTitle = ' - ' + tmpReportName;
             }
             // "***_multi"
             if(tmpRequestPath.indexOf(this.multiSuffix) !== -1){
               tmpTemplateType = 'multi';
+              tmpTemplateTitle = ' - ' + tmpReportName;
             }
             // "***_scan"
             if(tmpRequestPath.indexOf(this.scanSuffix) !== -1){
               tmpTemplateType = 'scan';
+              tmpTemplateTitle = ' - ' + tmpReportName;
             }
             // "***_search"
             if(tmpRequestPath.indexOf(this.searchSuffix) !== -1){
               tmpTemplateType = 'search';
+              tmpTemplateTitle = ' - ' + tmpReportName;
+            }
+            // "***_tree"
+            if(tmpRequestPath.indexOf(this.treeSuffix) !== -1){
+              tmpTemplateType = 'tree';
+              tmpTemplateTitle = './assets/json' + tmpReportName + '.json';
             }
             tmpResponse = {
               reportName       : tmpReportName,
               reportDetailInfo : JSON.parse(
                 fs.readFileSync(
-                  this.staticReportInfoDir + 'assets/json/' + tmpReportName + '.json',
+                  this.staticReportInfoDir + 'assets/json' + tmpReportName + '.json',
                   'utf8'
                 )
               ),
               status           : 1,
-              title            : ' - ' + tmpReportName,
+              title            : tmpTemplateTitle,
               templateType     : tmpTemplateType
             }
           }catch(ex){

@@ -10,7 +10,7 @@ export default class DependencyTreeHandler{
   selectedNode   : any;
   panSpeed       : any;
   panTimer       : any;
-  i              : number;
+  idx            : number;
   duration       : number;
   root           : any;
   treeJSON       : any;
@@ -19,7 +19,7 @@ export default class DependencyTreeHandler{
   tree           : any;
   diagonal       : any;
   zoomListener   : any;
-  baseSVG        : any;
+  baseSvg        : any;
   svgGroup       : any;
   constructor(){
     this.totalNodes = 0;
@@ -27,11 +27,11 @@ export default class DependencyTreeHandler{
     this.selectedNode = null;
     this.panSpeed = 200;
     this.panTimer = null;
-    this.i = 0;
+    this.idx = 0;
     this.duration = 750;
     this.root = null;
     this.treeJSON = null;
-    this.viewerWidth = window.innerWidth;
+    this.viewerWidth = window.innerWidth - 15;
     this.viewerHeight = window.innerHeight - 60 - 40;
     this.tree = d3.layout.tree().size([this.viewerHeight, this.viewerWidth]);
     this.diagonal = d3.svg.diagonal().projection(
@@ -40,18 +40,18 @@ export default class DependencyTreeHandler{
       }
     );
     this.zoomListener = null;
-    this.baseSVG = null;
+    this.baseSvg = null;
     this.svgGroup = null;
   };
-  visit(parent:any, visitFn:any, childrenFn:any){
+  traceBranch(parent:any, traceBranchFn:any, childrenFn:any){
     if(!parent){
       return;
     }
-    visitFn(parent);
+    traceBranchFn(parent);
     let children = childrenFn(parent);
     if(children){
       for(let i = 0, il = children.length; i < il; i++){
-        this.visit(children[i], visitFn, childrenFn);
+        this.traceBranch(children[i], traceBranchFn, childrenFn);
       }
     }
   };
@@ -62,7 +62,7 @@ export default class DependencyTreeHandler{
       }
     );
   };
-  pan(domNode:any, direction:any){
+  pan(domNode:any, direction:string){
     if(this.panTimer){
       clearTimeout(this.panTimer);
       let translateCoords = d3.transform(this.svgGroup.attr('transform'));
@@ -90,7 +90,7 @@ export default class DependencyTreeHandler{
       );
     }
   };
-  zoom(){
+  handleZoom(){
     this.svgGroup.attr('transform', 'translate(' + d3.event.translate + ') scale(' + d3.event.scale + ')');
   };
   centerNode(source:any){
@@ -116,7 +116,7 @@ export default class DependencyTreeHandler{
     }
     return d;
   };
-  click(d:any){
+  handleClick(d:any){
     if(d3.event.defaultPrevented){
       return;
     }
@@ -129,7 +129,9 @@ export default class DependencyTreeHandler{
     let levelWidth = [1];
     let childCount = (level:any, n:any) => {
       if(n.children && n.children.length > 0){
-        if(levelWidth.length <= level + 1) levelWidth.push(0);
+        if(levelWidth.length <= level + 1){
+          levelWidth.push(0);
+        }
         levelWidth[level + 1] += n.children.length;
         n.children.forEach(
           (d:any) => {
@@ -152,7 +154,7 @@ export default class DependencyTreeHandler{
       .data(
         nodes,
         (d:any) => {
-          return d.id || (d.id = ++this.i);
+          return d.id || (d.id = ++this.idx);
         }
       );
     let nodeEnter = node.enter().append('g')
@@ -163,7 +165,7 @@ export default class DependencyTreeHandler{
           return 'translate(' + source.y0 + ',' + source.x0 + ')';
         }
       )
-      .on('click', this.click.bind(this));
+      .on('click', this.handleClick.bind(this));
     nodeEnter.append('circle')
       .attr('class', 'm_svg_dependency__circle')
       .attr('r', 0)
@@ -292,34 +294,40 @@ export default class DependencyTreeHandler{
       }
     );
   };
-  init(){
-    this.treeJSON = d3.json(
-      'flare.json',
-      (error:any, treeData:any) => {
-        this.visit(
-          treeData,
-          (d:any) => {
-            this.totalNodes++;
-            this.maxLabelLength = Math.max(d.name.length, this.maxLabelLength);
-          },
-          (d:any) => {
-            return d.children && d.children.length > 0 ? d.children : null;
+  init(wrapperDOMSelector:string, treeDependencyData:string){
+    let treeDOM = document.querySelector(wrapperDOMSelector);
+    return new Promise(
+      (resolve:any, reject:any) => {
+        this.treeJSON = d3.json(
+          treeDependencyData + '.json',
+          (error:any, treeData:any) => {
+            this.traceBranch(
+              treeData,
+              (d:any) => {
+                this.totalNodes++;
+                this.maxLabelLength = Math.max(d.name.length, this.maxLabelLength);
+              },
+              (d:any) => {
+                return d.children && d.children.length > 0 ? d.children : null;
+              }
+            );
+            this.sortTree();
+            this.zoomListener = d3.behavior.zoom().scaleExtent([1, 3.8]).on('zoom', this.handleZoom.bind(this));
+            this.baseSvg = d3
+              .select(wrapperDOMSelector)
+              .append('svg')
+              .attr('width', this.viewerWidth)
+              .attr('height', this.viewerHeight)
+              .call(this.zoomListener);
+            this.svgGroup = this.baseSvg.append('g');
+            this.root = treeData;
+            this.root.x0 = this.viewerHeight / 2;
+            this.root.y0 = 0;
+            this.update(this.root);
+            this.centerNode(this.root);
+            resolve();
           }
         );
-        this.sortTree();
-        this.zoomListener = d3.behavior.zoom().scaleExtent([1, 3.8]).on('zoom', this.zoom.bind(this));
-        this.baseSVG = d3
-          .select('#l_content__tree_container')
-          .append('svg')
-          .attr('width', this.viewerWidth)
-          .attr('height', this.viewerHeight)
-          .call(this.zoomListener);
-        this.svgGroup = this.baseSVG.append('g');
-        this.root = treeData;
-        this.root.x0 = this.viewerHeight / 2;
-        this.root.y0 = 0;
-        this.update(this.root);
-        this.centerNode(this.root);
       }
     );
   };

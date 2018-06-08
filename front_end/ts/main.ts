@@ -42,6 +42,7 @@ declare let axios:any;
 class Main{
   customLoadingIns       : LoadingHandler;
   markerHandlerIns       : MarkerHandler;
+  dependencyTreeIns      : DependencyTreeHandler;
   contentRootDOM         : HTMLElement;
   DOM_PARSER_INS         : any;
   ASYNC_LOOP_START_INDEX : number;
@@ -51,18 +52,21 @@ class Main{
    * @constructor Main
    * @param    {object} customLoadingIns       - Instance Of `LoadingHandler` class
    * @param    {object} markerHandlerIns       - Instance Of `MarkerHandler` class
+   * @param    {object} dependencyTreeIns      - Instance Of `DependencyTreeHandler` class
    * @param    {object} contentRootDOM         - Content Root raw DOM
    * @property {object} customLoadingIns       - Instance Of `LoadingHandler` class
    * @property {object} markerHandlerIns       - Instance Of `MarkerHandler` class
+   * @property {object} dependencyTreeIns      - Instance Of `DependencyTreeHandler` class
    * @property {object} contentRootDOM         - Content Root raw DOM
    * @property {object} DOM_PARSER_INS         - DOM raw Parser
    * @property {number} ASYNC_LOOP_START_INDEX - Async Load Start Index For Image
    * @property {number} ASYNC_LOOP_RATE        - Async Load Unit For Image
    * @property {number} ASYNC_LOOP_STOP_INDEX  - Async Load Stop Index For Image
    */
-  constructor(customLoadingIns:LoadingHandler, markerHandlerIns:MarkerHandler, contentRootDOM:HTMLElement){
+  constructor(customLoadingIns:LoadingHandler, markerHandlerIns:MarkerHandler, dependencyTreeIns:DependencyTreeHandler, contentRootDOM:HTMLElement){
     this.customLoadingIns = customLoadingIns;
     this.markerHandlerIns = markerHandlerIns;
+    this.dependencyTreeIns = dependencyTreeIns;
     this.contentRootDOM = contentRootDOM;
     this.DOM_PARSER_INS = new DOMParser();
     this.ASYNC_LOOP_START_INDEX = 0;
@@ -455,6 +459,41 @@ class Main{
     }
   };
   /**
+   * Handler - [ Init Loading ]
+   * @description Handle Init Loading
+   * @param  {string} doneMsgForDev - Console Message For Dev.
+   * @return {void}
+   */
+  handleInitLoaing(doneMsgForDev:string){
+    this.customLoadingIns
+      .init(84)
+      .then(
+        () => {
+          this.bindAsyncContentLoad();
+          this.bindHighlight();
+          this.bindCustomScrollBar();
+          this.bindDynamicReporterTrigger();
+          this.bindSyncScroll();
+          this.markerHandlerIns.reset();
+          this.customLoadingIns
+            .init(100)
+            .then(
+              () => {
+                this.handleBodyStyle(true);
+                this.markerHandlerIns
+                  .init()
+                  .then(
+                    () => {
+                      this.bindCustom404();
+                      console.warn('>>> Done [ Initial Access ] ' + doneMsgForDev + ' <<<');
+                    }
+                  );
+              }
+            );
+        }
+      );
+  };
+  /**
    * Init
    * @description Initialize
    * @param  {boolean} asyncFlg - Async or First Access
@@ -465,65 +504,26 @@ class Main{
       this.bindPopStateEvent();
     }
     this.handleBodyStyle(false);
-    if(document.querySelectorAll('.j_async_image_load').length > 0){
-      this.bindAsyncImageLoad(
+    let tmpTreeDOM = document.querySelector('#l_content__tree_container');
+    if(tmpTreeDOM){
+      this.dependencyTreeIns.init(
+        '#l_content__tree_container',
+        '/assets/json/' + tmpTreeDOM.getAttribute('data-tree-dependency')
+      ).then(
         () => {
-          this.customLoadingIns
-            .init(84)
-            .then(
-              () => {
-                this.bindAsyncContentLoad();
-                this.bindHighlight();
-                this.bindCustomScrollBar();
-                this.bindDynamicReporterTrigger();
-                this.bindSyncScroll();
-                this.markerHandlerIns.reset();
-                this.customLoadingIns
-                  .init(100)
-                  .then(
-                    () => {
-                      this.handleBodyStyle(true);
-                      this.markerHandlerIns
-                        .init()
-                        .then(
-                          () => {
-                            console.warn('>>> Done [ Initial Access ] with images <<<');
-                          }
-                        );
-                    }
-                  );
-              }
-            );
+          this.handleInitLoaing('Dependency Tree');
         }
-      );
+      )
     }else{
-      this.customLoadingIns
-        .init(80)
-        .then(
+      if(document.querySelectorAll('.j_async_image_load').length > 0){
+        this.bindAsyncImageLoad(
           () => {
-            this.bindAsyncContentLoad();
-            this.bindHighlight();
-            this.bindCustomScrollBar();
-            this.bindDynamicReporterTrigger();
-            this.bindSyncScroll();
-            this.markerHandlerIns.reset();
-            this.customLoadingIns
-              .init(100)
-              .then(
-                () => {
-                  this.handleBodyStyle(true);
-                  this.markerHandlerIns
-                    .init()
-                    .then(
-                      () => {
-                        this.bindCustom404();
-                        console.warn('>>> Done [ Initial Access ] without images <<<');
-                      }
-                    );
-                }
-              );
+            this.handleInitLoaing('with Images');
           }
         );
+      }else{
+        this.handleInitLoaing('without Images');
+      }
     }
   };
 };
@@ -535,19 +535,17 @@ class Main{
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-    // let mainIns = new Main(
-    //   new LoadingHandler(
-    //     document.querySelector('#loading__bg'),
-    //     document.querySelector('#loading__status'),
-    //     CONSTANT.LOADED_MARKER
-    //   ),
-    //   new MarkerHandler('overlay'),
-    //   document.querySelector('#wrapper')
-    // );
-    // mainIns.init(false);
-
-    let dependencyTreeIns = new DependencyTreeHandler();
-    dependencyTreeIns.init();
+    let mainIns = new Main(
+      new LoadingHandler(
+        document.querySelector('#loading__bg'),
+        document.querySelector('#loading__status'),
+        CONSTANT.LOADED_MARKER
+      ),
+      new MarkerHandler('overlay'),
+      new DependencyTreeHandler(),
+      document.querySelector('#wrapper')
+    );
+    mainIns.init(false);
   },
   false
 );

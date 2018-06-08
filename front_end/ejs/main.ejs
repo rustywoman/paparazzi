@@ -8,7 +8,7 @@
   <body>
     <%- include('./common/header.ejs'); %>
     <div id="content">
-      <!-- <%- include('./common/loading.ejs'); %> -->
+      <%- include('./common/loading.ejs'); %>
       <div id="wrapper">
         <% if(status === 1) { %>
           <%# TOP - Report List %>
@@ -20,8 +20,7 @@
             <%- include('./page/detail.ejs'); %>
           <% } %>
         <% } else { %>
-          <!-- <%- include('./page/error.ejs'); %> -->
-          <%- include('./page/tree.ejs'); %>
+          <%- include('./page/error.ejs'); %>
         <% } %>
       </div>
     </div>
