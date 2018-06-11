@@ -1,5 +1,6 @@
 {
   "name": "Paparazzi Report",
+  "memo": "自動テスト結果確認 + Mind Map webアプリ",
   "children": [
     {
       "name": "Shell",
@@ -508,20 +509,36 @@
               "memo": "SPA制御用メインtypescript",
               "properties": [
                 {
-                  "name": "propertyA",
-                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                  "name": "CONSTANT",
+                  "value": "定数ファイルをimport。"
                 },
                 {
-                  "name": "propertyB",
-                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                  "name": "STATUS",
+                  "value": "定数ステータスファイルをimport。"
                 },
                 {
-                  "name": "propertyC",
-                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                  "name": "LoadingHandler",
+                  "value": "カスタムローディング制御用クラスをimport。"
                 },
                 {
-                  "name": "propertyD",
-                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                  "name": "MarkerHandler",
+                  "value": "カスタムリンク制御用クラスをimport。"
+                },
+                {
+                  "name": "DependencyTreeHandler",
+                  "value": "カスタムSVGツリー制御用クラスをimport。"
+                },
+                {
+                  "name": "hljs",
+                  "value": "Highlightライブラリを除外するための退避用変数。"
+                },
+                {
+                  "name": "Ps",
+                  "value": "カスタムスクロール用軽量ライブラリを除外するための退避用変数。"
+                },
+                {
+                  "name": "axios",
+                  "value": "非同期通信用軽量ライブラリを除外するための退避用変数。"
                 }
               ],
               "methods": [

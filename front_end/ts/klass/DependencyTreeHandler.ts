@@ -125,11 +125,13 @@ export default class DependencyTreeHandler{
     return d;
   };
   traceAncestor(d:any, ancestorResult:any[], relatedIdResult:any[]){
-    ancestorResult.push(d['parent']['name']);
-    relatedIdResult.push(d['id']);
-    relatedIdResult.push(d['parent']['id']);
-    if(d['parent']['parent']){
-      this.traceAncestor(d['parent'], ancestorResult, relatedIdResult);
+    if(d['parent']){
+      ancestorResult.push(d['parent']['name']);
+      relatedIdResult.push(d['id']);
+      relatedIdResult.push(d['parent']['id']);
+      if(d['parent']['parent']){
+        this.traceAncestor(d['parent'], ancestorResult, relatedIdResult);
+      }
     }
     return {
       'ancestorResult' : ancestorResult,
@@ -511,6 +513,7 @@ export default class DependencyTreeHandler{
             this.flattenNodes = this.flatten(this.root, []);
             this.update(this.root);
             this.centerNode(this.root);
+            this.handleTargetInfo(this.root);
             resolve();
           }
         );

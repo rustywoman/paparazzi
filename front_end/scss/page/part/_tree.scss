@@ -8,7 +8,7 @@ Part - SVG Tree
   overflow: hidden;
 }
 #l_content__tree_search_wrapper{
-  width: calc(50% + 15px + 12px);
+  width: calc(50% + 15px + 10px);
   position: fixed;
   bottom: 40px;
   left: 0;
@@ -175,14 +175,14 @@ Part - SVG Tree
 }
 .m_tree__table--row{
   display: table-row;
-  &:first-child{
-    .m_tree__table--cell{
-      padding: 0 0 5px;
-    }
-  }
   &:last-child{
     .m_tree__table--cell{
-      padding: 5px 0 0;
+      &:first-child{
+        padding: 5px 0 0 0;
+      }
+      &:last-child{
+        padding: 5px 0 0 40px;
+      }
     }
   }
 }
@@ -190,10 +190,13 @@ Part - SVG Tree
   display: table-cell;
   width: auto;
   vertical-align: top;
-  padding: 5px 0;
+  font-size: $min-font-size + px;
   &:first-child{
     width: 20%;
-    text-align: center;
+    padding: 5px 0 10px 0;
+  }
+  &:last-child{
+    padding: 5px 0 10px 40px;
   }
   span{
     font-size: $min-font-size + px;
