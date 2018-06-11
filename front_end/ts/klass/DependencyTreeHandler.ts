@@ -136,15 +136,7 @@ export default class DependencyTreeHandler{
       'relatedResult'  : relatedIdResult
     };
   };
-  handleClick(d:any){
-    // if(d3.event.defaultPrevented){
-    //   return;
-    // }
-    this.selectedId = d.id;
-    let tmpNodes = this.toggleChildren(d);
-    this.update(tmpNodes);
-    this.centerNode(tmpNodes);
-    console.dir(d);
+  handleTargetInfo(d:any, keyword:string = ''){
     // -------------------------------------------
     // Dynamic Info.
     // -------------------------------------------
@@ -173,38 +165,89 @@ export default class DependencyTreeHandler{
     document.querySelector('#l_tree_memo').innerHTML = d.memo;
     // Properties Info
     let tmpPropertiesListDOM = [];
-    if(d.properties.length === 0){
+    if(d.properties === undefined || d.properties.length === undefined){
       tmpPropertiesListDOM.push('<div class="m_tree__table--row">');
       tmpPropertiesListDOM.push('<div class="m_tree__table--cell">No Description</div>');
       tmpPropertiesListDOM.push('<div class="m_tree__table--cell">&ensp;</div>');
       tmpPropertiesListDOM.push('</div>');
     }else{
-      for(let i = 0, il = d.properties.length; i < il; i++){
-        let tmpProperty = d.properties[i];
-        tmpPropertiesListDOM.push('<div class="m_tree__table--row">');
-        tmpPropertiesListDOM.push('<div class="m_tree__table--cell">' + tmpProperty['name'] + '</div>');
-        tmpPropertiesListDOM.push('<div class="m_tree__table--cell">' + tmpProperty['value'] + '</div>');
-        tmpPropertiesListDOM.push('</div>');
+      if(keyword !== ''){
+        for(let i = 0, il = d.properties.length; i < il; i++){
+          let tmpProperty = d.properties[i];
+          tmpPropertiesListDOM.push('<div class="m_tree__table--row">');
+          if(tmpProperty['name'].indexOf(keyword) !== -1){
+            tmpPropertiesListDOM.push('<div class="m_tree__table--cell"><span class="___marker">' + tmpProperty['name'] + '</span></div>');
+          }else{
+            tmpPropertiesListDOM.push('<div class="m_tree__table--cell"><span>' + tmpProperty['name'] + '</span></div>');
+          }
+          if(tmpProperty['value'].indexOf(keyword) !== -1){
+            tmpPropertiesListDOM.push('<div class="m_tree__table--cell">' + tmpProperty['value'].replace(new RegExp(keyword, 'g'), '<span class="___marker">' + keyword + '</span>') + '</div>');
+          }else{
+            tmpPropertiesListDOM.push('<div class="m_tree__table--cell"><span>' + tmpProperty['value'] + '</span></div>');
+          }
+          tmpPropertiesListDOM.push('</div>');
+        }
+      }else{
+        for(let i = 0, il = d.properties.length; i < il; i++){
+          let tmpProperty = d.properties[i];
+          tmpPropertiesListDOM.push('<div class="m_tree__table--row">');
+          tmpPropertiesListDOM.push('<div class="m_tree__table--cell">' + tmpProperty['name'] + '</div>');
+          tmpPropertiesListDOM.push('<div class="m_tree__table--cell">' + tmpProperty['value'] + '</div>');
+          tmpPropertiesListDOM.push('</div>');
+        }
       }
     }
     document.querySelector('#l_tree_properties__table').innerHTML = tmpPropertiesListDOM.join('');
     // Methods Info
     let tmpMethodsListDOM = [];
-    if(d.properties.length === 0){
+    if(d.methods === undefined || d.methods.length === undefined){
       tmpMethodsListDOM.push('<div class="m_tree__table--row">');
       tmpMethodsListDOM.push('<div class="m_tree__table--cell">No Description</div>');
       tmpMethodsListDOM.push('<div class="m_tree__table--cell">&ensp;</div>');
       tmpMethodsListDOM.push('</div>');
     }else{
-      for(let i = 0, il = d.methods.length; i < il; i++){
-        let tmpMethod = d.methods[i];
-        tmpMethodsListDOM.push('<div class="m_tree__table--row">');
-        tmpMethodsListDOM.push('<div class="m_tree__table--cell">' + tmpMethod['name'] + '</div>');
-        tmpMethodsListDOM.push('<div class="m_tree__table--cell">' + tmpMethod['value'] + '</div>');
-        tmpMethodsListDOM.push('</div>');
+      if(keyword !== ''){
+        for(let i = 0, il = d.methods.length; i < il; i++){
+          let tmpMethod = d.methods[i];
+          tmpMethodsListDOM.push('<div class="m_tree__table--row">');
+          if(tmpMethod['name'].indexOf(keyword) !== -1){
+            tmpMethodsListDOM.push('<div class="m_tree__table--cell"><span class="___marker">' + tmpMethod['name'] + '</span></div>');
+          }else{
+            tmpMethodsListDOM.push('<div class="m_tree__table--cell"><span>' + tmpMethod['name'] + '</span></div>');
+          }
+          if(tmpMethod['value'].indexOf(keyword) !== -1){
+            tmpMethodsListDOM.push('<div class="m_tree__table--cell">' + tmpMethod['value'].replace(new RegExp(keyword, 'g'), '<span class="___marker">' + keyword + '</span>') + '</div>');
+          }else{
+            tmpMethodsListDOM.push('<div class="m_tree__table--cell"><span>' + tmpMethod['value'] + '</span></div>');
+          }
+          tmpMethodsListDOM.push('</div>');
+        }
+      }else{
+        for(let i = 0, il = d.methods.length; i < il; i++){
+          let tmpMethod = d.methods[i];
+          tmpMethodsListDOM.push('<div class="m_tree__table--row">');
+          tmpMethodsListDOM.push('<div class="m_tree__table--cell">' + tmpMethod['name'] + '</div>');
+          tmpMethodsListDOM.push('<div class="m_tree__table--cell">' + tmpMethod['value'] + '</div>');
+          tmpMethodsListDOM.push('</div>');
+        }
       }
     }
     document.querySelector('#l_tree_methods__table').innerHTML = tmpMethodsListDOM.join('');
+  };
+  setSelectedId(idx:number){
+    this.selectedId = idx;
+  };
+  handleClick(d:any){
+    // ToDo - Check
+    // if(d3.event.defaultPrevented){
+    //   return;
+    // }
+    this.setSelectedId(d.id);
+    let tmpNodes = this.toggleChildren(d);
+    this.update(tmpNodes);
+    this.centerNode(tmpNodes);
+    console.dir(d);
+    this.handleTargetInfo(d);
   };
   update(source:any){
     let levelWidth = [1];
@@ -407,7 +450,21 @@ export default class DependencyTreeHandler{
           if(tmpItem['properties'] && tmpItem['properties'].length){
             for(let i = 0, il = tmpItem['properties'].length; i < il; i++){
               let tmpItemProperty = tmpItem['properties'][i];
-              if(tmpItemProperty['name'].indexOf(keyword) !== -1 && tmpItemProperty['value'].indexOf(keyword)){
+              if(
+                tmpItemProperty['name'].indexOf(keyword) !== -1  ||
+                tmpItemProperty['value'].indexOf(keyword) !== -1
+              ){
+                tmpResult.push(tmpItem);
+              }
+            }
+          }
+          if(tmpItem['methods'] && tmpItem['methods'].length){
+            for(let i = 0, il = tmpItem['methods'].length; i < il; i++){
+              let tmpItemMethod = tmpItem['methods'][i];
+              if(
+                tmpItemMethod['name'].indexOf(keyword) !== -1  ||
+                tmpItemMethod['value'].indexOf(keyword) !== -1
+              ){
                 tmpResult.push(tmpItem);
               }
             }

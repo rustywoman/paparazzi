@@ -48,6 +48,9 @@ class Main{
   ASYNC_LOOP_START_INDEX : number;
   ASYNC_LOOP_RATE        : number;
   ASYNC_LOOP_STOP_INDEX  : number;
+  TREE_SEARCH_STOCK      : any[];
+  TREE_SEARCH_IDX        : number;
+  TREE_SEARCH_KEYWORD    : string;
   /**
    * @constructor Main
    * @param    {object} customLoadingIns       - Instance Of `LoadingHandler` class
@@ -62,6 +65,9 @@ class Main{
    * @property {number} ASYNC_LOOP_START_INDEX - Async Load Start Index For Image
    * @property {number} ASYNC_LOOP_RATE        - Async Load Unit For Image
    * @property {number} ASYNC_LOOP_STOP_INDEX  - Async Load Stop Index For Image
+   * @property {object} TREE_SEARCH_STOCK      - Tree Search Result
+   * @property {number} TREE_SEARCH_IDX        - Tree Search Index
+   * @property {string} TREE_SEARCH_KEYWORD    - Tree Search Keyword
    */
   constructor(customLoadingIns:LoadingHandler, markerHandlerIns:MarkerHandler, dependencyTreeIns:DependencyTreeHandler, contentRootDOM:HTMLElement){
     this.customLoadingIns = customLoadingIns;
@@ -72,6 +78,9 @@ class Main{
     this.ASYNC_LOOP_START_INDEX = 0;
     this.ASYNC_LOOP_RATE = 30;
     this.ASYNC_LOOP_STOP_INDEX = 30;
+    this.TREE_SEARCH_STOCK = [];
+    this.TREE_SEARCH_IDX = 0;
+    this.TREE_SEARCH_KEYWORD = '';
   };
   /**
    * Handler - [ Body Style ]
@@ -495,23 +504,52 @@ class Main{
       );
   };
   handleTreeSearch(){
+    let tmpSearchStatusDOM = document.querySelector('#l_content__tree_search__count');
     let tmpKeyword = (<HTMLInputElement>document.querySelector('#l_content__tree_search__input')).value;
-    console.log('Tree Search Keyword : [ ' + tmpKeyword + ' ]');
-    this.dependencyTreeIns.search(tmpKeyword)
-      .then(
-        (result:any) => {
-          console.dir(result);
-          console.info('Matched');
-          this.dependencyTreeIns.update(result[0]);
-          this.dependencyTreeIns.centerNode(result[0]);
-        },
-        (errRoot:any) => {
-          console.warn('Miss Matched');
-          // ToDo - Check - Restore Tree View Status
-          // this.dependencyTreeIns.update(errRoot);
-          // this.dependencyTreeIns.centerNode(errRoot);
-        }
-      );
+    // console.log('Tree Search Keyword : [ ' + tmpKeyword + ' ]');
+    if(tmpKeyword !== '' && tmpKeyword === this.TREE_SEARCH_KEYWORD){
+      // console.info('Same Search >>> ' + this.TREE_SEARCH_IDX);
+      this.TREE_SEARCH_IDX++;
+      if(this.TREE_SEARCH_IDX >= this.TREE_SEARCH_STOCK.length){
+        this.TREE_SEARCH_IDX = 0;
+      }
+      let tmpNodes = this.TREE_SEARCH_STOCK[this.TREE_SEARCH_IDX];
+      console.dir(tmpNodes);
+      this.dependencyTreeIns.setSelectedId(tmpNodes['id']);
+      this.dependencyTreeIns.update(tmpNodes);
+      this.dependencyTreeIns.centerNode(tmpNodes);
+      this.dependencyTreeIns.handleTargetInfo(tmpNodes, this.TREE_SEARCH_KEYWORD);
+      tmpSearchStatusDOM.innerHTML = (this.TREE_SEARCH_IDX + 1) + '/' + this.TREE_SEARCH_STOCK.length;
+    }else{
+      this.dependencyTreeIns.search(tmpKeyword)
+        .then(
+          (result:any) => {
+            console.dir(result);
+            // console.info('Matched');
+            // console.info('New Search >>> ' + this.TREE_SEARCH_IDX);
+            this.TREE_SEARCH_IDX = 0;
+            this.TREE_SEARCH_STOCK = result;
+            this.TREE_SEARCH_KEYWORD = tmpKeyword;
+            let tmpNodes = this.TREE_SEARCH_STOCK[this.TREE_SEARCH_IDX];
+            console.dir(tmpNodes);
+            this.dependencyTreeIns.setSelectedId(tmpNodes['id']);
+            this.dependencyTreeIns.update(tmpNodes);
+            this.dependencyTreeIns.centerNode(tmpNodes);
+            this.dependencyTreeIns.handleTargetInfo(tmpNodes, this.TREE_SEARCH_KEYWORD);
+            tmpSearchStatusDOM.innerHTML = (this.TREE_SEARCH_IDX + 1) + '/' + this.TREE_SEARCH_STOCK.length;
+          },
+          (errRoot:any) => {
+            console.warn('Miss Matched');
+            this.TREE_SEARCH_IDX = 0;
+            this.TREE_SEARCH_STOCK = [];
+            this.TREE_SEARCH_KEYWORD = '';
+            tmpSearchStatusDOM.innerHTML = '0';
+            // ToDo - Check - Restore Tree View Status
+            // this.dependencyTreeIns.update(errRoot);
+            // this.dependencyTreeIns.centerNode(errRoot);
+          }
+        );
+    }
   };
   /**
    * Binder - [ Search for Family Tree ]
