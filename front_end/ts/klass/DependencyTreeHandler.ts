@@ -8,6 +8,7 @@ export default class DependencyTreeHandler{
   totalNodes     : number;
   maxLabelLength : number;
   selectedNode   : any;
+  flattenNodes   : any;
   panSpeed       : any;
   panTimer       : any;
   idx            : number;
@@ -28,6 +29,7 @@ export default class DependencyTreeHandler{
     this.totalNodes = 0;
     this.maxLabelLength = 0;
     this.selectedNode = null;
+    this.flattenNodes = null;
     this.panSpeed = 200;
     this.panTimer = null;
     this.idx = 0;
@@ -135,15 +137,20 @@ export default class DependencyTreeHandler{
     };
   };
   handleClick(d:any){
-    if(d3.event.defaultPrevented){
-      return;
-    }
+    // if(d3.event.defaultPrevented){
+    //   return;
+    // }
     this.selectedId = d.id;
     let tmpNodes = this.toggleChildren(d);
     this.update(tmpNodes);
     this.centerNode(tmpNodes);
-    // Dynamic Info. - ToDo
+    console.dir(d);
+    // -------------------------------------------
+    // Dynamic Info.
+    // -------------------------------------------
+    // Target
     document.querySelector('#l_tree_target').innerHTML = d.name;
+    // Parent Info.
     let tmpAncestorInfo = this.traceAncestor(d, [], []);
     let tmpRelatedPathIds = tmpAncestorInfo['relatedResult'];
     let allVisibleLinks = document.querySelectorAll('.m_svg_dependency__link');
@@ -162,6 +169,42 @@ export default class DependencyTreeHandler{
       tmpAncestorListDOM.push('<li class="m_tree_ancestor__list--item">' + tmpAncestor[i] + '</li>');
     }
     document.querySelector('#l_tree_ancestor__list').innerHTML = tmpAncestorListDOM.join('');
+    // Memo
+    document.querySelector('#l_tree_memo').innerHTML = d.memo;
+    // Properties Info
+    let tmpPropertiesListDOM = [];
+    if(d.properties.length === 0){
+      tmpPropertiesListDOM.push('<div class="m_tree__table--row">');
+      tmpPropertiesListDOM.push('<div class="m_tree__table--cell">No Description</div>');
+      tmpPropertiesListDOM.push('<div class="m_tree__table--cell">&ensp;</div>');
+      tmpPropertiesListDOM.push('</div>');
+    }else{
+      for(let i = 0, il = d.properties.length; i < il; i++){
+        let tmpProperty = d.properties[i];
+        tmpPropertiesListDOM.push('<div class="m_tree__table--row">');
+        tmpPropertiesListDOM.push('<div class="m_tree__table--cell">' + tmpProperty['name'] + '</div>');
+        tmpPropertiesListDOM.push('<div class="m_tree__table--cell">' + tmpProperty['value'] + '</div>');
+        tmpPropertiesListDOM.push('</div>');
+      }
+    }
+    document.querySelector('#l_tree_properties__table').innerHTML = tmpPropertiesListDOM.join('');
+    // Methods Info
+    let tmpMethodsListDOM = [];
+    if(d.properties.length === 0){
+      tmpMethodsListDOM.push('<div class="m_tree__table--row">');
+      tmpMethodsListDOM.push('<div class="m_tree__table--cell">No Description</div>');
+      tmpMethodsListDOM.push('<div class="m_tree__table--cell">&ensp;</div>');
+      tmpMethodsListDOM.push('</div>');
+    }else{
+      for(let i = 0, il = d.methods.length; i < il; i++){
+        let tmpMethod = d.methods[i];
+        tmpMethodsListDOM.push('<div class="m_tree__table--row">');
+        tmpMethodsListDOM.push('<div class="m_tree__table--cell">' + tmpMethod['name'] + '</div>');
+        tmpMethodsListDOM.push('<div class="m_tree__table--cell">' + tmpMethod['value'] + '</div>');
+        tmpMethodsListDOM.push('</div>');
+      }
+    }
+    document.querySelector('#l_tree_methods__table').innerHTML = tmpMethodsListDOM.join('');
   };
   update(source:any){
     let levelWidth = [1];
@@ -344,6 +387,46 @@ export default class DependencyTreeHandler{
       }
     );
   };
+  flatten(root:any, result:any){
+    let tmpChildren = root['children'];
+    for(let i = 0, il = tmpChildren.length; i < il; i++){
+      let tmpChild = tmpChildren[i];
+      result.push(tmpChild);
+      if(tmpChild['children']){
+        this.flatten(tmpChild, result);
+      }
+    }
+    return result;
+  };
+  search(keyword:string){
+    console.warn('=== search - start ===');
+    return new Promise(
+      (resolve:any, reject:any) => {
+        let tmpResult:any[] = [];
+        for(let i = 0, il = this.flattenNodes.length; i < il; i++){
+          let tmpItem = this.flattenNodes[i];
+          if(tmpItem['properties'] && tmpItem['properties'].length){
+            for(let i = 0, il = tmpItem['properties'].length; i < il; i++){
+              let tmpItemProperty = tmpItem['properties'][i];
+              if(tmpItemProperty['name'].indexOf(keyword) !== -1 && tmpItemProperty['value'].indexOf(keyword)){
+                tmpResult.push(tmpItem);
+              }
+            }
+          }
+        }
+        console.dir(tmpResult);
+        setTimeout(
+          () => {
+            this.update(tmpResult[0]);
+            this.centerNode(tmpResult[0]);
+            console.warn('=== search - end ===');
+            resolve();
+          },
+          800
+        );
+      }
+    );
+  };
   init(wrapperDOMSelector:string, detailDOMSelector:string, treeDependencyData:string){
     let treeDOM = document.querySelector(wrapperDOMSelector);
     this.detailDOM = document.querySelector(detailDOMSelector);
@@ -374,6 +457,7 @@ export default class DependencyTreeHandler{
             this.root = treeData;
             this.root.x0 = this.viewerHeight / 2;
             this.root.y0 = 0;
+            this.flattenNodes = this.flatten(this.root, []);
             this.update(this.root);
             this.centerNode(this.root);
             resolve();

@@ -550,13 +550,14 @@ if __name__ == '__main__':
     indexLinkList = []
     tmpReportInfoFiles = os.listdir(TEST_SAVED_REPORTS_DIR)
     for researchResult in tmpReportInfoFiles:
-        indexLinkList.append(
-            {
-                'name': researchResult.replace(constant.TEST_CASE_EXT, constant.EMPTY),
-                'path': '/___' + researchResult.replace(constant.TEST_CASE_EXT, ''),
-                'date': tools.getTimeFromEpoc(os.path.getctime(TEST_SAVED_REPORTS_DIR + researchResult))
-            }
-        )
+        if researchResult.find(constant.FAMILY_TREE_SUFFIX) == -1:
+            indexLinkList.append(
+                {
+                    'name': researchResult.replace(constant.TEST_CASE_EXT, constant.EMPTY),
+                    'path': '/___' + researchResult.replace(constant.TEST_CASE_EXT, ''),
+                    'date': tools.getTimeFromEpoc(os.path.getctime(TEST_SAVED_REPORTS_DIR + researchResult))
+                }
+            )
     indexLinkStream = open(
         os.path.sep.join(
             [

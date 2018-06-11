@@ -512,6 +512,8 @@ class Main{
         '/assets/json/' + tmpTreeDOM.getAttribute('data-tree-dependency')
       ).then(
         () => {
+          // Test
+          // this.dependencyTreeIns.search('propertyA');
           this.handleInitLoaing('Dependency Tree');
         }
       )

@@ -5,28 +5,60 @@
       "name": "Shell",
       "children": [
         {
-          "name": "lint.sh"
+          "name": "lint.sh",
+          "mappingId": 1,
+          "memo": "python_modules配下のpythonファイルに対する構文チェック。",
+          "properties": [],
+          "methods": []
         },
         {
-          "name": "main.sh"
+          "name": "main.sh",
+          "mappingId": 2,
+          "memo": "1プロセスベースの自動テスト実行シェル。",
+          "properties": [],
+          "methods": []
         },
         {
-          "name": "multi.sh"
+          "name": "multi.sh",
+          "mappingId": 3,
+          "memo": "複数（実行端末の最大コア数分）プロセスベースの自動テスト実行シェル。",
+          "properties": [],
+          "methods": []
         },
         {
-          "name": "report.sh"
+          "name": "report.sh",
+          "mappingId": 4,
+          "memo": "webページ自動解析実行シェル。",
+          "properties": [],
+          "methods": []
         },
         {
-          "name": "report_via_node.sh"
+          "name": "report_via_node.sh",
+          "mappingId": 5,
+          "memo": "Nodejsから起動する、webページ自動解析実行シェル。",
+          "properties": [],
+          "methods": []
         },
         {
-          "name": "reset.sh"
+          "name": "reset.sh",
+          "mappingId": 6,
+          "memo": "各種レポート結果の削除実行シェル。",
+          "properties": [],
+          "methods": []
         },
         {
-          "name": "scan.sh"
+          "name": "scan.sh",
+          "mappingId": 7,
+          "memo": "サービスリンクの検索実行シェル（クローリングの事前処理）",
+          "properties": [],
+          "methods": []
         },
         {
-          "name": "search.sh"
+          "name": "search.sh",
+          "mappingId": 8,
+          "memo": "特定キーワードを特定ドメイン配下からの検索実行シェル",
+          "properties": [],
+          "methods": []
         }
       ]
     },
@@ -40,28 +72,56 @@
               "name": "EJS",
               "children": [
                 {
-                  "name": "main.ejs"
+                  "name": "main.ejs",
+                  "mappingId": 9,
+                  "memo": "SPAの母体テンプレート。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
                   "name": "common",
                   "children": [
                     {
-                      "name": "footer.ejs"
+                      "name": "footer.ejs",
+                      "mappingId": 10,
+                      "memo": "共通フッターテンプレート。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "header.ejs"
+                      "name": "header.ejs",
+                      "mappingId": 11,
+                      "memo": "共通ヘッダーテンプレート。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "links.ejs"
+                      "name": "links.ejs",
+                      "mappingId": 12,
+                      "memo": "共通style読込テンプレート。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "loading.ejs"
+                      "name": "loading.ejs",
+                      "mappingId": 13,
+                      "memo": "共通ローディングテンプレート。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "metas.ejs"
+                      "name": "metas.ejs",
+                      "mappingId": 14,
+                      "memo": "共通メタ情報テンプレート。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "scripts.ejs"
+                      "name": "scripts.ejs",
+                      "mappingId": 15,
+                      "memo": "共通script読込テンプレート。",
+                      "properties": [],
+                      "methods": []
                     }
                   ]
                 },
@@ -72,33 +132,69 @@
                       "name": "template",
                       "children": [
                         {
-                          "name": "main.ejs"
+                          "name": "main.ejs",
+                          "mappingId": 16,
+                          "memo": "main.sh実行結果用詳細レポートテンプレート。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "multi.ejs"
+                          "name": "multi.ejs",
+                          "mappingId": 17,
+                          "memo": "multi.sh実行結果用詳細レポートテンプレート。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "report.ejs"
+                          "name": "report.ejs",
+                          "mappingId": 18,
+                          "memo": "report.sh実行結果用詳細レポートテンプレート。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "scan.ejs"
+                          "name": "scan.ejs",
+                          "mappingId": 19,
+                          "memo": "scan.sh実行結果用詳細レポートテンプレート。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "search.ejs"
+                          "name": "search.ejs",
+                          "mappingId": 20,
+                          "memo": "search.sh実行結果用詳細レポートテンプレート。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "tree.ejs"
+                          "name": "tree.ejs",
+                          "mappingId": 21,
+                          "memo": "Family Tree結果用詳細レポートテンプレート。",
+                          "properties": [],
+                          "methods": []
                         }
                       ]
                     },
                     {
-                      "name": "detail.ejs"
+                      "name": "detail.ejs",
+                      "mappingId": 22,
+                      "memo": "詳細ページテンプレート。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "error.ejs"
+                      "name": "error.ejs",
+                      "mappingId": 23,
+                      "memo": "エラーページテンプレート。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "top.ejs"
+                      "name": "top.ejs",
+                      "mappingId": 24,
+                      "memo": "トップページテンプレート。",
+                      "properties": [],
+                      "methods": []
                     }
                   ]
                 }
@@ -119,19 +215,39 @@
                       "name": "common",
                       "children": [
                         {
-                          "name": "_settings.scss"
+                          "name": "_settings.scss",
+                          "mappingId": 25,
+                          "memo": "全画面共通定数用scss。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "_mixin.scss"
+                          "name": "_mixin.scss",
+                          "mappingId": 26,
+                          "memo": "全画面共通mixin用scss。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "_keyframes.scss"
+                          "name": "_keyframes.scss",
+                          "mappingId": 27,
+                          "memo": "全画面共通animation用scss。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "_reset.scss"
+                          "name": "_reset.scss",
+                          "mappingId": 28,
+                          "memo": "全画面共通reset用scss。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "_base.scss"
+                          "name": "_base.scss",
+                          "mappingId": 29,
+                          "memo": "全画面共通用scss。",
+                          "properties": [],
+                          "methods": []
                         }
                       ]
                     },
@@ -142,47 +258,99 @@
                           "name": "part",
                           "children": [
                             {
-                              "name": "_header.scss"
+                              "name": "_header.scss",
+                              "mappingId": 30,
+                              "memo": "ヘッダー用scss。",
+                              "properties": [],
+                              "methods": []
                             },
                             {
-                              "name": "_footer.scss"
+                              "name": "_footer.scss",
+                              "mappingId": 31,
+                              "memo": "フッター用scss。",
+                              "properties": [],
+                              "methods": []
                             },
                             {
-                              "name": "_marker.scss"
+                              "name": "_marker.scss",
+                              "mappingId": 32,
+                              "memo": "カスタムボーダー用scss。",
+                              "properties": [],
+                              "methods": []
                             },
                             {
-                              "name": "_overlay.scss"
+                              "name": "_overlay.scss",
+                              "mappingId": 33,
+                              "memo": "カスタムリンク用scss。",
+                              "properties": [],
+                              "methods": []
                             },
                             {
-                              "name": "_loading.scss"
+                              "name": "_loading.scss",
+                              "mappingId": 34,
+                              "memo": "カスタムローディング用scss。",
+                              "properties": [],
+                              "methods": []
                             },
                             {
-                              "name": "_button.scss"
+                              "name": "_button.scss",
+                              "mappingId": 35,
+                              "memo": "カスタムボタン用scss。",
+                              "properties": [],
+                              "methods": []
                             },
                             {
-                              "name": "_zoom.scss"
+                              "name": "_zoom.scss",
+                              "mappingId": 36,
+                              "memo": "カスタムズーム用scss。",
+                              "properties": [],
+                              "methods": []
                             },
                             {
-                              "name": "_tree.scss"
+                              "name": "_tree.scss",
+                              "mappingId": 37,
+                              "memo": "カスタムSVGツリー用scss。",
+                              "properties": [],
+                              "methods": []
                             }
                           ]
                         },
                         {
-                          "name": "_top.scss"
+                          "name": "_top.scss",
+                          "mappingId": 38,
+                          "memo": "トップページ用scss。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "_detail.scss"
+                          "name": "_detail.scss",
+                          "mappingId": 39,
+                          "memo": "詳細ページ用scss。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "_error.scss"
+                          "name": "_error.scss",
+                          "mappingId": 40,
+                          "memo": "エラーページ用scss。",
+                          "properties": [],
+                          "methods": []
                         }
                       ]
                     },
                     {
-                      "name": "_highlight.scss"
+                      "name": "_highlight.scss",
+                      "mappingId": 41,
+                      "memo": "Highlightライブラリ用scss。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "_perfect_scroll.scss"
+                      "name": "_perfect_scroll.scss",
+                      "mappingId": 42,
+                      "memo": "PerfectScrollライブラリ用scss。",
+                      "properties": [],
+                      "methods": []
                     }
                   ]
                 },
@@ -193,10 +361,18 @@
                       "name": "lib",
                       "children": [
                         {
-                          "name": "_web_font_notosans.scss"
+                          "name": "_web_font_notosans.scss",
+                          "mappingId": 43,
+                          "memo": "Web Font [ notosans ] 用scss。",
+                          "properties": [],
+                          "methods": []
                         },
                         {
-                          "name": "_web_font_roboto.scss"
+                          "name": "_web_font_roboto.scss",
+                          "mappingId": 44,
+                          "memo": "Web Font [ roboto ] 用scss。",
+                          "properties": [],
+                          "methods": []
                         }
                       ]
                     }
@@ -213,10 +389,18 @@
               "name": "conf",
               "children": [
                 {
-                  "name": "CONSTANT.ts"
+                  "name": "CONSTANT.ts",
+                  "mappingId": 45,
+                  "memo": "全画面共通定数用typescript。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "STATUS.ts"
+                  "name": "STATUS.ts",
+                  "mappingId": 46,
+                  "memo": "全画面共通ステータス用typescript。",
+                  "properties": [],
+                  "methods": []
                 }
               ]
             },
@@ -224,13 +408,25 @@
               "name": "klass",
               "children": [
                 {
-                  "name": "DependencyTreeHandler.ts"
+                  "name": "DependencyTreeHandler.ts",
+                  "mappingId": 47,
+                  "memo": "FamilyTree制御用クラス。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "LoadingHandler.ts"
+                  "name": "LoadingHandler.ts",
+                  "mappingId": 48,
+                  "memo": "ローディング制御用クラス。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "MarkerHandler.ts"
+                  "name": "MarkerHandler.ts",
+                  "mappingId": 49,
+                  "memo": "カスタムリンク制御用クラス。",
+                  "properties": [],
+                  "methods": []
                 }
               ]
             },
@@ -241,23 +437,77 @@
                   "name": "lib",
                   "children": [
                     {
-                      "name": "axios.min.js"
+                      "name": "axios.min.js",
+                      "mappingId": 50,
+                      "memo": "非同期通信用軽量ライブラリ。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "d3.min.js"
+                      "name": "d3.min.js",
+                      "mappingId": 51,
+                      "memo": "SVG制御用軽量ライブラリ。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "highlight.min.js"
+                      "name": "highlight.min.js",
+                      "mappingId": 52,
+                      "memo": "コードハイライト用軽量ライブラリ。",
+                      "properties": [],
+                      "methods": []
                     },
                     {
-                      "name": "perfect-scrollbar.min.js"
+                      "name": "perfect-scrollbar.min.js",
+                      "mappingId": 53,
+                      "memo": "カスタムスクロール用軽量ライブラリ。",
+                      "properties": [],
+                      "methods": []
                     }
                   ]
                 }
               ]
             },
             {
-              "name": "main.ts"
+              "name": "main.ts",
+              "mappingId": 54,
+              "memo": "SPA制御用メインtypescript",
+              "properties": [
+                {
+                  "name": "propertyA",
+                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                },
+                {
+                  "name": "propertyB",
+                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                },
+                {
+                  "name": "propertyC",
+                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                },
+                {
+                  "name": "propertyD",
+                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                }
+              ],
+              "methods": [
+                {
+                  "name": "methodA",
+                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                },
+                {
+                  "name": "methodB",
+                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                },
+                {
+                  "name": "methodC",
+                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                },
+                {
+                  "name": "methodD",
+                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                }
+              ]
             }
           ]
         }
@@ -273,25 +523,53 @@
               "name": "server.js",
               "children": [
                 {
-                  "name": "express"
+                  "name": "express",
+                  "mappingId": 55,
+                  "memo": "EJS制御用サーバーテンプレートモジュール。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "cookie-parser"
+                  "name": "cookie-parser",
+                  "mappingId": 56,
+                  "memo": "Express内クッキー制御用モジュール。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "body-parser"
+                  "name": "body-parser",
+                  "mappingId": 57,
+                  "memo": "ExpressのGet, Postパラメータ制御用モジュール。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "express-session"
+                  "name": "express-session",
+                  "mappingId": 58,
+                  "memo": "ExpressのHeader制御用モジュール。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "webpack"
+                  "name": "webpack",
+                  "mappingId": 59,
+                  "memo": "ビルド用モジュール。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "webpack-dev-middleware"
+                  "name": "webpack-dev-middleware",
+                  "mappingId": 60,
+                  "memo": "開発環境制御（web server）用モジュール。",
+                  "properties": [],
+                  "methods": []
                 },
                 {
-                  "name": "webpack-hot-middleware"
+                  "name": "webpack-hot-middleware",
+                  "mappingId": 61,
+                  "memo": "開発環境制御（hot reload）用モジュール。",
+                  "properties": [],
+                  "methods": []
                 }
               ]
             }

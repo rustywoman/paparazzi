@@ -18,8 +18,12 @@ rm -rf ___tmp/*
 # Clear Download Images
 rm -rf report/assets/image/**
 
-# Clear Style Result
-rm -rf report/assets/json/**
+# Clear Test Configuration Json
+rm -rf report/assets/json/*_report.json
+rm -rf report/assets/json/*_main.json
+rm -rf report/assets/json/*_multi.json
+rm -rf report/assets/json/*_scan.json
+rm -rf report/assets/json/*_search.json
 
 # Clear Case Report
 rm -rf report/case/___*.html

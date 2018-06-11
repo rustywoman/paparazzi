@@ -89,6 +89,9 @@ constant.ACTION_SPLIT_ID = '---'
 u'''[CONST] String [___]'''
 constant.CASE_TEST_PREFIX = '___'
 
+u'''[CONST] String [tree]'''
+constant.FAMILY_TREE_SUFFIX = 'tree'
+
 u'''[CONST] String [logPaparazzi]'''
 constant.DEFAULT_LOGGER_NAME = 'logPaparazzi'
 
