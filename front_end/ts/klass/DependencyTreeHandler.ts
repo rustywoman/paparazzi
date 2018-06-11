@@ -399,7 +399,6 @@ export default class DependencyTreeHandler{
     return result;
   };
   search(keyword:string){
-    console.warn('=== search - start ===');
     return new Promise(
       (resolve:any, reject:any) => {
         let tmpResult:any[] = [];
@@ -414,16 +413,11 @@ export default class DependencyTreeHandler{
             }
           }
         }
-        console.dir(tmpResult);
-        setTimeout(
-          () => {
-            this.update(tmpResult[0]);
-            this.centerNode(tmpResult[0]);
-            console.warn('=== search - end ===');
-            resolve();
-          },
-          800
-        );
+        if(tmpResult.length === 0){
+          reject(this.root);
+        }else{
+          resolve(tmpResult);
+        }
       }
     );
   };

@@ -474,6 +474,7 @@ class Main{
           this.bindCustomScrollBar();
           this.bindDynamicReporterTrigger();
           this.bindSyncScroll();
+          this.bindTreeSearch();
           this.markerHandlerIns.reset();
           this.customLoadingIns
             .init(100)
@@ -492,6 +493,54 @@ class Main{
             );
         }
       );
+  };
+  handleTreeSearch(){
+    let tmpKeyword = (<HTMLInputElement>document.querySelector('#l_content__tree_search__input')).value;
+    console.log('Tree Search Keyword : [ ' + tmpKeyword + ' ]');
+    this.dependencyTreeIns.search(tmpKeyword)
+      .then(
+        (result:any) => {
+          console.dir(result);
+          console.info('Matched');
+          this.dependencyTreeIns.update(result[0]);
+          this.dependencyTreeIns.centerNode(result[0]);
+        },
+        (errRoot:any) => {
+          console.warn('Miss Matched');
+          // ToDo - Check - Restore Tree View Status
+          // this.dependencyTreeIns.update(errRoot);
+          // this.dependencyTreeIns.centerNode(errRoot);
+        }
+      );
+  };
+  /**
+   * Binder - [ Search for Family Tree ]
+   * @description Bind Search Action for SVG Tree
+   * @return {void}
+   */
+  bindTreeSearch(){
+    let tmpTreeSearchFormDOM = document.querySelector('#j_form_for_tree_search');
+    let tmpTreeSearchTriggerDOM = document.querySelector('#l_content__tree_search__trigger');
+    if(tmpTreeSearchFormDOM !== null && tmpTreeSearchTriggerDOM !== null){
+      tmpTreeSearchTriggerDOM.addEventListener(
+        'click',
+        (evt:any) => {
+          evt.preventDefault();
+          this.handleTreeSearch();
+          return false;
+        },
+        false
+      );
+      tmpTreeSearchFormDOM.addEventListener(
+        'submit',
+        (evt:any) => {
+          evt.preventDefault();
+          this.handleTreeSearch();
+          return false;
+        },
+        false
+      );
+    }
   };
   /**
    * Init
@@ -512,8 +561,6 @@ class Main{
         '/assets/json/' + tmpTreeDOM.getAttribute('data-tree-dependency')
       ).then(
         () => {
-          // Test
-          // this.dependencyTreeIns.search('propertyA');
           this.handleInitLoaing('Dependency Tree');
         }
       )
