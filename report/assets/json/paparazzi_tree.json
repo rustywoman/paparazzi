@@ -474,28 +474,28 @@
                     {
                       "name": "axios.min.js",
                       "mappingId": 50,
-                      "memo": "非同期通信用軽量ライブラリ。",
+                      "memo": "Handling Library For AJAX.",
                       "properties": [],
                       "methods": []
                     },
                     {
                       "name": "d3.min.js",
                       "mappingId": 51,
-                      "memo": "SVG制御用軽量ライブラリ。",
+                      "memo": "Handling Library For SVG.",
                       "properties": [],
                       "methods": []
                     },
                     {
                       "name": "highlight.min.js",
                       "mappingId": 52,
-                      "memo": "コードハイライト用軽量ライブラリ。",
+                      "memo": "Handling Library For Code Highlight.",
                       "properties": [],
                       "methods": []
                     },
                     {
                       "name": "perfect-scrollbar.min.js",
                       "mappingId": 53,
-                      "memo": "カスタムスクロール用軽量ライブラリ。",
+                      "memo": "Handling Library For Custom Scroll-Bar.",
                       "properties": [],
                       "methods": []
                     }
@@ -506,69 +506,145 @@
             {
               "name": "main.ts",
               "mappingId": 54,
-              "memo": "SPA制御用メインtypescript",
+              "memo": "Main Handler For SPA web APP.",
               "properties": [
                 {
                   "name": "CONSTANT",
-                  "value": "定数ファイルをimport。"
+                  "value": "Import Constant variables."
                 },
                 {
                   "name": "STATUS",
-                  "value": "定数ステータスファイルをimport。"
+                  "value": "Import Common Status variables."
                 },
                 {
                   "name": "LoadingHandler",
-                  "value": "カスタムローディング制御用クラスをimport。"
+                  "value": "Import klass/LoadingHandler."
                 },
                 {
                   "name": "MarkerHandler",
-                  "value": "カスタムリンク制御用クラスをimport。"
+                  "value": "Import klass/MarkerHandler."
                 },
                 {
                   "name": "DependencyTreeHandler",
-                  "value": "カスタムSVGツリー制御用クラスをimport。"
+                  "value": "Import klass/DependencyTreeHandler."
                 },
                 {
                   "name": "hljs",
-                  "value": "Highlightライブラリを除外するための退避用変数。"
+                  "value": "Declare `highlight` library."
                 },
                 {
                   "name": "Ps",
-                  "value": "カスタムスクロール用軽量ライブラリを除外するための退避用変数。"
+                  "value": "Declare `perfect-scroll-bar` library."
                 },
                 {
                   "name": "axios",
-                  "value": "非同期通信用軽量ライブラリを除外するための退避用変数。"
+                  "value": "Declare `axios` library."
                 },
                 {
                   "name": "customLoadingIns",
-                  "value": "LoadingHandlerクラスのインスタンス格納用変数。"
+                  "value": "Instance Of klass/LoadingHandler."
                 },
                 {
                   "name": "markerHandlerIns",
-                  "value": "MarkerHandlerクラスのインスタンス格納用変数。"
+                  "value": "Instance Of klass/MarkerHandler."
                 },
                 {
                   "name": "dependencyTreeIns",
-                  "value": "DependencyTreeHandlerクラスのインスタンス格納用変数。"
+                  "value": "Instance Of klass/DependencyTreeHandler."
+                },
+                {
+                  "name": "contentRootDOM",
+                  "value": "Content Root raw DOM."
+                },
+                {
+                  "name": "DOM_PARSER_INS",
+                  "value": "DOM raw Parser."
+                },
+                {
+                  "name": "ASYNC_LOOP_START_INDEX",
+                  "value": "Async Load Start Index For Image."
+                },
+                {
+                  "name": "ASYNC_LOOP_RATE",
+                  "value": "Async Load Unit For Image."
+                },
+                {
+                  "name": "ASYNC_LOOP_STOP_INDEX",
+                  "value": "Async Load Stop Index For Image."
+                },
+                {
+                  "name": "TREE_SEARCH_IDX",
+                  "value": "Tree Search Index"
+                },
+                {
+                  "name": "TREE_SEARCH_KEYWORD",
+                  "value": "Tree Search Keyword"
                 }
               ],
               "methods": [
                 {
-                  "name": "methodA",
-                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                  "name": "constructor",
+                  "value": ""
                 },
                 {
-                  "name": "methodB",
-                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                  "name": "handleBodyStyle",
+                  "value": ""
                 },
                 {
-                  "name": "methodC",
-                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                  "name": "handleAsyncContentLoader",
+                  "value": ""
                 },
                 {
-                  "name": "methodD",
-                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia."
+                  "name": "bindAsyncContentLoad",
+                  "value": ""
+                },
+                {
+                  "name": "bindHighlight",
+                  "value": ""
+                },
+                {
+                  "name": "handleAsyncImageLoader",
+                  "value": ""
+                },
+                {
+                  "name": "bindCustom404",
+                  "value": ""
+                },
+                {
+                  "name": "bindCustomScrollBar",
+                  "value": ""
+                },
+                {
+                  "name": "bindAsyncImageLoad",
+                  "value": ""
+                },
+                {
+                  "name": "bindPopStateEvent",
+                  "value": ""
+                },
+                {
+                  "name": "bindDynamicReporterTrigger",
+                  "value": ""
+                },
+                {
+                  "name": "bindSyncScroll",
+                  "value": ""
+                },
+                {
+                  "name": "handleInitLoaing",
+                  "value": ""
+                },
+                {
+                  "name": "handleTreeSearch",
+                  "value": ""
+                },
+                {
+                  "name": "bindTreeSearch",
+                  "value": ""
+                },
+                {
+                  "name": "init",
+                  "value": ""
                 }
               ]
             }
