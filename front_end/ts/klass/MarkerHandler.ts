@@ -21,13 +21,13 @@ export default class MarkerHandler{
    * @description Update Marker raw DOM with Promise
    * @param  {object} markerDOM - Target raw DOM
    * @param  {number} status    - Target raw DOM Index
-   * @return {any} Promise
+   * @return {object} Promise
    */
   update(markerDOM:HTMLElement, status:number):any{
     return new Promise(
       (resolve:any, reject:any) => {
         setTimeout(
-          function(){
+          () => {
             markerDOM.classList.add('___visible');
             resolve();
           },
@@ -47,7 +47,7 @@ export default class MarkerHandler{
   /**
    * Init
    * @description Initialize Marker with Promise
-   * @return {any} Promise
+   * @return {object} Promise
    */
   init():any{
     let defs: Array<any> = [];

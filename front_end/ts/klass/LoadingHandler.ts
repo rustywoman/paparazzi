@@ -28,7 +28,7 @@ export default class LoadingHandler{
    * Update
    * @description Update Loading Status with Promise
    * @param  {number} status - Loading Current Status
-   * @return {any} Promise
+   * @return {object} Promise
    */
   update(status:number):any{
     let buffer = status * 10;
@@ -62,7 +62,7 @@ export default class LoadingHandler{
    * Init
    * @description Initialize Loading with Promise
    * @param  {number} status - Loading Current Status
-   * @return {any} Promise
+   * @return {object} Promise
    */
   init(status:number):any{
     let defs: Array<any> = [];

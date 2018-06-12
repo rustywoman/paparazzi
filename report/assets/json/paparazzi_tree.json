@@ -539,6 +539,18 @@
                 {
                   "name": "axios",
                   "value": "非同期通信用軽量ライブラリを除外するための退避用変数。"
+                },
+                {
+                  "name": "customLoadingIns",
+                  "value": "LoadingHandlerクラスのインスタンス格納用変数。"
+                },
+                {
+                  "name": "markerHandlerIns",
+                  "value": "MarkerHandlerクラスのインスタンス格納用変数。"
+                },
+                {
+                  "name": "dependencyTreeIns",
+                  "value": "DependencyTreeHandlerクラスのインスタンス格納用変数。"
                 }
               ],
               "methods": [

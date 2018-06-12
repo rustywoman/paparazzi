@@ -4,13 +4,16 @@
  * @type        {any}
  */
 declare let d3:any;
+/**
+ * @classdesc   DependencyTreeHandler
+ * @author      rustywoman
+ * @description Handle Dependency Tree via SVG
+ */
 export default class DependencyTreeHandler{
   totalNodes     : number;
   maxLabelLength : number;
   selectedNode   : any;
   flattenNodes   : any;
-  panSpeed       : any;
-  panTimer       : any;
   idx            : number;
   duration       : number;
   nodeBuffer     : number;
@@ -25,13 +28,34 @@ export default class DependencyTreeHandler{
   svgGroup       : any;
   detailDOM      : any;
   selectedId     : number;
+  /**
+   * @constructor DependencyTreeHandler
+   * @property {string} overlayMarker  - Overlayed Marker
+   * @property {object} overlayDOM     - Array of raw DOM
+   * @property {number} totalNodes     - Number Of Tree Nodes
+   * @property {number} maxLabelLength - Size Of Tree Nodes' Label
+   * @property {object} selectedNode   - Selected Node
+   * @property {object} flattenNodes   - All Selectable Node ( flatten )
+   * @property {number} idx            - Selectable Node Index
+   * @property {number} duration       - Duration For SVG Animation
+   * @property {number} nodeBuffer     - Display Buffer For All Selectable Node
+   * @property {object} root           - Filtered JSON Data ( = Rendering Information )
+   * @property {object} treeJSON       - Raw Original JSON Data
+   * @property {number} viewerWidth    - SVG Width ( = window.innerWidth - Perfect Scroll Width )
+   * @property {number} viewerHeight   - SVG Height ( = window.innerHeight - Header Height - Footer Height - Buffer Border )
+   * @property {object} tree           - SVG Tree Layout Handler
+   * @property {object} diagonal       - SVG Path Connection Handler
+   * @property {object} zoomListener   - SVG Zoom Action Handler
+   * @property {object} baseSvg        - SVG Root DOM - Element Of `svg`
+   * @property {object} svgGroup       - SVG Inner Root DOM - Element Of `g`
+   * @property {object} detailDOM      - Detail Information DOM
+   * @property {number} selectedId     - Selected Node Id
+   */
   constructor(){
     this.totalNodes = 0;
     this.maxLabelLength = 0;
     this.selectedNode = null;
     this.flattenNodes = null;
-    this.panSpeed = 200;
-    this.panTimer = null;
     this.idx = 0;
     this.duration = 750;
     this.nodeBuffer = 85;
@@ -51,7 +75,15 @@ export default class DependencyTreeHandler{
     this.detailDOM = null;
     this.selectedId = 0;
   };
-  traceBranch(parent:any, traceBranchFn:any, childrenFn:any){
+  /**
+   * Trace - [ Children ]
+   * @description Count
+   * @param  {object} parent - Target Parent Node
+   * @param  {object} traceBranchFn - Default Callback
+   * @param  {object} childrenFn - Callback for Children Node
+   * @return {object}
+   */
+  traceBranch(parent:any, traceBranchFn:any, childrenFn:any):any{
     if(!parent){
       return;
     }
@@ -63,45 +95,33 @@ export default class DependencyTreeHandler{
       }
     }
   };
-  sortTree(){
+  /**
+   * Sort
+   * @description Sort by Node's Name
+   * @return {void}
+   */
+  sortTree():void{
     this.tree.sort(
       (a:any, b:any) => {
         return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
       }
     );
   };
-  pan(domNode:any, direction:string){
-    if(this.panTimer){
-      clearTimeout(this.panTimer);
-      let translateCoords = d3.transform(this.svgGroup.attr('transform'));
-      let translateX = 0;
-      let translateY = 0;
-      if(direction == 'left' || direction == 'right'){
-        translateX = direction == 'left' ? translateCoords.translate[0] + this.panSpeed : translateCoords.translate[0] - this.panSpeed;
-        translateY = translateCoords.translate[1];
-      }else if(direction == 'up' || direction == 'down'){
-        translateX = translateCoords.translate[0];
-        translateY = direction == 'up' ? translateCoords.translate[1] + this.panSpeed : translateCoords.translate[1] - this.panSpeed;
-      }
-      let scaleX = translateCoords.scale[0];
-      let scaleY = translateCoords.scale[1];
-      let scale = this.zoomListener.scale();
-      this.svgGroup.transition().attr('transform', 'translate(' + translateX + ',' + translateY + ') scale(' + scale + ')');
-      d3.select(domNode).select('g.node').attr('transform', 'translate(' + translateX + ',' + translateY + ')');
-      this.zoomListener.scale(this.zoomListener.scale());
-      this.zoomListener.translate([translateX, translateY]);
-      this.panTimer = setTimeout(
-        () => {
-          this.pan(domNode, direction);
-        },
-        50
-      );
-    }
-  };
-  handleZoom(){
+  /**
+   * Handler - [ Zoom ]
+   * @description Handle Zoom Action
+   * @return {void}
+   */
+  handleZoom():void{
     this.svgGroup.attr('transform', 'translate(' + d3.event.translate + ') scale(' + d3.event.scale + ')');
   };
-  centerNode(source:any){
+  /**
+   * Handler - [ Center ]
+   * @description Center Selected Node
+   * @param {object} source - Selected Node
+   * @return {void}
+   */
+  handleCenterPosition(source:any):void{
     let scale = this.zoomListener.scale();
     let x = -source.y0;
     let y = -source.x0;
@@ -114,7 +134,13 @@ export default class DependencyTreeHandler{
     this.zoomListener.scale(scale);
     this.zoomListener.translate([x, y]);
   };
-  toggleChildren(d:any){
+  /**
+   * Toggle
+   * @description Toggle Children Display Status
+   * @param {object} d - Target Node
+   * @return {any} Target Node Filtered `Children` Status
+   */
+  toggleChildren(d:any):any{
     if(d.children){
       d._children = d.children;
       d.children = null;
@@ -124,7 +150,15 @@ export default class DependencyTreeHandler{
     }
     return d;
   };
-  traceAncestor(d:any, ancestorResult:any[], relatedIdResult:any[]){
+  /**
+   * Trace - [ Ancestor ]
+   * @description Trace Ancestor Information
+   * @param {object} d - Target Node
+   * @param {object} ancestorResult - Ancestor Information
+   * @param {object} relatedIdResult - Parent Ids
+   * @return {any} Ancestor Information + Parent Ids
+   */
+  traceAncestor(d:any, ancestorResult:any[], relatedIdResult:any[]):any{
     if(d['parent']){
       ancestorResult.push(d['parent']['name']);
       relatedIdResult.push(d['id']);
@@ -236,22 +270,36 @@ export default class DependencyTreeHandler{
     }
     document.querySelector('#l_tree_methods__table').innerHTML = tmpMethodsListDOM.join('');
   };
-  setSelectedId(idx:number){
+  /**
+   * Setter - [ Selected Id ]
+   * @description Set Selected Id per Each Action
+   * @param {number} idx - Selected Target Id
+   * @return {void}
+   */
+  setSelectedId(idx:number):void{
     this.selectedId = idx;
   };
-  handleClick(d:any){
-    // ToDo - Check
-    // if(d3.event.defaultPrevented){
-    //   return;
-    // }
+  /**
+   * Handler - [ Click ]
+   * @description Handle Click Action
+   * @param {object} d - Selected Node
+   * @return {void}
+   */
+  handleClick(d:any):void{
+    // console.dir(d);
     this.setSelectedId(d.id);
     let tmpNodes = this.toggleChildren(d);
     this.update(tmpNodes);
-    this.centerNode(tmpNodes);
-    console.dir(d);
+    this.handleCenterPosition(tmpNodes);
     this.handleTargetInfo(d);
   };
-  update(source:any){
+  /**
+   * Update
+   * @description Update All Nodes
+   * @param  {boolean} asyncFlg - Async or First Access
+   * @return {void}
+   */
+  update(source:any):void{
     let levelWidth = [1];
     let childCount = (level:any, n:any) => {
       if(n.children && n.children.length > 0){
@@ -338,7 +386,6 @@ export default class DependencyTreeHandler{
         'text-anchor',
         (d:any) => {
           return d.children || d._children ? 'middle' : 'start';
-          // return 'middle';
         }
       )
       .text(
@@ -432,7 +479,14 @@ export default class DependencyTreeHandler{
       }
     );
   };
-  flatten(root:any, result:any){
+  /**
+   * Flatten
+   * @description Flatten Nodes' Information
+   * @param  {object} root   - Target Nodes
+   * @param  {object} result - Flattened Result
+   * @return {object} Flattened Result
+   */
+  flatten(root:any, result:any):any{
     let tmpChildren = root['children'];
     for(let i = 0, il = tmpChildren.length; i < il; i++){
       let tmpChild = tmpChildren[i];
@@ -443,7 +497,13 @@ export default class DependencyTreeHandler{
     }
     return result;
   };
-  search(keyword:string){
+  /**
+   * Search
+   * @description Search Nodes
+   * @param  {string} keyword - Search Keyword
+   * @return {object} Promise
+   */
+  search(keyword:string):any{
     return new Promise(
       (resolve:any, reject:any) => {
         let tmpResult:any[] = [];
@@ -480,6 +540,14 @@ export default class DependencyTreeHandler{
       }
     );
   };
+  /**
+   * Init
+   * @description Initialize
+   * @param  {string} wrapperDOMSelector - SVG Rendering Root DOM Selector
+   * @param  {string} detailDOMSelector  - Detail Information Root DOM Selector
+   * @param  {string} treeDependencyData  - Tree Information JSON Path
+   * @return {object} Promise
+   */
   init(wrapperDOMSelector:string, detailDOMSelector:string, treeDependencyData:string){
     let treeDOM = document.querySelector(wrapperDOMSelector);
     this.detailDOM = document.querySelector(detailDOMSelector);
@@ -512,7 +580,7 @@ export default class DependencyTreeHandler{
             this.root.y0 = 0;
             this.flattenNodes = this.flatten(this.root, []);
             this.update(this.root);
-            this.centerNode(this.root);
+            this.handleCenterPosition(this.root);
             this.handleTargetInfo(this.root);
             resolve();
           }

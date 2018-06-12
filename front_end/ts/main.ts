@@ -517,7 +517,7 @@ class Main{
       console.dir(tmpNodes);
       this.dependencyTreeIns.setSelectedId(tmpNodes['id']);
       this.dependencyTreeIns.update(tmpNodes);
-      this.dependencyTreeIns.centerNode(tmpNodes);
+      this.dependencyTreeIns.handleCenterPosition(tmpNodes);
       this.dependencyTreeIns.handleTargetInfo(tmpNodes, this.TREE_SEARCH_KEYWORD);
       tmpSearchStatusDOM.innerHTML = (this.TREE_SEARCH_IDX + 1) + '/' + this.TREE_SEARCH_STOCK.length;
     }else{
@@ -534,7 +534,7 @@ class Main{
             console.dir(tmpNodes);
             this.dependencyTreeIns.setSelectedId(tmpNodes['id']);
             this.dependencyTreeIns.update(tmpNodes);
-            this.dependencyTreeIns.centerNode(tmpNodes);
+            this.dependencyTreeIns.handleCenterPosition(tmpNodes);
             this.dependencyTreeIns.handleTargetInfo(tmpNodes, this.TREE_SEARCH_KEYWORD);
             tmpSearchStatusDOM.innerHTML = (this.TREE_SEARCH_IDX + 1) + '/' + this.TREE_SEARCH_STOCK.length;
           },
@@ -546,7 +546,7 @@ class Main{
             tmpSearchStatusDOM.innerHTML = '0';
             // ToDo - Check - Restore Tree View Status
             // this.dependencyTreeIns.update(errRoot);
-            // this.dependencyTreeIns.centerNode(errRoot);
+            // this.dependencyTreeIns.handleCenterPosition(errRoot);
           }
         );
     }
