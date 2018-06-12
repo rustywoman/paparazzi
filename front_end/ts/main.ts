@@ -503,6 +503,11 @@ class Main{
         }
       );
   };
+  /**
+   * Handler - [ Tree Search Action ]
+   * @description Handle Search Keyword in SVG Family Tree
+   * @return {void}
+   */
   handleTreeSearch(){
     let tmpSearchStatusDOM = document.querySelector('#l_content__tree_search__count');
     let tmpKeyword = (<HTMLInputElement>document.querySelector('#l_content__tree_search__input')).value;

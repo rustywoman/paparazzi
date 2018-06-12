@@ -193,8 +193,12 @@ export default class DependencyTreeHandler{
     }
     let tmpAncestor = tmpAncestorInfo['ancestorResult'].reverse();
     let tmpAncestorListDOM = [];
-    for(let i = 0, il = tmpAncestor.length; i < il; i++){
-      tmpAncestorListDOM.push('<li class="m_tree_ancestor__list--item">' + tmpAncestor[i] + '</li>');
+    if(tmpAncestor.length === 0){
+      tmpAncestorListDOM.push('<li class="m_tree_ancestor__list--item">No Ancestor</li>');
+    }else{
+      for(let i = 0, il = tmpAncestor.length; i < il; i++){
+        tmpAncestorListDOM.push('<li class="m_tree_ancestor__list--item">' + tmpAncestor[i] + '</li>');
+      }
     }
     document.querySelector('#l_tree_ancestor__list').innerHTML = tmpAncestorListDOM.join('');
     // Memo
