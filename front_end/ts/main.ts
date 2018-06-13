@@ -509,6 +509,7 @@ class Main{
    * @return {void}
    */
   handleTreeSearch(){
+    document.querySelector('.m_column_ps_wrapper').scrollTop = 0
     let tmpSearchStatusDOM = document.querySelector('#l_content__tree_search__count');
     let tmpKeyword = (<HTMLInputElement>document.querySelector('#l_content__tree_search__input')).value;
     // console.log('Tree Search Keyword : [ ' + tmpKeyword + ' ]');
