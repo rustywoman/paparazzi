@@ -181,6 +181,7 @@ Detail
   border-right: 1px solid $default-color-white;
   box-sizing: content-box;
   background-color: rgba(68, 68, 68, .1);
+  word-break: break-all;
   &.___head{
     padding: 5px 15px;
     background-color: $default-color-gray !important;
