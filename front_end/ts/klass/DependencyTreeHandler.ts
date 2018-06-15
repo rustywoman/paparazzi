@@ -575,7 +575,7 @@ export default class DependencyTreeHandler{
               }
             );
             this.sortTree();
-            this.zoomListener = d3.behavior.zoom().scaleExtent([1, 2.4]).on('zoom', this.handleZoom.bind(this));
+            this.zoomListener = d3.behavior.zoom().scaleExtent([.8, 2.4]).on('zoom', this.handleZoom.bind(this));
             this.baseSvg = d3
               .select(wrapperDOMSelector)
               .append('svg')
