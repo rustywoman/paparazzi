@@ -563,9 +563,11 @@ class Main{
    * @return {void}
    */
   bindTreeSearch(){
+    let tmpTreeSearchInpuutDOM = (<HTMLInputElement>document.querySelector('#l_content__tree_search__input'));
     let tmpTreeSearchFormDOM = document.querySelector('#j_form_for_tree_search');
     let tmpTreeSearchTriggerDOM = document.querySelector('#l_content__tree_search__trigger');
-    if(tmpTreeSearchFormDOM !== null && tmpTreeSearchTriggerDOM !== null){
+    if(tmpTreeSearchFormDOM !== null && tmpTreeSearchTriggerDOM !== null && tmpTreeSearchInpuutDOM !== null){
+      tmpTreeSearchInpuutDOM.value = '';
       tmpTreeSearchTriggerDOM.addEventListener(
         'click',
         (evt:any) => {

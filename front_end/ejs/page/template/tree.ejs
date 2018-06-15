@@ -1,26 +1,7 @@
 <div class="m_split_column_box">
   <div class="m_column_box">
     <div id="l_content__tree_wrapper">
-      <div id="l_content__tree_container" data-tree-dependency="paparazzi_tree"></div>
-      <div id="l_content__tree_search_wrapper">
-        <div id="l_content__tree_search_inner_wrapper">
-          <form id="j_form_for_tree_search">
-            <input id="l_content__tree_search__input" type="text" value="" placeholder="Search keyword ...">
-          </form>
-          <div id="l_content__tree_search__count_wrapper">
-            <div id="l_content__tree_search__count_inner_wrapper">
-              <span id="l_content__tree_search__count"></span>
-            </div>
-          </div>
-          <div id="l_content__tree_search__trigger_wrapper">
-            <div id="l_content__tree_search__trigger_inner_wrapper">
-              <a id="l_content__tree_search__trigger" class="button" href="javascript:void(0);">
-                <span>Find</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="l_content__tree_container" data-tree-dependency="<%= reportName.replace('/', '') %>"></div>
       <div id="l_content__tree_detail_wrapper">
         <div id="l_content__tree_detail_inner_wrapper">
           <a class="j_to_scroll_trigger" href="javascript:void(0);" data-handle-ps-wrapper="j_to_scroll_trigger_for_tree_detail" data-ps-direction="top">
@@ -31,8 +12,28 @@
           </a>
           <div class="m_column_ps_wrapper" data-handle-trigger="j_to_scroll_trigger_for_tree_detail">
             <div id="l_content__tree_dynamic_wrapper">
+              <h3 class="m_column_info__sub_title marker">Search Properties and Methods<span class="overlay"></span></h3>
+              <section id="l_content__tree_search_wrapper">
+                <div id="l_content__tree_search_inner_wrapper">
+                  <form id="j_form_for_tree_search">
+                    <input id="l_content__tree_search__input" type="text" value="" placeholder="Search keyword ...">
+                  </form>
+                  <div id="l_content__tree_search__count_wrapper">
+                    <div id="l_content__tree_search__count_inner_wrapper">
+                      <span id="l_content__tree_search__count"></span>
+                    </div>
+                  </div>
+                  <div id="l_content__tree_search__trigger_wrapper">
+                    <div id="l_content__tree_search__trigger_inner_wrapper">
+                      <a id="l_content__tree_search__trigger" class="button" href="javascript:void(0);">
+                        <span>Find</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
               <h3 class="m_column_info__sub_title marker">Family Trees Information<span class="overlay"></span></h3>
-              <section class="m_content__tree_info_wrapper">
+              <section class="m_content__tree_info_wrapper ___marker">
                 <p class="m_content__tree_sub_title">Target</p>
                 <div class="m_content__tree_sub_wrapper">
                   <p id="l_tree_target">Not Selected</p>
