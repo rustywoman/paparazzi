@@ -10,48 +10,50 @@ declare let d3:any;
  * @description Handle Dependency Tree via SVG
  */
 export default class DependencyTreeHandler{
-  totalNodes            : number;
-  maxLabelLength        : number;
-  selectedNode          : any;
-  flattenNodes          : any;
-  idx                   : number;
-  duration              : number;
-  nodeBuffer            : number;
-  root                  : any;
-  treeJSON              : any;
-  viewerWidth           : number;
-  viewerHeight          : number;
-  tree                  : any;
-  diagonal              : any;
-  zoomListener          : any;
-  baseSvg               : any;
-  svgGroup              : any;
-  detailDOM             : any;
-  detailCustomScrollDOM : any;
-  selectedId            : number;
+  totalNodes             : number;
+  maxLabelLength         : number;
+  selectedNode           : any;
+  flattenNodes           : any;
+  idx                    : number;
+  duration               : number;
+  nodeBuffer             : number;
+  root                   : any;
+  treeJSON               : any;
+  viewerWidth            : number;
+  viewerHeight           : number;
+  tree                   : any;
+  diagonal               : any;
+  zoomListener           : any;
+  baseSvg                : any;
+  svgGroup               : any;
+  detailDOM              : any;
+  detailCustomScrollDOM  : any;
+  detailVisualHandlerDOM : any;
+  selectedId             : number;
   /**
    * @constructor DependencyTreeHandler
-   * @property {string} overlayMarker         - Overlayed Marker
-   * @property {object} overlayDOM            - Array of raw DOM
-   * @property {number} totalNodes            - Number Of Tree Nodes
-   * @property {number} maxLabelLength        - Size Of Tree Nodes' Label
-   * @property {object} selectedNode          - Selected Node
-   * @property {object} flattenNodes          - All Selectable Node ( flatten )
-   * @property {number} idx                   - Selectable Node Index
-   * @property {number} duration              - Duration For SVG Animation
-   * @property {number} nodeBuffer            - Display Buffer For All Selectable Node
-   * @property {object} root                  - Filtered JSON Data ( = Rendering Information )
-   * @property {object} treeJSON              - Raw Original JSON Data
-   * @property {number} viewerWidth           - SVG Width ( = window.innerWidth - Perfect Scroll Width )
-   * @property {number} viewerHeight          - SVG Height ( = window.innerHeight - Header Height - Footer Height - Buffer Border )
-   * @property {object} tree                  - SVG Tree Layout Handler
-   * @property {object} diagonal              - SVG Path Connection Handler
-   * @property {object} zoomListener          - SVG Zoom Action Handler
-   * @property {object} baseSvg               - SVG Root DOM - Element Of `svg`
-   * @property {object} svgGroup              - SVG Inner Root DOM - Element Of `g`
-   * @property {object} detailDOM             - Detail Information DOM
-   * @property {object} detailCustomScrollDOM - Detail Information Custom Scroll DOM
-   * @property {number} selectedId            - Selected Node Id
+   * @property {string} overlayMarker          - Overlayed Marker
+   * @property {object} overlayDOM             - Array of raw DOM
+   * @property {number} totalNodes             - Number Of Tree Nodes
+   * @property {number} maxLabelLength         - Size Of Tree Nodes' Label
+   * @property {object} selectedNode           - Selected Node
+   * @property {object} flattenNodes           - All Selectable Node ( flatten )
+   * @property {number} idx                    - Selectable Node Index
+   * @property {number} duration               - Duration For SVG Animation
+   * @property {number} nodeBuffer             - Display Buffer For All Selectable Node
+   * @property {object} root                   - Filtered JSON Data ( = Rendering Information )
+   * @property {object} treeJSON               - Raw Original JSON Data
+   * @property {number} viewerWidth            - SVG Width ( = window.innerWidth - Perfect Scroll Width )
+   * @property {number} viewerHeight           - SVG Height ( = window.innerHeight - Header Height - Footer Height - Buffer Border )
+   * @property {object} tree                   - SVG Tree Layout Handler
+   * @property {object} diagonal               - SVG Path Connection Handler
+   * @property {object} zoomListener           - SVG Zoom Action Handler
+   * @property {object} baseSvg                - SVG Root DOM - Element Of `svg`
+   * @property {object} svgGroup               - SVG Inner Root DOM - Element Of `g`
+   * @property {object} detailDOM              - Detail Information DOM
+   * @property {object} detailCustomScrollDOM  - Detail Information Custom Scroll DOM
+   * @property {object} detailVisualHandlerDOM - Detail Information Visual Handler DOM
+   * @property {number} selectedId             - Selected Node Id
    */
   constructor(){
     this.totalNodes = 0;
@@ -76,6 +78,7 @@ export default class DependencyTreeHandler{
     this.svgGroup = null;
     this.detailDOM = null;
     this.detailCustomScrollDOM = null;
+    this.detailVisualHandlerDOM = null;
     this.selectedId = 0;
   };
   /**
@@ -299,6 +302,10 @@ export default class DependencyTreeHandler{
     this.update(tmpNodes);
     this.handleCenterPosition(tmpNodes);
     this.handleTargetInfo(d);
+    if(this.detailVisualHandlerDOM.value < 80){
+      this.detailVisualHandlerDOM.value = 80;
+      this.detailDOM.setAttribute('style', 'opacity: .8');
+    }
   };
   /**
    * Update
@@ -548,6 +555,27 @@ export default class DependencyTreeHandler{
     );
   };
   /**
+   * Binder - [ Opacity Rate ]
+   * @description Bind Opacity Rate
+   * @return {void}
+   */
+  bindDetailVisualOpacity(){
+    if(this.detailVisualHandlerDOM !== null){
+      this.detailVisualHandlerDOM.addEventListener(
+        'change',
+        (evt:any) => {
+          let tmpOpacityRate = evt.currentTarget.value;
+          if(parseInt(tmpOpacityRate, 10) === 0){
+            this.detailDOM.setAttribute('style', 'opacity: 0; visibility: hidden;');
+          }else{
+            this.detailDOM.setAttribute('style', 'opacity: ' + (tmpOpacityRate / 100));
+          }
+        },
+        false
+      );
+    }
+  };
+  /**
    * Init
    * @description Initialize
    * @param  {string} wrapperDOMSelector - SVG Rendering Root DOM Selector
@@ -555,12 +583,14 @@ export default class DependencyTreeHandler{
    * @param  {string} treeDependencyData  - Tree Information JSON Path
    * @return {object} Promise
    */
-  init(wrapperDOMSelector:string, detailDOMSelector:string, detailCustomScrollDOMSelector:string, treeDependencyData:string){
+  init(wrapperDOMSelector:string, detailDOMSelector:string, detailCustomScrollDOMSelector:string, detailVisualHandlerDOMSelector:string, treeDependencyData:string){
     let treeDOM = document.querySelector(wrapperDOMSelector);
     this.detailDOM = document.querySelector(detailDOMSelector);
     this.detailCustomScrollDOM = document.querySelector(detailCustomScrollDOMSelector);
+    this.detailVisualHandlerDOM = (<HTMLInputElement>document.querySelector(detailVisualHandlerDOMSelector));
     return new Promise(
       (resolve:any, reject:any) => {
+        this.detailVisualHandlerDOM.value = '100';
         this.treeJSON = d3.json(
           treeDependencyData + '.json',
           (error:any, treeData:any) => {
@@ -590,6 +620,7 @@ export default class DependencyTreeHandler{
             this.update(this.root);
             this.handleCenterPosition(this.root);
             this.handleTargetInfo(this.root);
+            this.bindDetailVisualOpacity();
             resolve();
           }
         );

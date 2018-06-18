@@ -605,6 +605,7 @@ class Main{
         '#l_content__tree_container',
         '#l_content__tree_detail_wrapper',
         '.m_column_ps_wrapper',
+        '#l_content__tree_detail_wrapper__opacity',
         '/assets/json/' + tmpTreeDOM.getAttribute('data-tree-dependency')
       ).then(
         () => {

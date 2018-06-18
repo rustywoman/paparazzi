@@ -117,7 +117,7 @@ Part - SVG Tree
   top: 60px;
   right: 2px;
   box-shadow: 2px -8px 4px 4px rgba($default-color-border, .25);
-  transition: transform $default-duration * 2 $default-easing $default-duration;
+  transition: transform $default-duration * 2 $default-easing $default-duration, opacity $default-duration * 2 $default-easing $default-delay;
 }
 #l_content__tree_detail_inner_wrapper{
   position: relative;
@@ -197,5 +197,47 @@ Part - SVG Tree
       background-color: $default-color-red;
       color: $default-color-white;
     }
+  }
+}
+#l_content__tree_visual_handle_wrapper{
+  position: fixed;
+  top: 30px;
+  right: 40px;
+  z-index: 200;
+  width: 200px;
+}
+#l_content__tree_detail_wrapper__opacity__title{
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-110%) translateY(-50%);
+  font-size: $min-font-size;
+  color: $default-color-gray;
+}
+#l_content__tree_detail_wrapper__opacity{
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: $custom-scrollbar-background-color;
+  height: 2px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  cursor: pointer !important;
+  &:focus,
+  &:active{
+    outline: none;
+  }
+  &::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    width: 8px;
+    height: 8px;
+    display: block;
+    background-color: $default-color-gray;
+    border-radius: 50%;
   }
 }
