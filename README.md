@@ -4,7 +4,6 @@
 <p align="center">
   <h1 align="center" style="color: #00171f">P A P A R A Z Z I</h1>
 </p>
-
 <br />
 
 <p align="center">
@@ -12,15 +11,20 @@
 </p>
 
 <br />
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/4089628/41570263-ff516390-73a8-11e8-9269-fdc194d75792.png" alt="" width="80%">
+</p>
+
 <br />
 
 #### How To Start
 
-This Project Needs Python 3.x, Node.js and Browser Driver.
+This Project Needs Python 3.x ( Anaconda 3.x recommended ), Node.js and Browser Driver.
 
 ---
 
-Python 3.x :
+_Python 3.x ( Anaconda 3.x recommended ) :_
 
 > pip install -r requirements.txt
 
@@ -37,7 +41,7 @@ Python 3.x :
 
 ---
 
-Node.js :
+_Node.js :_
 
 > npm install
 
@@ -64,7 +68,7 @@ Node.js :
 
 ---
 
-Browser Driver :
+_Browser Driver :_
 
 | Browser Name | Driver Link                                                                                        |
 |:-------------|:---------------------------------------------------------------------------------------------------|
