@@ -146,6 +146,14 @@ Part - SVG Tree
 #l_tree_target{
   text-align: left;
 }
+#l_tree_memo{
+  span{
+    &.___marker{
+      background-color: $default-color-red;
+      color: $default-color-white;
+    }
+  }
+}
 #l_tree_ancestor__list{
   @include clearfix();
 }

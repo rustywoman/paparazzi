@@ -520,7 +520,7 @@ class Main{
         this.TREE_SEARCH_IDX = 0;
       }
       let tmpNodes = this.TREE_SEARCH_STOCK[this.TREE_SEARCH_IDX];
-      console.dir(tmpNodes);
+      // console.dir(tmpNodes);
       this.dependencyTreeIns.setSelectedId(tmpNodes['id']);
       this.dependencyTreeIns.update(tmpNodes);
       this.dependencyTreeIns.handleCenterPosition(tmpNodes);
@@ -530,14 +530,14 @@ class Main{
       this.dependencyTreeIns.search(tmpKeyword)
         .then(
           (result:any) => {
-            console.dir(result);
+            // console.dir(result);
             // console.info('Matched');
             // console.info('New Search >>> ' + this.TREE_SEARCH_IDX);
             this.TREE_SEARCH_IDX = 0;
             this.TREE_SEARCH_STOCK = result;
             this.TREE_SEARCH_KEYWORD = tmpKeyword;
             let tmpNodes = this.TREE_SEARCH_STOCK[this.TREE_SEARCH_IDX];
-            console.dir(tmpNodes);
+            // console.dir(tmpNodes);
             this.dependencyTreeIns.setSelectedId(tmpNodes['id']);
             this.dependencyTreeIns.update(tmpNodes);
             this.dependencyTreeIns.handleCenterPosition(tmpNodes);

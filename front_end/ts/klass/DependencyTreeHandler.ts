@@ -208,7 +208,11 @@ export default class DependencyTreeHandler{
     }
     document.querySelector('#l_tree_ancestor__list').innerHTML = tmpAncestorListDOM.join('');
     // Memo
-    document.querySelector('#l_tree_memo').innerHTML = d.memo;
+    if(keyword !== ''){
+      document.querySelector('#l_tree_memo').innerHTML = d.memo.replace(new RegExp(keyword, 'g'), '<span class="___marker">' + keyword + '</span>');
+    }else{
+      document.querySelector('#l_tree_memo').innerHTML = d.memo;
+    }
     // Properties Info
     let tmpPropertiesListDOM = [];
     if(d.properties === undefined || d.properties.length === undefined){
@@ -523,6 +527,17 @@ export default class DependencyTreeHandler{
         let tmpResult:any[] = [];
         for(let i = 0, il = this.flattenNodes.length; i < il; i++){
           let tmpItem = this.flattenNodes[i];
+          // [ name ] 検索
+          if(tmpItem['name'].indexOf(keyword) !== -1){
+            tmpResult.push(tmpItem);
+          }
+          // [ memo ] 検索
+          if(tmpItem['memo']){
+            if(tmpItem['memo'].indexOf(keyword) !== -1){
+              tmpResult.push(tmpItem);
+            }
+          }
+          // [ properties ] 検索
           if(tmpItem['properties'] && tmpItem['properties'].length){
             for(let i = 0, il = tmpItem['properties'].length; i < il; i++){
               let tmpItemProperty = tmpItem['properties'][i];
@@ -534,6 +549,7 @@ export default class DependencyTreeHandler{
               }
             }
           }
+          // [ methods ] 検索
           if(tmpItem['methods'] && tmpItem['methods'].length){
             for(let i = 0, il = tmpItem['methods'].length; i < il; i++){
               let tmpItemMethod = tmpItem['methods'][i];
@@ -605,7 +621,7 @@ export default class DependencyTreeHandler{
               }
             );
             this.sortTree();
-            this.zoomListener = d3.behavior.zoom().scaleExtent([.8, 2.4]).on('zoom', this.handleZoom.bind(this));
+            this.zoomListener = d3.behavior.zoom().scaleExtent([.6, 2.6]).on('zoom', this.handleZoom.bind(this));
             this.baseSvg = d3
               .select(wrapperDOMSelector)
               .append('svg')
