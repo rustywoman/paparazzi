@@ -8,6 +8,10 @@ Part - Marker
   position: relative;
   padding: 0 0 8px 0;
   transform: translateX(-5%);
+  max-width: 80%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   &:before{
     display: inline-block;
     position: absolute;

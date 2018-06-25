@@ -147,6 +147,7 @@ Part - SVG Tree
   text-align: left;
 }
 #l_tree_memo{
+  word-break: break-all;
   span{
     &.___marker{
       background-color: $default-color-red;
@@ -193,7 +194,7 @@ Part - SVG Tree
   vertical-align: top;
   font-size: $min-font-size + px;
   &:first-child{
-    width: 20%;
+    max-width: 200px !important;
     padding: 5px 0 10px 0;
   }
   &:last-child{

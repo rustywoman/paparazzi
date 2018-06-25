@@ -1,83 +1,114 @@
 {
   "name": "Paparazzi Report",
-  "memo": "自動テスト結果確認 + Mind Map webアプリ",
+  "memo": "自動テスト結果確認 + Mind Map web アプリ",
   "children": [
     {
       "name": "Shell",
+      "memo": "ルートディレクトリ内に、各種実行シェルを配置。",
       "children": [
         {
           "name": "lint.sh",
           "mappingId": 1,
-          "memo": "python_modules配下のpythonファイルに対する構文チェック。",
-          "properties": [],
-          "methods": []
+          "memo": "python ファイルに対する構文チェック。python_modules, python_modules/handler 配下 python ファイルに対して、 pycodestyle 適用。sh lint.sh で実行可能。",
+          "properties": [
+            {
+              "name": "conf",
+              "value": "conf/paparazzi.conf"
+            }
+          ]
         },
         {
           "name": "main.sh",
           "mappingId": 2,
-          "memo": "1プロセスベースの自動テスト実行シェル。",
-          "properties": [],
-          "methods": []
+          "memo": "1プロセスベースの自動テスト実行シェル。クライアントの各ブラウザを Selenium を通して起動後、 case 配下の *_main.json ファイルを素にして、自動テストを実行。",
+          "properties": [
+            {
+              "name": "conf",
+              "value": "case/*_main.json"
+            }
+          ]
         },
         {
           "name": "multi.sh",
           "mappingId": 3,
-          "memo": "複数（実行端末の最大コア数分）プロセスベースの自動テスト実行シェル。",
-          "properties": [],
-          "methods": []
+          "memo": "複数（実行端末の最大コア数分）プロセスベースの自動テスト実行シェル。クライアントの起動可能プロセス分のブラウザ ( Firefox, Chrome のみ ) を Selenium をとして起動後、 case 配下の *_multi.json ファイルを素にして、自動テストを実行。",
+          "properties": [
+            {
+              "name": "conf",
+              "value": "case/*_multi.json"
+            }
+          ]
         },
         {
           "name": "report.sh",
           "mappingId": 4,
-          "memo": "webページ自動解析実行シェル。",
-          "properties": [],
-          "methods": []
+          "memo": "webページ自動解析実行シェル。 main.sh を素にしつつ、指定ページの全文字情報、全スタイルの妥当性検証 ( 有効なセレクターか否かのチェック )、全スクリプトの一覧化、定義されている全画像のダウンロード処理を実行。",
+          "properties": [
+            {
+              "name": "conf",
+              "value": "case/*_report.json"
+            }
+          ]
         },
         {
           "name": "report_via_node.sh",
           "mappingId": 5,
-          "memo": "Nodejsから起動する、webページ自動解析実行シェル。",
-          "properties": [],
-          "methods": []
+          "memo": "Nodejsから起動する、webページ自動解析実行シェル。 report.sh を素にしつつ、Nodejsから引数を渡して実行。"
         },
         {
           "name": "reset.sh",
           "mappingId": 6,
-          "memo": "各種レポート結果の削除実行シェル。",
-          "properties": [],
-          "methods": []
+          "memo": "各種レポート結果の削除実行シェル。log/*, ___cache/*, ___screenshot/*, ___tmp/*, report/assets/image/**, report/assets/json/*_report.json, report/assets/json/*_main.json, report/assets/json/*_multi.json, report/assets/json/*_scan.json, report/assets/json/*_search.json, report/case/___*.html の sh report.sh の副産物を全て削除。"
         },
         {
           "name": "scan.sh",
           "mappingId": 7,
-          "memo": "サービスリンクの検索実行シェル（クローリングの事前処理）",
-          "properties": [],
-          "methods": []
+          "memo": "サービスリンクの検索実行シェル。 キーワード検索 ( sh search.sh ) 実行前に、対象サイトの全アクティブリンクの一覧を生成するための事前処理。",
+          "properties": [
+            {
+              "name": "conf",
+              "value": "case/*_scan.json"
+            }
+          ]
         },
         {
           "name": "search.sh",
           "mappingId": 8,
-          "memo": "特定キーワードを特定ドメイン配下からの検索実行シェル",
-          "properties": [],
-          "methods": []
+          "memo": "特定キーワードを特定ドメイン配下からの検索実行シェル。",
+          "properties": [
+            {
+              "name": "conf",
+              "value": "case/*_search.json"
+            }
+          ]
         }
       ]
     },
     {
       "name": "Front-End",
+      "memo": "Paparazzi アプリのフロントエンド。",
       "children": [
         {
           "name": "HTML",
           "children": [
             {
               "name": "EJS",
+              "memo": "フロントエンドの HTML は、EJS を素に SSR ( AjaxによりDOM取得後、実DOMを更新 )。",
               "children": [
                 {
                   "name": "main.ejs",
                   "mappingId": 9,
-                  "memo": "SPAの母体テンプレート。",
-                  "properties": [],
-                  "methods": []
+                  "memo": "SPAの母体テンプレート。 Express の　Router 機能で各種画面のHTMLを出し分け処理。",
+                  "properties": [
+                    {
+                      "name": "status",
+                      "value": "1 の場合には、正常処理として各種ページの ejs を描画し、それ以外の場合には、front_end/ejs/page/error.ejs を描画。"
+                    },
+                    {
+                      "name": "path",
+                      "value": "/ の場合には、front_end/ejs/page/top.ejs を描画し、___ を含んでいる場合には、front_end/ejs/page/detail.ejs を描画。"
+                    }
+                  ]
                 },
                 {
                   "name": "common",
@@ -86,43 +117,63 @@
                       "name": "footer.ejs",
                       "mappingId": 10,
                       "memo": "共通フッターテンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "properties": [
+                        {
+                          "name": "Y",
+                          "value": "new Date().getFullYear(); で、copyright を更新。"
+                        },
+                        {
+                          "name": "version",
+                          "value": "package.json の version プロパティ。"
+                        }
+                      ]
                     },
                     {
                       "name": "header.ejs",
                       "mappingId": 11,
                       "memo": "共通ヘッダーテンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "properties": [
+                        {
+                          "name": "title",
+                          "value": "各ページのメインタイトル情報。"
+                        },
+                        {
+                          "name": "reportDetailInfo",
+                          "value": "詳細画面情報。"
+                        }
+                      ]
                     },
                     {
                       "name": "links.ejs",
                       "mappingId": 12,
-                      "memo": "共通style読込テンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "共通 style 読込テンプレート。",
+                      "properties": [
+                        {
+                          "name": "prodFlg",
+                          "value": "1 の場合には、ビルドされた圧縮済み css を読み込み、それ以外の場合には、webpack-middleware での chunk を読み込み。"
+                        }
+                      ]
                     },
                     {
                       "name": "loading.ejs",
                       "mappingId": 13,
-                      "memo": "共通ローディングテンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "共通ローディングテンプレート。"
                     },
                     {
                       "name": "metas.ejs",
                       "mappingId": 14,
-                      "memo": "共通メタ情報テンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "共通メタ情報テンプレート。"
                     },
                     {
                       "name": "scripts.ejs",
                       "mappingId": 15,
-                      "memo": "共通script読込テンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "共通 script 読込テンプレート。",
+                      "properties": [
+                        {
+                          "name": "prodFlg",
+                          "value": "1 の場合には、ビルドされた圧縮済み js を読み込み、それ以外の場合には、webpack-middleware での chunk を読み込み。"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -131,48 +182,105 @@
                   "children": [
                     {
                       "name": "template",
+                      "memo": "Paparazzi Web アプリの各種詳細画面用テンプレート。",
                       "children": [
                         {
                           "name": "main.ejs",
                           "mappingId": 16,
-                          "memo": "main.sh実行結果用詳細レポートテンプレート。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "main.sh 実行結果用詳細レポートテンプレート。",
+                          "properties": [
+                            {
+                              "name": "photoResult",
+                              "value": "表示画像の一時Stack。"
+                            },
+                            {
+                              "name": "photoIndex",
+                              "value": "表示画像の一時 Stack の連番 Index 。"
+                            },
+                            {
+                              "name": "reportDetailInfo",
+                              "value": "詳細画面情報。"
+                            }
+                          ]
                         },
                         {
                           "name": "multi.ejs",
                           "mappingId": 17,
-                          "memo": "multi.sh実行結果用詳細レポートテンプレート。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "multi.sh 実行結果用詳細レポートテンプレート。",
+                          "properties": [
+                            {
+                              "name": "photoResult",
+                              "value": "表示画像の一時Stack。"
+                            },
+                            {
+                              "name": "photoIndex",
+                              "value": "表示画像の一時 Stack の連番 Index 。"
+                            },
+                            {
+                              "name": "reportDetailInfo",
+                              "value": "詳細画面情報。"
+                            }
+                          ]
                         },
                         {
                           "name": "report.ejs",
                           "mappingId": 18,
-                          "memo": "report.sh実行結果用詳細レポートテンプレート。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "report.sh 実行結果用詳細レポートテンプレート。",
+                          "properties": [
+                            {
+                              "name": "reportDetailInfo",
+                              "value": "詳細画面情報。"
+                            }
+                          ]
                         },
                         {
                           "name": "scan.ejs",
                           "mappingId": 19,
-                          "memo": "scan.sh実行結果用詳細レポートテンプレート。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "scan.sh 実行結果用詳細レポートテンプレート。",
+                          "properties": [
+                            {
+                              "name": "photoResult",
+                              "value": "表示画像の一時Stack。"
+                            },
+                            {
+                              "name": "photoIndex",
+                              "value": "表示画像の一時 Stack の連番 Index 。"
+                            },
+                            {
+                              "name": "reportDetailInfo",
+                              "value": "詳細画面情報。"
+                            }
+                          ]
                         },
                         {
                           "name": "search.ejs",
                           "mappingId": 20,
-                          "memo": "search.sh実行結果用詳細レポートテンプレート。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "search.sh 実行結果用詳細レポートテンプレート。",
+                          "properties": [
+                            {
+                              "name": "photoResult",
+                              "value": "表示画像の一時Stack。"
+                            },
+                            {
+                              "name": "photoIndex",
+                              "value": "表示画像の一時 Stack の連番 Index 。"
+                            },
+                            {
+                              "name": "reportDetailInfo",
+                              "value": "詳細画面情報。"
+                            }
+                          ]
                         },
                         {
                           "name": "tree.ejs",
                           "mappingId": 21,
                           "memo": "Family Tree結果用詳細レポートテンプレート。",
-                          "properties": [],
-                          "methods": []
+                          "properties": [
+                            {
+                              "name": "report/assets/json/*_tree.json",
+                              "value": "依存関係図情報。"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -180,22 +288,48 @@
                       "name": "detail.ejs",
                       "mappingId": 22,
                       "memo": "詳細ページテンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "properties": [
+                        {
+                          "name": "templateType === 'report'",
+                          "value": "front_end/ejs/page/template/report.ejs"
+                        },
+                        {
+                          "name": "templateType === 'main'",
+                          "value": "front_end/ejs/page/template/main.ejs"
+                        },
+                        {
+                          "name": "templateType === 'multi'",
+                          "value": "front_end/ejs/page/template/multi.ejs"
+                        },
+                        {
+                          "name": "templateType === 'scan'",
+                          "value": "front_end/ejs/page/template/scan.ejs"
+                        },
+                        {
+                          "name": "templateType === 'search'",
+                          "value": "front_end/ejs/page/template/search.ejs"
+                        },
+                        {
+                          "name": "templateType === 'tree'",
+                          "value": "front_end/ejs/page/template/tree.ejs"
+                        }
+                      ]
                     },
                     {
                       "name": "error.ejs",
                       "mappingId": 23,
-                      "memo": "エラーページテンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "エラーページテンプレート。"
                     },
                     {
                       "name": "top.ejs",
                       "mappingId": 24,
                       "memo": "トップページテンプレート。",
-                      "properties": [],
-                      "methods": []
+                      "properties": [
+                        {
+                          "name": "reportList",
+                          "value": "各種自動テスト結果情報。"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -208,9 +342,11 @@
           "children": [
             {
               "name": "SCSS",
+              "memo": "フロントエンドの CSS は、 SCSS を素に、 concat + minify 。",
               "children": [
                 {
                   "name": "main.scss",
+                  "memo": "関連 SCSS を Import 。",
                   "children": [
                     {
                       "name": "common",
@@ -218,37 +354,131 @@
                         {
                           "name": "_settings.scss",
                           "mappingId": 25,
-                          "memo": "全画面共通定数用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "全画面共通定数用 SCSS 。",
+                          "properties": [
+                            {
+                              "name": "default-font-size",
+                              "value": "12"
+                            },
+                            {
+                              "name": "min-font-size",
+                              "value": "11"
+                            },
+                            {
+                              "name": "default-letter-spacing",
+                              "value": "1.4px"
+                            },
+                            {
+                              "name": "default-color-black",
+                              "value": "#000"
+                            },
+                            {
+                              "name": "default-color-white",
+                              "value": "#fff"
+                            },
+                            {
+                              "name": "default-color-gray",
+                              "value": "#444"
+                            },
+                            {
+                              "name": "default-color-border",
+                              "value": "#222"
+                            },
+                            {
+                              "name": "default-color-red",
+                              "value": "#e71d36"
+                            },
+                            {
+                              "name": "custom-scrollbar-color",
+                              "value": "#999"
+                            },
+                            {
+                              "name": "custom-scrollbar-background-color",
+                              "value": "#eee"
+                            },
+                            {
+                              "name": "default-duration",
+                              "value": ".25s"
+                            },
+                            {
+                              "name": "default-easing",
+                              "value": "cubic-bezier(.165, .84, .44, 1)"
+                            },
+                            {
+                              "name": "default-delay",
+                              "value": "0s"
+                            }
+                          ]
                         },
                         {
                           "name": "_mixin.scss",
                           "mappingId": 26,
-                          "memo": "全画面共通mixin用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "全画面共通 mixin 用 SCSS 。",
+                          "methods": [
+                            {
+                              "name": "lackyFor3d",
+                              "value": "対 3D 。"
+                            },
+                            {
+                              "name": "clearfix",
+                              "value": "対 float 。"
+                            },
+                            {
+                              "name": "setPrefix",
+                              "value": "対ベンダープレフィックス。"
+                            },
+                            {
+                              "name": "setKeyframes",
+                              "value": "対 Keyframes アニメーション。"
+                            },
+                            {
+                              "name": "notPC",
+                              "value": "対 900px 以下のデバイス幅"
+                            }
+                          ]
                         },
                         {
                           "name": "_keyframes.scss",
                           "mappingId": 27,
-                          "memo": "全画面共通animation用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "全画面共通 Animation 用 SCSS 。",
+                          "methods": [
+                            {
+                              "name": "noise-anim-1",
+                              "value": "Animation Keyframe For Glitch Noise"
+                            },
+                            {
+                              "name": "noise-anim-2",
+                              "value": "Animation Keyframe For Glitch Noise"
+                            }
+                          ]
                         },
                         {
                           "name": "_reset.scss",
                           "mappingId": 28,
-                          "memo": "全画面共通reset用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "全画面共通 Reset 用 SCSS 。"
                         },
                         {
                           "name": "_base.scss",
                           "mappingId": 29,
-                          "memo": "全画面共通用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "全画面共通用 SCSS 。",
+                          "properties": [
+                            {
+                              "name": "html",
+                              "value": "高さ 100% 指定。"
+                            },
+                            {
+                              "name": "body",
+                              "value": "最小高さ 100% 指定、デフォルトフォントサイズを指定。"
+                            },
+                            {
+                              "name": "::selection",
+                              "value": "選択アクション時のブラウザ固有のスタイリングを再指定。"
+                            },
+                            {
+                              "name": "#wrapper",
+                              "value": "共通コンテンツルートラッパーのデフォルトスタイルを指定。"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -261,131 +491,71 @@
                             {
                               "name": "_header.scss",
                               "mappingId": 30,
-                              "memo": "ヘッダー用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "ヘッダー用 SCSS 。"
                             },
                             {
                               "name": "_footer.scss",
                               "mappingId": 31,
-                              "memo": "フッター用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "フッター用 SCSS 。"
                             },
                             {
                               "name": "_marker.scss",
                               "mappingId": 32,
-                              "memo": "カスタムボーダー用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタムボーダー用 SCSS 。"
                             },
                             {
                               "name": "_overlay.scss",
                               "mappingId": 33,
-                              "memo": "カスタムリンク用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタムリンク用 SCSS 。"
                             },
                             {
                               "name": "_loading.scss",
                               "mappingId": 34,
-                              "memo": "カスタムローディング用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタムローディング用 SCSS 。"
                             },
                             {
                               "name": "_button.scss",
                               "mappingId": 35,
-                              "memo": "カスタムボタン用scss。",
-                              "properties": [
-                                {
-                                  "name": "propertyA",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.あ。"
-                                },
-                                {
-                                  "name": "propertyB",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.い。"
-                                },
-                                {
-                                  "name": "propertyC",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.う。"
-                                },
-                                {
-                                  "name": "propertyD",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.お。"
-                                }
-                              ],
-                              "methods": [
-                                {
-                                  "name": "methodA",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.か。"
-                                },
-                                {
-                                  "name": "methodB",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.き。"
-                                },
-                                {
-                                  "name": "methodC",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.く。"
-                                },
-                                {
-                                  "name": "methodD",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.け。"
-                                }
-                              ]
+                              "memo": "カスタムボタン用 SCSS 。"
                             },
                             {
                               "name": "_zoom.scss",
                               "mappingId": 36,
-                              "memo": "カスタムズーム用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタムズーム用 SCSS 。"
                             },
                             {
                               "name": "_tree.scss",
                               "mappingId": 37,
-                              "memo": "カスタムSVGツリー用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタム SVG ツリー用 SCSS 。"
                             }
                           ]
                         },
                         {
                           "name": "_top.scss",
                           "mappingId": 38,
-                          "memo": "トップページ用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "トップページ用 SCSS 。"
                         },
                         {
                           "name": "_detail.scss",
                           "mappingId": 39,
-                          "memo": "詳細ページ用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "詳細ページ用 SCSS 。"
                         },
                         {
                           "name": "_error.scss",
                           "mappingId": 40,
-                          "memo": "エラーページ用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "エラーページ用 SCSS 。"
                         }
                       ]
                     },
                     {
                       "name": "_highlight.scss",
                       "mappingId": 41,
-                      "memo": "Highlightライブラリ用scss。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "Highlightライブラリ用 SCSS 。"
                     },
                     {
                       "name": "_perfect_scroll.scss",
                       "mappingId": 42,
-                      "memo": "PerfectScrollライブラリ用scss。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "PerfectScrollライブラリ用 SCSS 。"
                     }
                   ]
                 },
@@ -398,16 +568,24 @@
                         {
                           "name": "_web_font_notosans.scss",
                           "mappingId": 43,
-                          "memo": "Web Font [ notosans ] 用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "Web Font [ notosans ] 用 SCSS 。",
+                          "properties": [
+                            {
+                              "name": "Web Font",
+                              "value": "Noto Sans Japanese"
+                            }
+                          ]
                         },
                         {
                           "name": "_web_font_roboto.scss",
                           "mappingId": 44,
-                          "memo": "Web Font [ roboto ] 用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "Web Font [ roboto ] 用 SCSS 。",
+                          "properties": [
+                            {
+                              "name": "Web Font",
+                              "value": "Roboto"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -654,61 +832,92 @@
     },
     {
       "name": "Back-End",
+      "memo": "Paparazzi アプリのサーバーサイド。",
       "children": [
         {
           "name": "JavaScript",
+          "memo": "サーバー周りは、Expressを素に、JavaScript で定義。",
           "children": [
             {
               "name": "server.js",
+              "memo": "node server.js で起動可能。",
+              "properties": [
+                {
+                  "name": "CONFIG",
+                  "value": "webpack.build.config.js"
+                },
+                {
+                  "name": "WEBPACK_CUSTOM_CONFIG",
+                  "value": "webpack.config.js"
+                },
+                {
+                  "name": "PACKAGE_CONFIG",
+                  "value": "package.json"
+                },
+                {
+                  "name": "PROD_FLG",
+                  "value": "dev or prod Mode"
+                },
+                {
+                  "name": "MAIN",
+                  "value": "back_end/js/router/Main.js"
+                }
+              ],
               "children": [
                 {
                   "name": "express",
                   "mappingId": 55,
                   "memo": "EJS制御用サーバーテンプレートモジュール。",
-                  "properties": [],
-                  "methods": []
+                  "properties": [
+                    {
+                      "name": "conf",
+                      "value": "webpack.build.config.js"
+                    }
+                  ]
                 },
                 {
                   "name": "cookie-parser",
                   "mappingId": 56,
-                  "memo": "Express内クッキー制御用モジュール。",
-                  "properties": [],
-                  "methods": []
+                  "memo": "Express内クッキー制御用モジュール。"
                 },
                 {
                   "name": "body-parser",
                   "mappingId": 57,
-                  "memo": "ExpressのGet, Postパラメータ制御用モジュール。",
-                  "properties": [],
-                  "methods": []
+                  "memo": "Express の GET, POST パラメータ制御用モジュール。"
                 },
                 {
                   "name": "express-session",
                   "mappingId": 58,
-                  "memo": "ExpressのHeader制御用モジュール。",
-                  "properties": [],
-                  "methods": []
+                  "memo": "Express の Header 制御用モジュール。"
                 },
                 {
                   "name": "webpack",
                   "mappingId": 59,
                   "memo": "ビルド用モジュール。",
-                  "properties": [],
-                  "methods": []
+                  "properties": [
+                    {
+                      "name": "CONFIG",
+                      "value": "webpack.build.config.js"
+                    },
+                    {
+                      "name": "LiveReloadPlugin",
+                      "value": "webpack-livereload-plugin"
+                    },
+                    {
+                      "name": "path",
+                      "value": "Global path モジュール"
+                    }
+                  ]
                 },
                 {
                   "name": "webpack-dev-middleware",
                   "mappingId": 60,
-                  "memo": "開発環境制御（web server）用モジュール。",
-                  "properties": [],
-                  "methods": []
+                  "memo": "開発環境制御 ( web server ) 用モジュール。"
                 },
                 {
                   "name": "webpack-hot-middleware",
                   "mappingId": 61,
-                  "memo": "開発環境制御（hot reload）用モジュール。",
-                  "properties": [],
-                  "methods": []
+                  "memo": "開発環境制御 ( hot reload ) 用モジュール。"
                 }
               ]
             }
