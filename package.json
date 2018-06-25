@@ -1,6 +1,6 @@
 {
   "name": "paparazzi_report",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "dev. for paparazzi report",
   "main": "index.js",
   "directories": {

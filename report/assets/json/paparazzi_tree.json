@@ -491,131 +491,71 @@
                             {
                               "name": "_header.scss",
                               "mappingId": 30,
-                              "memo": "ヘッダー用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "ヘッダー用 SCSS 。"
                             },
                             {
                               "name": "_footer.scss",
                               "mappingId": 31,
-                              "memo": "フッター用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "フッター用 SCSS 。"
                             },
                             {
                               "name": "_marker.scss",
                               "mappingId": 32,
-                              "memo": "カスタムボーダー用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタムボーダー用 SCSS 。"
                             },
                             {
                               "name": "_overlay.scss",
                               "mappingId": 33,
-                              "memo": "カスタムリンク用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタムリンク用 SCSS 。"
                             },
                             {
                               "name": "_loading.scss",
                               "mappingId": 34,
-                              "memo": "カスタムローディング用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタムローディング用 SCSS 。"
                             },
                             {
                               "name": "_button.scss",
                               "mappingId": 35,
-                              "memo": "カスタムボタン用scss。",
-                              "properties": [
-                                {
-                                  "name": "propertyA",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.あ。"
-                                },
-                                {
-                                  "name": "propertyB",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.い。"
-                                },
-                                {
-                                  "name": "propertyC",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.う。"
-                                },
-                                {
-                                  "name": "propertyD",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.お。"
-                                }
-                              ],
-                              "methods": [
-                                {
-                                  "name": "methodA",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.か。"
-                                },
-                                {
-                                  "name": "methodB",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.き。"
-                                },
-                                {
-                                  "name": "methodC",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.く。"
-                                },
-                                {
-                                  "name": "methodD",
-                                  "value": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ducimus voluptate beatae aliquam, accusamus voluptatibus quae? Deserunt sed quam cupiditate assumenda ut ipsam, facere aliquid, sint blanditiis in ipsa mollitia.け。"
-                                }
-                              ]
+                              "memo": "カスタムボタン用 SCSS 。"
                             },
                             {
                               "name": "_zoom.scss",
                               "mappingId": 36,
-                              "memo": "カスタムズーム用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタムズーム用 SCSS 。"
                             },
                             {
                               "name": "_tree.scss",
                               "mappingId": 37,
-                              "memo": "カスタムSVGツリー用scss。",
-                              "properties": [],
-                              "methods": []
+                              "memo": "カスタム SVG ツリー用 SCSS 。"
                             }
                           ]
                         },
                         {
                           "name": "_top.scss",
                           "mappingId": 38,
-                          "memo": "トップページ用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "トップページ用 SCSS 。"
                         },
                         {
                           "name": "_detail.scss",
                           "mappingId": 39,
-                          "memo": "詳細ページ用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "詳細ページ用 SCSS 。"
                         },
                         {
                           "name": "_error.scss",
                           "mappingId": 40,
-                          "memo": "エラーページ用scss。",
-                          "properties": [],
-                          "methods": []
+                          "memo": "エラーページ用 SCSS 。"
                         }
                       ]
                     },
                     {
                       "name": "_highlight.scss",
                       "mappingId": 41,
-                      "memo": "Highlightライブラリ用scss。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "Highlightライブラリ用 SCSS 。"
                     },
                     {
                       "name": "_perfect_scroll.scss",
                       "mappingId": 42,
-                      "memo": "PerfectScrollライブラリ用scss。",
-                      "properties": [],
-                      "methods": []
+                      "memo": "PerfectScrollライブラリ用 SCSS 。"
                     }
                   ]
                 },
