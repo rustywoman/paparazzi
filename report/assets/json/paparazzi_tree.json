@@ -191,7 +191,7 @@
                           "properties": [
                             {
                               "name": "photoResult",
-                              "value": "表示画像の一時Stack。"
+                              "value": "表示画像の一時 Stack 。"
                             },
                             {
                               "name": "photoIndex",
@@ -210,7 +210,7 @@
                           "properties": [
                             {
                               "name": "photoResult",
-                              "value": "表示画像の一時Stack。"
+                              "value": "表示画像の一時 Stack 。"
                             },
                             {
                               "name": "photoIndex",
@@ -240,7 +240,7 @@
                           "properties": [
                             {
                               "name": "photoResult",
-                              "value": "表示画像の一時Stack。"
+                              "value": "表示画像の一時 Stack 。"
                             },
                             {
                               "name": "photoIndex",
@@ -259,7 +259,7 @@
                           "properties": [
                             {
                               "name": "photoResult",
-                              "value": "表示画像の一時Stack。"
+                              "value": "表示画像の一時 Stack 。"
                             },
                             {
                               "name": "photoIndex",
@@ -342,7 +342,7 @@
           "children": [
             {
               "name": "SCSS",
-              "memo": "フロントエンドの CSS は、 SCSS を素に、 concat + minify 。",
+              "memo": "フロントエンドの CSS は、 SCSS を素に、 import + minify 。",
               "children": [
                 {
                   "name": "main.scss",
@@ -597,6 +597,7 @@
         },
         {
           "name": "TypeScript",
+          "memo": "フロントエンドの SCRIPT は、 TypeScript を素に、 import + minify 。",
           "children": [
             {
               "name": "conf",
@@ -604,16 +605,56 @@
                 {
                   "name": "CONSTANT.ts",
                   "mappingId": 45,
-                  "memo": "全画面共通定数用typescript。",
-                  "properties": [],
-                  "methods": []
+                  "memo": "全画面共通定数用 TypeScript 。",
+                  "properties": [
+                    {
+                      "name": "DOM_DEFAULT_BUFFER",
+                      "value": "40"
+                    },
+                    {
+                      "name": "DEFAULT_DELAY",
+                      "value": "800"
+                    },
+                    {
+                      "name": "ERROR_DELAY",
+                      "value": "5000"
+                    },
+                    {
+                      "name": "HIDDEN_MARKER",
+                      "value": "___hidden"
+                    },
+                    {
+                      "name": "ERROR_MARKER",
+                      "value": "___error"
+                    },
+                    {
+                      "name": "LOADED_MARKER",
+                      "value": "___loaded"
+                    },
+                    {
+                      "name": "COMMON_MARKER",
+                      "value": "___marker"
+                    },
+                    {
+                      "name": "DUMMY_IMAGE_BASE64_SRC",
+                      "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEUAAAAAFx8t7DCsAAAAAXRSTlMAQObYZgAAACdJREFUSMdj+A8EDEjkqMCoADI5ClDAoImXUYHBKTAKRvPLqADRAgAGUnu9KI2EPgAAAABJRU5ErkJggg=="
+                    }
+                  ]
                 },
                 {
                   "name": "STATUS.ts",
                   "mappingId": 46,
-                  "memo": "全画面共通ステータス用typescript。",
-                  "properties": [],
-                  "methods": []
+                  "memo": "全画面共通ステータス用 TypeScript 。",
+                  "properties": [
+                    {
+                      "name": "OK",
+                      "value": "1"
+                    },
+                    {
+                      "name": "NG",
+                      "value": "0"
+                    }
+                  ]
                 }
               ]
             },
@@ -631,15 +672,67 @@
                   "name": "LoadingHandler.ts",
                   "mappingId": 48,
                   "memo": "ローディング制御用クラス。",
-                  "properties": [],
-                  "methods": []
+                  "properties": [
+                    {
+                      "name": "loadingDOM",
+                      "value": "ローディング描画用 DOM 。"
+                    },
+                    {
+                      "name": "loadingStatusDOM",
+                      "value": "ローディングの進捗率描画用 DOM 。"
+                    },
+                    {
+                      "name": "loadedMarker",
+                      "value": "ローディング完了時のカスタムマーカー。"
+                    },
+                    {
+                      "name": "currentLoadingStatus",
+                      "value": "ローディングの進捗率。"
+                    }
+                  ],
+                  "methods": [
+                    {
+                      "name": "update",
+                      "value": "ローディング進捗率を更新。"
+                    },
+                    {
+                      "name": "reset",
+                      "value": "ローディング進捗率をリセット。"
+                    },
+                    {
+                      "name": "init",
+                      "value": "ローディング描画処理周りを初期化。"
+                    }
+                  ]
                 },
                 {
                   "name": "MarkerHandler.ts",
                   "mappingId": 49,
                   "memo": "カスタムリンク制御用クラス。",
-                  "properties": [],
-                  "methods": []
+                  "properties": [
+                    {
+                      "name": "overlayMarker",
+                      "value": "カスタムリンク識別子用文字列。"
+                    },
+                    {
+                      "name": "overlayDOM",
+                      "value": "カスタムリンク DOM の Stack 。"
+                    }
+                  ],
+                  "methods": [
+                    {
+                      "name": "update",
+                      "value": "カスタムリンク用アニメーションを更新。"
+                    },
+                    {
+                      "name": "reset",
+                      "value": "カスタムリンク DOM を Re:Stack 。"
+                    },
+                    {
+                      "name": "init",
+                      "value": "初期化。"
+                    }
+                  ]
                 }
               ]
             },

@@ -193,8 +193,10 @@ Part - SVG Tree
   width: auto;
   vertical-align: top;
   font-size: $min-font-size + px;
+  word-break: break-all;
   &:first-child{
-    max-width: 200px !important;
+    max-width: 280px;
+    min-width: 180px;
     padding: 5px 0 10px 0;
   }
   &:last-child{

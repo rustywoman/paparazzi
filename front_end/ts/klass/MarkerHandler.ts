@@ -15,7 +15,7 @@ export default class MarkerHandler{
   constructor(overlayMarker:string){
     this.overlayMarker = overlayMarker;
     this.overlayDOM = [];
-  };
+  }
   /**
    * Update
    * @description Update Marker raw DOM with Promise
@@ -35,7 +35,7 @@ export default class MarkerHandler{
         );
       }
     );
-  };
+  }
   /**
    * Reset
    * @description Reset Array of Target raw DOM
@@ -43,14 +43,14 @@ export default class MarkerHandler{
    */
   reset():void{
     this.overlayDOM = [].slice.call(document.querySelectorAll('.' + this.overlayMarker));
-  };
+  }
   /**
    * Init
    * @description Initialize Marker with Promise
    * @return {object} Promise
    */
   init():any{
-    let defs: Array<any> = [];
+    let defs:Array<any> = [];
     for(let i = 1, il = this.overlayDOM.length; i <= il; i++){
       defs.push(this.update(this.overlayDOM[i - 1], i));
     }
@@ -61,8 +61,8 @@ export default class MarkerHandler{
             () => {
               resolve();
             }
-          )
+          );
       }
     );
-  };
-};
+  }
+}

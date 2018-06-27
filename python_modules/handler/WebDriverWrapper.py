@@ -421,12 +421,7 @@ class WebDriverWrapper(object):
         for link in tmpHtml.find_all('a'):
             tmpUrl = link.get('href')
             try:
-                if(
-                    tmpUrl is not '' and
-                    tmpUrl is not None and
-                    tmpUrl.startswith('#') is False and
-                    tmpUrl.startswith('javascript') is False
-                ):
+                if(tmpUrl is not '' and tmpUrl is not None and tmpUrl.startswith('#') is False and tmpUrl.startswith('javascript') is False):
                     if tmpUrl.startswith('//'):
                         links.append('https:' + tmpUrl)
                     else:

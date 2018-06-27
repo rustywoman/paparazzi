@@ -3,9 +3,9 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import CONSTANT from 'conf/CONSTANT';
 import STATUS from 'conf/STATUS';
+import DependencyTreeHandler from 'klass/DependencyTreeHandler';
 import LoadingHandler from 'klass/LoadingHandler';
 import MarkerHandler from 'klass/MarkerHandler';
-import DependencyTreeHandler from 'klass/DependencyTreeHandler';
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -16,7 +16,7 @@ import DependencyTreeHandler from 'klass/DependencyTreeHandler';
  * @description Custom Declarration - [ hljs ]
  * @type        {any}
  */
-declare let hljs: any;
+declare let hljs:any;
 /**
  * @author      rustywoman
  * @description Custom Declarration - [ Ps ]
@@ -81,7 +81,7 @@ class Main{
     this.TREE_SEARCH_STOCK = [];
     this.TREE_SEARCH_IDX = 0;
     this.TREE_SEARCH_KEYWORD = '';
-  };
+  }
   /**
    * Handler - [ Body Style ]
    * @description Handle Body Style
@@ -90,7 +90,7 @@ class Main{
    */
   handleBodyStyle(availableFlg:boolean):void{
     document.body.setAttribute('style', availableFlg ? '' : 'overflow: hidden !important;');
-  };
+  }
   /**
    * Handler - [ Async Loader for Content ]
    * @description Handle Async Loader for Content
@@ -125,7 +125,7 @@ class Main{
       },
       CONSTANT.DEFAULT_DELAY
     );
-  };
+  }
   /**
    * Binder - [ Async Loader for Content ]
    * @description Bind Async Loader for Content
@@ -142,10 +142,10 @@ class Main{
             this.handleAsyncContentLoader(evt.currentTarget.getAttribute('data-async-href'));
           },
           false
-        )
+        );
       }
     }
-  };
+  }
   /**
    * Binder - [ HighLight ]
    * @description Bind HighLight.js
@@ -156,7 +156,7 @@ class Main{
     for(let i = 0, il = rawCodes.length; i < il; i++){
       hljs.highlightBlock(rawCodes[i]);
     }
-  };
+  }
   /**
    * Handler - [ Async Loader for Image ]
    * @description Handle Async Loader for Image with Promise
@@ -190,7 +190,7 @@ class Main{
         tmpImg.setAttribute('src', wrapperDOM.getAttribute('data-async-src'));
       }
     );
-  };
+  }
   /**
    * Binder - [ Custom Error ]
    * @description Bind Custom Error with redirect `/`
@@ -204,9 +204,9 @@ class Main{
           this.handleAsyncContentLoader('/');
         },
         CONSTANT.ERROR_DELAY
-      )
+      );
     }
-  };
+  }
   /**
    * Binder - [ Custom Scroll ]
    * @description Bind Custom Scroll
@@ -219,8 +219,8 @@ class Main{
       Ps.initialize(
         psWrapperDOM[i],
         {
-          wheelSpeed         : 1,
-          minScrollbarLength : 10
+          'wheelSpeed'         : 1,
+          'minScrollbarLength' : 10
         }
       );
       let tmpYRailDOM = psWrapperDOM[i].querySelector('.ps__scrollbar-y-rail');
@@ -253,7 +253,7 @@ class Main{
         );
       }
     }
-  };
+  }
   /**
    * Binder - [ Async Loader for Image ]
    * @description Bind Async Loader for Image with Promise
@@ -265,7 +265,7 @@ class Main{
     let asyncImagesNum = asyncImages.length;
     let DEFS = [];
     let asyncLoadImages = asyncImages.slice(this.ASYNC_LOOP_START_INDEX, this.ASYNC_LOOP_STOP_INDEX);
-    for(var i = 0, il = asyncLoadImages.length; i < il; i++){
+    for(let i = 0, il = asyncLoadImages.length; i < il; i++){
       DEFS.push(this.handleAsyncImageLoader(asyncLoadImages[i]));
     }
     Promise.all(DEFS)
@@ -277,7 +277,7 @@ class Main{
             console.log('All Images Downloaded');
             callback();
           }else{
-            var asyncLoadStatus = Math.ceil((this.ASYNC_LOOP_START_INDEX / asyncImagesNum) * 100);
+            let asyncLoadStatus = Math.ceil((this.ASYNC_LOOP_START_INDEX / asyncImagesNum) * 100);
             if(asyncLoadStatus >= 80){
               asyncLoadStatus = 79;
             }
@@ -290,8 +290,8 @@ class Main{
               );
           }
         }
-      )
-  };
+      );
+  }
   /**
    * Binder - [ `popstate` ]
    * @description Bind `History Back` and `History Forward` Action
@@ -309,7 +309,7 @@ class Main{
       },
       false
     );
-  };
+  }
   /**
    * Binder - [ Trigger for Dynamic Reporter ]
    * @description Bind Trigger for Dynamic Reporter
@@ -434,7 +434,7 @@ class Main{
                           tmpElmDOM.classList.add(CONSTANT.HIDDEN_MARKER);
                         },
                         CONSTANT.DEFAULT_DELAY
-                      )
+                      );
                     }
                   },
                   CONSTANT.DEFAULT_DELAY
@@ -446,7 +446,7 @@ class Main{
         false
       );
     }
-  };
+  }
   /**
    * Binder - [ Sync Scroll for Screenshot ]
    * @description Bind Trigger for Screenshot Link
@@ -466,7 +466,7 @@ class Main{
         false
       );
     }
-  };
+  }
   /**
    * Handler - [ Init Loading ]
    * @description Handle Init Loading
@@ -502,14 +502,14 @@ class Main{
             );
         }
       );
-  };
+  }
   /**
    * Handler - [ Tree Search Action ]
    * @description Handle Search Keyword in SVG Family Tree
    * @return {void}
    */
   handleTreeSearch(){
-    document.querySelector('.m_column_ps_wrapper').scrollTop = 0
+    document.querySelector('.m_column_ps_wrapper').scrollTop = 0;
     let tmpSearchStatusDOM = document.querySelector('#l_content__tree_search__count');
     let tmpKeyword = (<HTMLInputElement>document.querySelector('#l_content__tree_search__input')).value;
     // console.log('Tree Search Keyword : [ ' + tmpKeyword + ' ]');
@@ -556,7 +556,7 @@ class Main{
           }
         );
     }
-  };
+  }
   /**
    * Binder - [ Search for Family Tree ]
    * @description Bind Search Action for SVG Tree
@@ -587,7 +587,7 @@ class Main{
         false
       );
     }
-  };
+  }
   /**
    * Init
    * @description Initialize
@@ -611,7 +611,7 @@ class Main{
         () => {
           this.handleInitLoaing('Dependency Tree');
         }
-      )
+      );
     }else{
       if(document.querySelectorAll('.j_async_image_load').length > 0){
         this.bindAsyncImageLoad(
@@ -623,8 +623,8 @@ class Main{
         this.handleInitLoaing('without Images');
       }
     }
-  };
-};
+  }
+}
 
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
