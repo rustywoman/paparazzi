@@ -6,7 +6,7 @@ Top
 #content{
   position: relative;
 }
-#l_content__readme{}
+// #l_content__readme{}
 #l_content__description{
   padding: 40px 0 0;
 }
@@ -44,7 +44,7 @@ Top
   }
   &:nth-child(2n-1){
     .m_content__report_table--cell{
-      background-color: rgba(68, 68, 68, .2);
+      background-color: rgba($default-color-gray, .2);
     }
   }
 }
@@ -55,7 +55,7 @@ Top
   padding: 20px 30px;
   border-bottom: 1px solid $default-color-white;
   box-sizing: content-box;
-  background-color: rgba(68, 68, 68, .1);
+  background-color: rgba($default-color-gray, .2);
   &.___head{
     padding: 10px 30px;
     background-color: $default-color-gray !important;

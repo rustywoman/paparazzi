@@ -19,14 +19,14 @@ Part - Footer
   top: 50%;
   right: 40px;
   transform: translateY(-50%);
-}
-#l_footer__copyright:before{
-  content: 'copyright';
-  display: inline-block;
-  padding: 0 4px 0 0;
-}
-#l_footer__copyright span{
-  display: inline-block;
+  &:before{
+    content: 'copyright';
+    display: inline-block;
+    padding: 0 4px 0 0;
+  }
+  span{
+    display: inline-block;
+  }
 }
 #l_footer__publication{
   padding: 0 4px 0 0;

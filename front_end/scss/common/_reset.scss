@@ -1,14 +1,31 @@
 @charset 'UTF-8';
-footer, header, section{
+footer,
+header,
+section{
   display: block;
 }
 html{
-  color: #000000;
-  background: #ffffff;
+  color: $default-color-black;
+  background: $default-color-white;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
-body, div, ul, li, h1, h2, h3, h4, h5, h6, pre, code, input, p, th, td{
+body,
+div,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+input,
+p,
+th,
+td{
   margin: 0;
   padding: 0;
 }
@@ -16,7 +33,12 @@ img{
   vertical-align: middle;
   border: 0;
 }
-h1, h2, h3, h4, h5, h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
   font-size: 100%;
   font-weight: normal;
 }
@@ -32,14 +54,15 @@ ul{
 }
 a{
   text-decoration: none;
-  color: #000000;
+  color: $default-color-black;
   background: transparent;
-}
-a:focus{
-  outline: none;
-}
-a:active, a:hover{
-  outline: none;
+  &:focus{
+    outline: none;
+  }
+  &:active,
+  &:hover{
+    outline: none;
+  }
 }
 input{
   font-family: inherit;
@@ -47,11 +70,13 @@ input{
   font-size: 100%;
   font-weight: inherit;
   line-height: normal;
-}
-input[type='button'], input[type='reset'], input[type='submit']{
-  cursor: pointer;
-  -webkit-appearance: button;
-}
-input[disabled]{
-  cursor: default;
+  &[type='button'],
+  &[type='reset'],
+  &[type='submit']{
+    cursor: pointer;
+    -webkit-appearance: button;
+  }
+  &[disabled]{
+    cursor: default;
+  }
 }
