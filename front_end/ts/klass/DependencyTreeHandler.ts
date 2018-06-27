@@ -80,7 +80,7 @@ export default class DependencyTreeHandler{
     this.detailCustomScrollDOM = null;
     this.detailVisualHandlerDOM = null;
     this.selectedId = 0;
-  };
+  }
   /**
    * Trace - [ Children ]
    * @description Count
@@ -100,7 +100,7 @@ export default class DependencyTreeHandler{
         this.traceBranch(children[i], traceBranchFn, childrenFn);
       }
     }
-  };
+  }
   /**
    * Sort
    * @description Sort by Node's Name
@@ -112,7 +112,7 @@ export default class DependencyTreeHandler{
         return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
       }
     );
-  };
+  }
   /**
    * Handler - [ Zoom ]
    * @description Handle Zoom Action
@@ -120,7 +120,7 @@ export default class DependencyTreeHandler{
    */
   handleZoom():void{
     this.svgGroup.attr('transform', 'translate(' + d3.event.translate + ') scale(' + d3.event.scale + ')');
-  };
+  }
   /**
    * Handler - [ Center ]
    * @description Center Selected Node
@@ -139,7 +139,7 @@ export default class DependencyTreeHandler{
       .attr('transform', 'translate(' + x + ',' + y + ') scale(' + scale + ')');
     this.zoomListener.scale(scale);
     this.zoomListener.translate([x, y]);
-  };
+  }
   /**
    * Toggle
    * @description Toggle Children Display Status
@@ -155,7 +155,7 @@ export default class DependencyTreeHandler{
       d._children = null;
     }
     return d;
-  };
+  }
   /**
    * Trace - [ Ancestor ]
    * @description Trace Ancestor Information
@@ -177,7 +177,7 @@ export default class DependencyTreeHandler{
       'ancestorResult' : ancestorResult,
       'relatedResult'  : relatedIdResult
     };
-  };
+  }
   handleTargetInfo(d:any, keyword:string = ''){
     // -------------------------------------------
     // Dynamic Info.
@@ -283,7 +283,7 @@ export default class DependencyTreeHandler{
       }
     }
     document.querySelector('#l_tree_methods__table').innerHTML = tmpMethodsListDOM.join('');
-  };
+  }
   /**
    * Setter - [ Selected Id ]
    * @description Set Selected Id per Each Action
@@ -292,7 +292,7 @@ export default class DependencyTreeHandler{
    */
   setSelectedId(idx:number):void{
     this.selectedId = idx;
-  };
+  }
   /**
    * Handler - [ Click ]
    * @description Handle Click Action
@@ -310,7 +310,7 @@ export default class DependencyTreeHandler{
       this.detailVisualHandlerDOM.value = 80;
       this.detailDOM.setAttribute('style', 'opacity: .8');
     }
-  };
+  }
   /**
    * Update
    * @description Update All Nodes
@@ -458,13 +458,13 @@ export default class DependencyTreeHandler{
         'd',
         (d:any) => {
           let o = {
-            x : source.x0,
-            y : source.y0
+            'x' : source.x0,
+            'y' : source.y0
           };
           return this.diagonal(
             {
-              source : o,
-              target : o
+              'source' : o,
+              'target' : o
             }
           );
         }
@@ -478,13 +478,13 @@ export default class DependencyTreeHandler{
         'd',
         (d:any) => {
           let o = {
-            x : source.x,
-            y : source.y
+            'x' : source.x,
+            'y' : source.y
           };
           return this.diagonal(
             {
-              source : o,
-              target : o
+              'source' : o,
+              'target' : o
             }
           );
         }
@@ -496,7 +496,7 @@ export default class DependencyTreeHandler{
         d.y0 = d.y;
       }
     );
-  };
+  }
   /**
    * Flatten
    * @description Flatten Nodes' Information
@@ -514,7 +514,7 @@ export default class DependencyTreeHandler{
       }
     }
     return result;
-  };
+  }
   /**
    * Search
    * @description Search Nodes
@@ -569,7 +569,7 @@ export default class DependencyTreeHandler{
         }
       }
     );
-  };
+  }
   /**
    * Binder - [ Opacity Rate ]
    * @description Bind Opacity Rate
@@ -590,7 +590,7 @@ export default class DependencyTreeHandler{
         false
       );
     }
-  };
+  }
   /**
    * Init
    * @description Initialize
@@ -642,5 +642,5 @@ export default class DependencyTreeHandler{
         );
       }
     );
-  };
-};
+  }
+}

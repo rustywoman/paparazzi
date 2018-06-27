@@ -20,7 +20,8 @@
         "report_via_node.sh",
         "scan.sh",
         "search.sh",
-        "reset.sh"
+        "reset.sh",
+        "tslint.json"
       ],
       "folder_exclude_patterns" : [
         "__pycache__",

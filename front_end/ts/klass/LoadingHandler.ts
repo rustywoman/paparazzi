@@ -23,7 +23,7 @@ export default class LoadingHandler{
     this.loadingStatusDOM = loadingStatusDOM;
     this.loadedMarker = loadedMarker;
     this.currentLoadingStatus = 0;
-  };
+  }
   /**
    * Update
    * @description Update Loading Status with Promise
@@ -45,7 +45,7 @@ export default class LoadingHandler{
         );
       }
     );
-  };
+  }
   /**
    * Reset
    * @description Reset Loading Status
@@ -57,7 +57,7 @@ export default class LoadingHandler{
     this.loadingStatusDOM.innerHTML = visibleStatus;
     this.loadingStatusDOM.setAttribute('data-text', visibleStatus);
     this.loadingDOM.classList.remove(this.loadedMarker);
-  };
+  }
   /**
    * Init
    * @description Initialize Loading with Promise
@@ -65,7 +65,7 @@ export default class LoadingHandler{
    * @return {object} Promise
    */
   init(status:number):any{
-    let defs: Array<any> = [];
+    let defs:Array<any> = [];
     if(this.currentLoadingStatus !== 0){
       for(let i = this.currentLoadingStatus; i <= status; i++){
         defs.push(this.update(i));
@@ -93,8 +93,8 @@ export default class LoadingHandler{
                 resolve();
               }
             }
-          )
+          );
       }
     );
-  };
-};
+  }
+}

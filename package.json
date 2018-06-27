@@ -1,6 +1,6 @@
 {
   "name": "paparazzi_report",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "dev. for paparazzi report",
   "main": "index.js",
   "directories": {
@@ -34,6 +34,7 @@
     "sass-loader": "7.0.1",
     "style-loader": "0.21.0",
     "ts-loader": "3.1.1",
+    "tslint": "^5.10.0",
     "typescript": "2.6.1",
     "webpack": "3.8.1",
     "webpack-dev-middleware": "2.0.6",
