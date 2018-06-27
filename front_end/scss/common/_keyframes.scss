@@ -139,7 +139,7 @@ Keyframes - glitch
     content: attr(data-text);
     position: absolute;
     left: 2px;
-    text-shadow: -1px 0 red;
+    text-shadow: -1px 0 $glitch-color-red;
     top: 0;
     overflow: hidden;
     clip: rect(0, 900px, 0, 0);
@@ -149,7 +149,7 @@ Keyframes - glitch
     content: attr(data-text);
     position: absolute;
     left: -2px;
-    text-shadow: 1px 0 blue;
+    text-shadow: 1px 0 $glitch-color-blue;
     top: 0;
     overflow: hidden;
     clip: rect(0, 900px, 0, 0);

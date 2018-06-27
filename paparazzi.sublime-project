@@ -21,7 +21,8 @@
         "scan.sh",
         "search.sh",
         "reset.sh",
-        "tslint.json"
+        "tslint.json",
+        ".sass-lint.yml"
       ],
       "folder_exclude_patterns" : [
         "__pycache__",
