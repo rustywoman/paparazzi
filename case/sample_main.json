@@ -2,25 +2,25 @@
   "name" : "sample_main",
   "case" : [
     {
-      "url"  : "https://www.google.co.jp/",
-      "name" : "google_search_by_xpath",
+      "url"  : "https://www.yahoo.co.jp/",
+      "name" : "yahoo_search_by_xpath",
       "action" : [
-        "input---xpath---//*[@id='lst-ib']---hogehogehoge",
-        "PHOTO---google_xpath__top",
-        "enter---xpath---//*[@id='lst-ib']",
+        "input---xpath---//*[@id='srchtxt']---hogehogehoge",
+        "PHOTO---yahoo_xpath__top",
+        "enter---xpath---//*[@id='srchbtn']",
         "WAIT",
-        "PHOTO---google_xpath__result"
+        "PHOTO---yahoo_xpath__result"
       ]
     },
     {
-      "url"  : "https://www.google.co.jp/",
-      "name" : "google_search_by_selector__id",
+      "url"  : "https://www.yahoo.co.jp/",
+      "name" : "yahoo_search_by_selector__id",
       "action" : [
-        "input---id---lst-ib---hogehogehoge",
-        "PHOTO---google_id__top",
-        "enter---id---lst-ib",
+        "input---id---srchtxt---hogehogehoge",
+        "PHOTO---yahoo_id__top",
+        "enter---id---srchbtn",
         "WAIT",
-        "PHOTO---google_id__result"
+        "PHOTO---yahoo_id__result"
       ]
     }
   ]
