@@ -5,22 +5,11 @@
       "url"  : "https://www.google.co.jp/",
       "name" : "google_search_by_xpath",
       "action" : [
-        "input---xpath---//*[@id='lst-ib']---hogehogehoge",
+        "input---xpath---/html/body/div/div[3]/form/div[2]/div/div[1]/div/div[1]/input---hogehogehoge",
         "PHOTO---google_xpath__top",
-        "enter---xpath---//*[@id='lst-ib']",
+        "enter---xpath---/html/body/div/div[3]/form/div[2]/div/div[3]/center/input[1]",
         "WAIT",
         "PHOTO---google_xpath__result"
-      ]
-    },
-    {
-      "url"  : "https://www.google.co.jp/",
-      "name" : "google_search_by_selector__id",
-      "action" : [
-        "input---id---lst-ib---hogehogehoge",
-        "PHOTO---google_id__top",
-        "enter---id---lst-ib",
-        "WAIT",
-        "PHOTO---google_id__result"
       ]
     }
   ]
